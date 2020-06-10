@@ -4,7 +4,8 @@ cache: false
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 before_install:
-- openssl enc -d -aes-256-cbc -in authtravisci.enc -out authtravisci.txt -k $DEVBOXPASS
+- openssl aes-256-cbc -K $encrypted_79a2f6093848_key -iv $encrypted_79a2f6093848_iv
+  -in assets/server.key.enc -out assets/server.key -d
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -17,6 +18,7 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-- sfdx force:auth:sfdxurl:store -f authtravisci.txt -d -a DevHub
+- sfdx force:auth:jwt:grant --clientid $CONSUMERKEY --jwtkeyfile assets/server.key
+  --username $USERNAME --setdefaultdevhubusername -a HubOrg
 script:
 - echo openssl version
