@@ -18,6 +18,9 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 - echo $SFDXAUTHURL>authtravisci.txt
-- sfdx force:auth:sfdxurl:store -f authtravisci.txt -d -a DevHub
+- sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 script:
 - echo openssl version
+- sfdx force:org:display -u targetEnvironment
+- sfdx force:source:push -u targetEnvironment
+- sfdx force:apex:test:run -u targetEnvironment --wait 10
