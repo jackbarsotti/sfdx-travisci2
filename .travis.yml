@@ -8,17 +8,17 @@ before_install:
 
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
-- echo BRANCH;
-- if BRANCH = DEV; then
+- echo $BRANCH;
+- if [ "$BRANCH" == "DEV" ]; then
       echo "DEV BRANCH";
   fi;
-- if BRANCH = QA; then
-      echo "QA BRANCH"; 
+- if [ "$BRANCH" == "QA" ]; then
+      echo "QA $BRANCH"; 
   fi; 
-- if BRANCH = UAT; then
-      echo "UAT BRANCH"; 
+- if [ "$BRANCH" == "UAT" ]; then
+      echo "UAT $BRANCH"; 
   fi; 
-- if BRANCH = master; then
+- if [ "$BRANCH" == "master" ]; then
       echo "master BRANCH"; 
   fi; 
 - openssl version
