@@ -6,16 +6,16 @@ env:
 before_install:
   #create 3 more line 8's .
 - echo $TRAVIS_BRANCH
-- if $TRAVIS_BRANCH = DEV ]; then
+- if $TRAVIS_BRANCH = DEV; then
       echo "DEV branch";
   fi;
-- if $TRAVIS_BRANCH = QA ]; then
+- if $TRAVIS_BRANCH = QA; then
       echo "QA branch"; 
   fi; 
-- if $TRAVIS_BRANCH = UAT ]; then
+- if $TRAVIS_BRANCH = UAT; then
       echo "UAT branch"; 
   fi; 
-- if $TRAVIS_BRANCH = master ]; then
+- if $TRAVIS_BRANCH = master; then
       echo "master branch"; 
   fi; 
 - openssl version
