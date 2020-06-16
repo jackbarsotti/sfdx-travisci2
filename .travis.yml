@@ -3,6 +3,10 @@ os: trusty
 cache: false
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+  global:
+  #these variables are to authorize login to travis
+    - echo $SFDXAUTHURL>authtravisci.txt
+    - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_install:
 #- openssl enc -d -aes-256-cbc -in authtravisci.txt.enc -out authtravisci.txt -k $DEVBOXPASS
 - openssl version
@@ -17,8 +21,10 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-- echo $SFDXAUTHURL>authtravisci.txt
-- sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
+
+# try moving this to a variable section and creating a pair for each org
+#- echo $SFDXAUTHURL>authtravisci.txt
+#- sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_script:
 - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
