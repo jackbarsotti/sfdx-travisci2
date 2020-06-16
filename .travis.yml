@@ -5,16 +5,16 @@ env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 before_install:
   #create 3 more line 8's .
-- if: branch = DEV
+- if: $TRAVIS_BRANCH = DEV
     echo "DEV branch"
     fi
-- if branch = QA; then
+- if $TRAVIS_BRANCH = QA; then
       echo "QA branch"; 
   fi 
-- if branch = UAT; then
+- if $TRAVIS_BRANCH = UAT; then
       echo "UAT branch"; 
   fi 
-- if branch = master; then
+- if $TRAVIS_BRANCH = master; then
       echo "master branch"; 
   fi 
 - openssl version
