@@ -3,7 +3,6 @@ os: trusty
 cache: false
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-  global:
 #add variable pairs for each org (use the CRM Science article)
   #these variables are for the master (production) branch
     - echo $SFDXAUTHURL>authtravisci.txt
