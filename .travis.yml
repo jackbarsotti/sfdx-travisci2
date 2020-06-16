@@ -23,7 +23,6 @@ before_script:
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
 - sfdx plugins --core
-- source
 script:
 - echo openssl version
 #- sfdx force:org:display -u targetEnvironment
