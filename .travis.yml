@@ -6,20 +6,20 @@ env:
 before_install:
   #create 3 more line 8's .
 
-- export branch=$TRAVIS_BRANCH;
+- export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
-- echo branch;
-- if branch = DEV; then
-      echo "DEV branch";
+- echo BRANCH;
+- if BRANCH = DEV; then
+      echo "DEV BRANCH";
   fi;
-- if branch = QA; then
-      echo "QA branch"; 
+- if BRANCH = QA; then
+      echo "QA BRANCH"; 
   fi; 
-- if branch = UAT; then
-      echo "UAT branch"; 
+- if BRANCH = UAT; then
+      echo "UAT BRANCH"; 
   fi; 
-- if branch = master; then
-      echo "master branch"; 
+- if BRANCH = master; then
+      echo "master BRANCH"; 
   fi; 
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
