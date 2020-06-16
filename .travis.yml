@@ -5,7 +5,19 @@ env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 before_install:
   #create 3 more line 8's .
-
+  - echo $TRAVIS_BRANCH
+- if $TRAVIS_BRANCH = DEV ]; then
+      echo "DEV branch";
+  fi;
+- if $TRAVIS_BRANCH = QA ]; then
+      echo "QA branch"; 
+  fi; 
+- if $TRAVIS_BRANCH = UAT ]; then
+      echo "UAT branch"; 
+  fi; 
+- if $TRAVIS_BRANCH = master ]; then
+      echo "master branch"; 
+  fi; 
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -22,18 +34,7 @@ before_install:
 - echo $SFDXAUTHURL>authtravisci.txt
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_script:
-- if [ "$TRAVIS_BRANCH" = "DEV" ]; then
-      echo "DEV branch";
-  fi;
-- if [ "$TRAVIS_BRANCH" = "QA" ]; then
-      echo "QA branch"; 
-  fi; 
-- if [ "$TRAVIS_BRANCH" = "UAT" ]; then
-      echo "UAT branch"; 
-  fi; 
-- if [ "$TRAVIS_BRANCH" = "master" ]; then
-      echo "master branch"; 
-  fi; 
+
 - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
