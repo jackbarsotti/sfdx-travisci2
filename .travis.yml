@@ -19,6 +19,11 @@ before_install:
 - sfdx plugins --core
 - echo $SFDXAUTHURL>authtravisci.txt
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
+before_script:
+- export DEPLOYDIR=force-app/main/default
+- export TESTLEVEL=RunLocalTests
+- sfdx --version
+- sfdx plugins --core
 script:
 - echo openssl version
 - sfdx force:org:display -u targetEnvironment
