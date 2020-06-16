@@ -23,17 +23,17 @@ before_install:
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_script:
 - if [ "$TRAVIS_BRANCH" = "DEV" ]; then
-    echo "DEV branch"
-    fi
+      echo "DEV branch";
+  fi;
 - if [ "$TRAVIS_BRANCH" = "QA" ]; then
       echo "QA branch"; 
-  fi 
+  fi; 
 - if [ "$TRAVIS_BRANCH" = "UAT" ]; then
       echo "UAT branch"; 
-  fi 
+  fi; 
 - if [ "$TRAVIS_BRANCH" = "master" ]; then
       echo "master branch"; 
-  fi 
+  fi; 
 - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
