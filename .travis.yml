@@ -18,12 +18,6 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-  echo $SFDXAUTHURL>authtravisci.txt
-  sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
-else
-  #export MY_VAR=not-master
-fi
 #- echo $SFDXAUTHURL>authtravisci.txt
 #- sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_script:
