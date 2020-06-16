@@ -4,11 +4,19 @@ cache: false
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
   global:
-  #these variables are to authorize login to travis
+#add variable pairs for each org (use the CRM Science article)
+
+  #these variables are for the master (production) branch
     - echo $SFDXAUTHURL>authtravisci.txt
     - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
+
+  #these variables are for the UAT branch
+
+  #these variables are for the QA branch
+
+  #these variables are for the DEV branch 
+
 before_install:
-#- openssl enc -d -aes-256-cbc -in authtravisci.txt.enc -out authtravisci.txt -k $DEVBOXPASS
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -21,8 +29,6 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-
-# try moving this to a variable section and creating a pair for each org
 #- echo $SFDXAUTHURL>authtravisci.txt
 #- sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_script:
@@ -31,6 +37,7 @@ before_script:
 - sfdx --version
 - sfdx plugins --core
 script:
+#Update this to not be "targetEnvironment" specific
 - echo openssl version
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
