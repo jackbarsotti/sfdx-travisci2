@@ -5,17 +5,12 @@ env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
   global:
 #add variable pairs for each org (use the CRM Science article)
-
   #these variables are for the master (production) branch
     - echo $SFDXAUTHURL>authtravisci.txt
     - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
-
   #these variables are for the UAT branch
-
   #these variables are for the QA branch
-
   #these variables are for the DEV branch 
-
 before_install:
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
@@ -29,8 +24,8 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-- echo $SFDXAUTHURL>authtravisci.txt
-- sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
+#- echo $SFDXAUTHURL>authtravisci.txt
+#- sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_script:
 - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
