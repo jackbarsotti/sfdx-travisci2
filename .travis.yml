@@ -12,13 +12,13 @@ before_install:
       echo $SFDXAUTHURLDEV>authtravisci.txt;
   fi;
 - if [ "$BRANCH" == "QA" ]; then
-      echo $SFDXAUTHURLQA>authtravisci.txt
+      echo $SFDXAUTHURLQA>authtravisci.txt;
   fi; 
 - if [ "$BRANCH" == "UAT" ]; then
-      echo $SFDXAUTHURLUAT>authtravisci.txt
+      echo $SFDXAUTHURLUAT>authtravisci.txt;
   fi; 
 - if [ "$BRANCH" == "master" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt
+      echo $SFDXAUTHURL>authtravisci.txt;
   fi; 
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
