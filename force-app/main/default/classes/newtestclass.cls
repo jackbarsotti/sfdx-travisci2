@@ -1,5 +1,6 @@
-public with sharing class newTestClass {
-    public newTestClass() {
-
+@isTest
+private class newTestClass {
+    @isTest static void myTest() {
+        System.assert(true,true);
     }
 }
