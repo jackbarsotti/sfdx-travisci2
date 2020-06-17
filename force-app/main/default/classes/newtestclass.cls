@@ -1,5 +1,5 @@
 @isTest
-private class newtestclass {
+private class newTestClass {
     @isTest static void myTest() {
         System.assert(true,true);
     }
