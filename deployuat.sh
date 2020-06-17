@@ -1,4 +1,0 @@
-- echo openssl version
-- sfdx force:org:display -u UAT
-- sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u UAT
-- sfdx force:apex:test:run -u UAT --wait 10
