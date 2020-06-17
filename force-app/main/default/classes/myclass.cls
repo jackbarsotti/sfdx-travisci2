@@ -1,7 +1,7 @@
 // jack's update
 public with sharing class myclass {
 	public myclass() {
-//jacks update test!
+//jacks update test! QA!
 	}
 
 	public String getAppVersion() {
