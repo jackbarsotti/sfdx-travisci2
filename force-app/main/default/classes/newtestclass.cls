@@ -4,3 +4,4 @@ private class newTestClass {
         System.assert(true,true);
     }
 }
+// comment
