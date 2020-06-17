@@ -10,13 +10,13 @@ before_install:
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
 - if [ "$BRANCH" == "DEV" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt
+      echo $SFDXAUTHURLDEV>authtravisci.txt
   fi;
 - if [ "$BRANCH" == "QA" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt
+      echo $SFDXAUTHURLQA>authtravisci.txt
   fi; 
 - if [ "$BRANCH" == "UAT" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt
+      echo $SFDXAUTHURLUAT>authtravisci.txt
   fi; 
 - if [ "$BRANCH" == "master" ]; then
       echo $SFDXAUTHURL>authtravisci.txt
