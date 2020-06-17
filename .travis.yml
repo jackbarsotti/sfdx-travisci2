@@ -9,7 +9,7 @@ before_install:
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
 - if [ "$BRANCH" == "DEV" ]; then
-      echo $SFDXAUTHURLDEV>authtravisci.txt
+      echo $SFDXAUTHURLDEV>authtravisci.txt;
   fi;
 - if [ "$BRANCH" == "QA" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt
