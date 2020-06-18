@@ -1,7 +1,7 @@
 @IsTest
-public class newTestClass {
+public class newtestclass {
     @IsTest
-    public static void newTestClass() {
+    public static void newtestclass() {
         System.assert(true);
     }
 }
