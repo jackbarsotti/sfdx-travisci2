@@ -1,25 +1,28 @@
+language: node_js
+#node_js:
+  - #12
+  - #node
 sudo: true
 os: trusty
 cache: false
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 before_install:
-
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
-- if [ "$BRANCH" == "DEV" ]; then
-      echo $SFDXAUTHURLDEV>authtravisci.txt;
-  fi;
-- if [ "$BRANCH" == "QA" ]; then
-      echo $SFDXAUTHURLQA>authtravisci.txt;
-  fi; 
-- if [ "$BRANCH" == "UAT" ]; then
-      echo $SFDXAUTHURLUAT>authtravisci.txt;
-  fi; 
-- if [ "$BRANCH" == "master" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt;
-  fi; 
+- if('$BRANCH' === 'DEV'){
+    echo $SFDXAUTHURLDEV>authtravisci.txt;
+};
+- if('$BRANCH' === 'QA'){
+    echo $SFDXAUTHURLQA>authtravisci.txt;
+}; 
+- if('$BRANCH' === 'UAT'){
+    echo $SFDXAUTHURLUAT>authtravisci.txt;
+};
+- if('$BRANCH' === 'master'){
+    echo $SFDXAUTHURL>authtravisci.txt;
+};
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
