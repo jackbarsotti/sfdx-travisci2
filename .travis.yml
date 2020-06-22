@@ -1,9 +1,9 @@
-sudo: true
-os: trusty
 language: node_js
 node_js:
   - 12
   - node
+sudo: true
+os: trusty
 cache: false
 env:
 - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
