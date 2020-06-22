@@ -9,13 +9,13 @@ before_install:
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
 - if ($BRANCH === 'DEV'){
-      console.log($SFDXAUTHURLDEV>authtravisci.txt);
+
   } else if ($BRANCH === 'QA'){ 
-      console.log($SFDXAUTHURLQA>authtravisci.txt);
+
   } else if ($BRANCH === 'UAT'){
-      console.log($SFDXAUTHURLUAT>authtravisci.txt);
+
   } else if ($BRANCH === 'master'){
-      console.log($SFDXAUTHURL>authtravisci.txt);
+
   }
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
