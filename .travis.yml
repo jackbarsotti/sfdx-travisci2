@@ -17,7 +17,7 @@ if ($BRANCH === 'DEV'){
       echo $SFDXAUTHURLQA>authtravisci.txt;
   } else if ($BRANCH === 'UAT'){
       echo $SFDXAUTHURLUAT>authtravisci.txt;
-  } else {
+  } else if ($BRANCH === 'master'){
       echo $SFDXAUTHURL>authtravisci.txt;
   }
 - openssl version
