@@ -11,11 +11,11 @@ before_install:
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
-- if ($BRANCH == 'DEV'){
+if ($BRANCH === 'DEV'){
       echo $SFDXAUTHURLDEV>authtravisci.txt;
-  } else if ($BRANCH == 'QA'){ 
+  } else if ($BRANCH === 'QA'){ 
       echo $SFDXAUTHURLQA>authtravisci.txt;
-  } else if ($BRANCH == 'UAT'){
+  } else if ($BRANCH === 'UAT'){
       echo $SFDXAUTHURLUAT>authtravisci.txt;
   } else {
       echo $SFDXAUTHURL>authtravisci.txt;
