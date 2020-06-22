@@ -11,14 +11,14 @@ before_install:
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
-if ($BRANCH === 'DEV'){
-      echo $SFDXAUTHURLDEV>authtravisci.txt;
+- if ($BRANCH === 'DEV'){
+      console.log($SFDXAUTHURLDEV>authtravisci.txt);
   } else if ($BRANCH === 'QA'){ 
-      echo $SFDXAUTHURLQA>authtravisci.txt;
+      console.log($SFDXAUTHURLQA>authtravisci.txt);
   } else if ($BRANCH === 'UAT'){
-      echo $SFDXAUTHURLUAT>authtravisci.txt;
+      console.log($SFDXAUTHURLUAT>authtravisci.txt);
   } else if ($BRANCH === 'master'){
-      echo $SFDXAUTHURL>authtravisci.txt;
+      console.log($SFDXAUTHURL>authtravisci.txt);
   }
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
@@ -32,7 +32,6 @@ if ($BRANCH === 'DEV'){
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-#- echo $SFDXAUTHURL>authtravisci.txt
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_script:
 - export DEPLOYDIR=force-app/main/default
@@ -40,7 +39,6 @@ before_script:
 - sfdx --version
 - sfdx plugins --core
 script:
-- echo openssl version
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 - sfdx force:apex:test:run -u targetEnvironment --wait 10
