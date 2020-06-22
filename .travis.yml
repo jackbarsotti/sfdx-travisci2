@@ -2,7 +2,8 @@ sudo: true
 os: trusty
 cache: false
 env:
-- URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+  jobs:
+    - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
   global:
     - DIFF=`./bench/scripts/diff.sh | paste -s -d, -`
 before_install:
