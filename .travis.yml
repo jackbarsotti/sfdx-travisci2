@@ -8,13 +8,13 @@ before_install:
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
-- if ($BRANCH === 'DEV'){
+- if ($'BRANCH' === 'DEV'){
 
-  } else if ($BRANCH === 'QA'){ 
+  } else if ($'BRANCH' === 'QA'){ 
 
-  } else if ($BRANCH === 'UAT'){
+  } else if ($'BRANCH' === 'UAT'){
 
-  } else if ($BRANCH === 'master'){
+  } else if ($'BRANCH' === 'master'){
 
   }
 - openssl version
