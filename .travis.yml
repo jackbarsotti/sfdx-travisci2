@@ -5,7 +5,7 @@ env:
   jobs:
     - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
   global:
-    - DIFF=`diff.sh | paste -s -d, -`
+    - DIFF=diff.sh | paste -s -d
 before_install:
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
