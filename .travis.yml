@@ -1,9 +1,10 @@
+os: trusty
 cache: false
 env:
   jobs:
     - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
   global:
-    - DIFF=`./sfdx-travisci2/scripts/diff.sh | paste -s -d, -`
+    - DIFF=`diff.sh | paste -s -d, -`
 before_install:
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
@@ -39,6 +40,7 @@ before_script:
 - sfdx --version
 - sfdx plugins --core
 script:
+# could add if statements based off target branch to diff against correct branch for deploy
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 - sfdx force:apex:test:run -u targetEnvironment --wait 10
