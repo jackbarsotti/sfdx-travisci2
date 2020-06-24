@@ -1,13 +1,26 @@
-sudo: true
 os: trusty
 cache: false
 env:
-- URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+  jobs:
+    - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+#lines 7-8 can be activated in place of 11-12 and return same output  
+  #global:
+    #- CHANGED_FILES=`git diff --name-only master force-app/`
 before_install:
-
+#incremental build configuration
+- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
+- echo $CHANGED_FILES;
+- |
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done
+- export DIFF=$CHANGED_FILE;
+- echo $DIFF;
+#branch recognition configuration
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
+  #add to if statements for inc. builds
 - if [ "$BRANCH" == "DEV" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
   fi;
@@ -20,6 +33,7 @@ before_install:
 - if [ "$BRANCH" == "master" ]; then
       echo $SFDXAUTHURL>authtravisci.txt;
   fi; 
+  #general + authentication 
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -32,7 +46,6 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-#- echo $SFDXAUTHURL>authtravisci.txt
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_script:
 - export DEPLOYDIR=force-app/main/default
@@ -40,7 +53,6 @@ before_script:
 - sfdx --version
 - sfdx plugins --core
 script:
-- echo openssl version
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 - sfdx force:apex:test:run -u targetEnvironment --wait 10
