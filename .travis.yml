@@ -3,15 +3,15 @@ cache: false
 env:
   jobs:
     - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-  global:
+  #global:
     #- DIFF=`/Users/jackbarsotti/sfdx-travisci2/scripts/diff.sh | paste -s -d, -`
-    - CHANGED_FILES=`git diff --name-only master force-app/`
+    #- CHANGED_FILES=`git diff --name-only master force-app/`
     #- for CHANGED_FILE in $CHANGED_FILES; do
       #echo ../$CHANGED_FILE
       #done
 before_install:
-#- export CHANGED_FILES=`git diff --name-only master force-app/`
-#- echo $CHANGED_FILES
+- export CHANGED_FILES=`git diff --name-only master force-app/`
+- echo $CHANGED_FILES
 
 - |
   for CHANGED_FILE in $CHANGED_FILES; do
