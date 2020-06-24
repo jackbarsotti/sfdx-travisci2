@@ -17,7 +17,7 @@ before_install:
 - echo $CHANGED_FILES;
 - |
   for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE
+    echo ../$CHANGED_FILE;
   done
 - export DIFF=$CHANGED_FILE;
 - echo $DIFF;
