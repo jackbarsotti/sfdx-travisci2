@@ -13,14 +13,14 @@ env:
       #done
 before_install:
 #incremental build configuration
-- export CHANGED_FILES=`git diff --name-only master force-app/`
-- echo $CHANGED_FILES
+- export CHANGED_FILES=`git diff --name-only master force-app/`;
+- echo $CHANGED_FILES;
 - |
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE
   done
-- export DIFF=$CHANGED_FILE
-- echo $DIFF
+- export DIFF=$CHANGED_FILE;
+- echo $DIFF;
 #branch recognition configuration
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
