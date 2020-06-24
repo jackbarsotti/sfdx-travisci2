@@ -14,7 +14,7 @@ before_install:
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE
   done
-- export DIFF=`/Users/jackbarsotti/sfdx-travisci2/scripts/diff.sh | paste -s -d, -`
+- export DIFF=$CHANGED_FILE
 
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
