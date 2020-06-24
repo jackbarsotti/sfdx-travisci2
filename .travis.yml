@@ -13,7 +13,7 @@ env:
       #done
 before_install:
 #incremental build configuration
-- export CHANGED_FILES=`git diff --name-only branch_name -- DEV force-app/`;
+- export CHANGED_FILES=`git diff --name-only origin force-app/`;
 - echo $CHANGED_FILES;
 - |
   for CHANGED_FILE in $CHANGED_FILES; do
