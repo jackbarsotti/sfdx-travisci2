@@ -3,14 +3,9 @@ cache: false
 env:
   jobs:
     - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-#lines 7-8 can be activated in place of 16-17 and return same output  
+#lines 7-8 can be activated in place of 11-12 and return same output  
   #global:
     #- CHANGED_FILES=`git diff --name-only master force-app/`
-#lines 9-12 provided errors, replaced by lines 17-22
-    #- DIFF=`/Users/jackbarsotti/sfdx-travisci2/scripts/diff.sh | paste -s -d, -`
-    #- for CHANGED_FILE in $CHANGED_FILES; do
-      #echo ../$CHANGED_FILE
-      #done
 before_install:
 #incremental build configuration
 - export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
