@@ -15,6 +15,7 @@ before_install:
     echo ../$CHANGED_FILE
   done
 - export DIFF=$CHANGED_FILE
+- echo $CHANGED_FILE
 
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
