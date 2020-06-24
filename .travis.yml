@@ -3,26 +3,29 @@ cache: false
 env:
   jobs:
     - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+#lines 7-8 can be activated in place of 16-17 and return same output  
   #global:
-    #- DIFF=`/Users/jackbarsotti/sfdx-travisci2/scripts/diff.sh | paste -s -d, -`
     #- CHANGED_FILES=`git diff --name-only master force-app/`
+#lines 9-12 provided errors, replaced by lines 17-22
+    #- DIFF=`/Users/jackbarsotti/sfdx-travisci2/scripts/diff.sh | paste -s -d, -`
     #- for CHANGED_FILE in $CHANGED_FILES; do
       #echo ../$CHANGED_FILE
       #done
 before_install:
+#incremental build configuration
 - export CHANGED_FILES=`git diff --name-only master force-app/`
 - echo $CHANGED_FILES
-
 - |
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE
   done
 - export DIFF=$CHANGED_FILE
 - echo $DIFF
-
+#branch recognition configuration
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
+  #add to if statements for inc. builds
 - if [ "$BRANCH" == "DEV" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
   fi;
@@ -35,6 +38,7 @@ before_install:
 - if [ "$BRANCH" == "master" ]; then
       echo $SFDXAUTHURL>authtravisci.txt;
   fi; 
+  #general + authentication 
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -54,7 +58,6 @@ before_script:
 - sfdx --version
 - sfdx plugins --core
 script:
-# could add if statements based off target branch to diff against correct branch for deploy
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 - sfdx force:apex:test:run -u targetEnvironment --wait 10
