@@ -10,7 +10,8 @@ env:
       #echo ../$CHANGED_FILE
       #done
 before_install:
-- for CHANGED_FILE in $CHANGED_FILES; do
+- |
+  for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE
   done
 - export DIFF=`/Users/jackbarsotti/sfdx-travisci2/scripts/diff.sh | paste -s -d, -`
