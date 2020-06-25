@@ -21,13 +21,13 @@ before_install:
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
   #add to if statements for inc. builds
-- if [ "$BRANCH" == "DEV" ]; then
+- if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
   fi;
-- if [ "$BRANCH" == "QA" ]; then
+- if [ "$BRANCH" == "qa" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt;
   fi; 
-- if [ "$BRANCH" == "UAT" ]; then
+- if [ "$BRANCH" == "uat" ]; then
       echo $SFDXAUTHURLUAT>authtravisci.txt;
   fi; 
 - if [ "$BRANCH" == "master" ]; then
