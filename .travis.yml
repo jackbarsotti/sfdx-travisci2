@@ -12,6 +12,7 @@ before_install:
 # Keep track of where Travis put us.
 # We are on a detached head, and we need to be able to go back to it.
 - local build_head=$(git rev-parse HEAD)
+- echo ${build_head};
 
 # Fetch all the remote branches. Travis clones with `--depth`, which
 # implies `--single-branch`, so we need to overwrite remote.origin.fetch to do that.
@@ -25,7 +26,7 @@ before_install:
 
 # finally, go back to where we were at the beginning
 - git checkout ${build_head}
-- echo ${build_head};
+#- echo ${build_head};
 
 #incremental build configuration
 - export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
