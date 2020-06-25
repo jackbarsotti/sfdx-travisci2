@@ -19,7 +19,7 @@ before_install:
 - git fetch
 # create the tacking branches
 - |
-  for branch in $(git branch -r|grep -v HEAD) do
+  for branch in ${git branch -r|grep -v HEAD} do
     git checkout -qf ${branch#origin/}
   end
 
