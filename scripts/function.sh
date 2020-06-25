@@ -1,3 +1,4 @@
+#!/usr/bin/env/bash
 function create_all_branches()
 {
     # Keep track of where Travis put us.
