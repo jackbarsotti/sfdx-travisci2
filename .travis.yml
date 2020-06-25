@@ -25,7 +25,7 @@ before_install:
 
 # finally, go back to where we were at the beginning
 - git checkout ${build_head}
-- echo build_head;
+- echo ${build_head};
 
 #incremental build configuration
 - export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
