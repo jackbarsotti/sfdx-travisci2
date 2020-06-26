@@ -60,8 +60,8 @@ before_script:
   #for CHANGED_FILE in $CHANGED_FILES do
     #echo ../$CHANGED_FILE;
   #end
-- export DIFF=$CHANGED_FILE;
-- echo $DIFF;
+#- export DIFF=$CHANGED_FILE;
+#- echo $DIFF;
 #add to if statements for inc. builds
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
