@@ -7,12 +7,24 @@ env:
   #global:
     #- CHANGED_FILES=`git diff --name-only master force-app/`
 before_install:
+- openssl version
+- export SFDX_AUTOUPDATE_DISABLE=false
+- export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
+- export SFDX_DOMAIN_RETRY=300
+- export SFDX_DISABLE_APP_HUB=true
+- export SFDX_LOG_LEVEL=DEBUG
+- mkdir sfdx
+- wget -qO- $URL | tar xJ -C sfdx --strip-components 1
+- "./sfdx/install"
+- export PATH=./sfdx/$(pwd):$PATH
+- sfdx --version
+- sfdx plugins --core
+before_script:
 #make git fetch work to pull all the remote branches:
 
 # Keep track of where Travis put us.
 # We are on a detached head, and we need to be able to go back to it.
 - local build_head=$(git rev-parse HEAD)
-
 # Fetch all the remote branches. Travis clones with `--depth`, which
 # implies `--single-branch`, so we need to overwrite remote.origin.fetch to do that.
 - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
@@ -22,7 +34,6 @@ before_install:
   for branch in $(git branch -r|grep -v HEAD) do
     git checkout -qf ${branch#origin/}
   end
-
 # finally, go back to where we were at the beginning
 - git checkout ${build_head}
 
@@ -39,7 +50,7 @@ before_install:
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
-  #add to if statements for inc. builds
+#add to if statements for inc. builds
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
   fi;
@@ -52,21 +63,7 @@ before_install:
 - if [ "$BRANCH" == "master" ]; then
       echo $SFDXAUTHURL>authtravisci.txt;
   fi; 
-  #general + authentication 
-- openssl version
-- export SFDX_AUTOUPDATE_DISABLE=false
-- export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
-- export SFDX_DOMAIN_RETRY=300
-- export SFDX_DISABLE_APP_HUB=true
-- export SFDX_LOG_LEVEL=DEBUG
-- mkdir sfdx
-- wget -qO- $URL | tar xJ -C sfdx --strip-components 1
-- "./sfdx/install"
-- export PATH=./sfdx/$(pwd):$PATH
-- sfdx --version
-- sfdx plugins --core
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
-before_script:
 - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
