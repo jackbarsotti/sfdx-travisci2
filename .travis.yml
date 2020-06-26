@@ -24,7 +24,6 @@ before_script:
 
 # Keep track of where Travis put us.
 # We are on a detached head, and we need to be able to go back to it.
-- echo ${git HEAD};
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
 # Fetch all the remote branches. Travis clones with `--depth`, which
