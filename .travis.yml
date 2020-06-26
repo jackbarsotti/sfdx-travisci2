@@ -20,7 +20,7 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 before_script: bash ./scripts/function.sh
-#make git fetch work to pull all the remote branches:
+#make git fetch work to pull all the remote branches: 
 
 #incremental build configuration
 - export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
