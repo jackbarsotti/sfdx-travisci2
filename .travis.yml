@@ -47,20 +47,19 @@ before_script:
 - if [ "$BRANCH" == "master" ]; then
       git checkout master;
   fi; 
-#- |
-  #for branch in $(git branch -r|grep -v HEAD) do
-    #git checkout -qf ${branch#origin/}
-  #end
 # finally, go back to where we were at the beginning
 - git checkout $build_head;
 
+
 #incremental build configuration
+
 - export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
+#get this working below
 - echo $CHANGED_FILES;
-- |
-  for CHANGED_FILE in $CHANGED_FILES do
-    echo ../$CHANGED_FILE;
-  end
+#- |
+  #for CHANGED_FILE in $CHANGED_FILES do
+    #echo ../$CHANGED_FILE;
+  #end
 - export DIFF=$CHANGED_FILE;
 - echo $DIFF;
 #add to if statements for inc. builds
