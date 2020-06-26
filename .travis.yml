@@ -8,7 +8,6 @@ env:
     #- CHANGED_FILES=`git diff --name-only master force-app/`
 before_install:
 #make git fetch work to pull all the remote branches:
-
 - bash scripts/function.sh
 
 #incremental build configuration
