@@ -30,6 +30,10 @@ before_script:
 # implies `--single-branch`, so we need to overwrite remote.origin.fetch to do that.
 - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 - git fetch
+#branch recognition configuration
+- export BRANCH=$TRAVIS_BRANCH;
+- echo $TRAVIS_BRANCH;
+- echo $BRANCH;
 # create the tacking branches
 - if [ "$BRANCH" == "dev" ]; then
       git checkout dev;
@@ -59,10 +63,6 @@ before_script:
   end
 - export DIFF=$CHANGED_FILE;
 - echo $DIFF;
-#branch recognition configuration
-- export BRANCH=$TRAVIS_BRANCH;
-- echo $TRAVIS_BRANCH;
-- echo $BRANCH;
 #add to if statements for inc. builds
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
