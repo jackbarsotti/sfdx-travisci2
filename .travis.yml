@@ -36,16 +36,16 @@ before_script:
 - echo $BRANCH;
 # create the tacking branches
 - if [ "$BRANCH" == "dev" ]; then
-      git checkout dev;
+      git checkout -qf dev;
   fi;
 - if [ "$BRANCH" == "qa" ]; then
-      git checkout qa;
+      git checkout -qf qa;
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
-      git checkout uat;
+      git checkout -qf uat;
   fi; 
 - if [ "$BRANCH" == "master" ]; then
-      git checkout master;
+      git checkout -qf master;
   fi; 
 # finally, go back to where we were at the beginning
 - git checkout $build_head;
