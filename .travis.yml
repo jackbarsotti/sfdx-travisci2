@@ -19,9 +19,9 @@ before_install:
 - git fetch
 # create the tacking branches
 - |
-  for branch in $(git branch -r|grep -v HEAD); do
+  for branch in $(git branch -r|grep -v HEAD) do
     git checkout -qf ${branch#origin/}
-  done
+  end
 
 # finally, go back to where we were at the beginning
 - git checkout ${build_head}
@@ -30,9 +30,9 @@ before_install:
 - export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
 - echo $CHANGED_FILES;
 - |
-  for CHANGED_FILE in $CHANGED_FILES; do
+  for CHANGED_FILE in $CHANGED_FILES do
     echo ../$CHANGED_FILE;
-  done
+  end
 - export DIFF=$CHANGED_FILE;
 - echo $DIFF;
 #branch recognition configuration
