@@ -55,12 +55,12 @@ before_script:
 #incremental build configuration
 - export CHANGED_FILES=`git diff --name-only dev force-app/`;
 - echo $CHANGED_FILES;
-- |
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done
-- export DIFF=$CHANGED_FILE;
-- echo $DIFF;
+#- |
+  #for CHANGED_FILE in $CHANGED_FILES; do
+    #echo ../$CHANGED_FILE;
+  #done
+- #export DIFF=$CHANGED_FILE;
+- #echo $DIFF;
 #branch recognition configuration
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
