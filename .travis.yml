@@ -31,10 +31,22 @@ before_script:
 - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 - git fetch
 # create the tacking branches
-- |
-  for branch in $(git branch -r|grep -v HEAD) do
-    git checkout -qf ${branch#origin/}
-  end
+- if [ "$BRANCH" == "dev" ]; then
+      git checkout dev;
+  fi;
+- if [ "$BRANCH" == "qa" ]; then
+      git checkout qa;
+  fi; 
+- if [ "$BRANCH" == "uat" ]; then
+      git checkout uat;
+  fi; 
+- if [ "$BRANCH" == "master" ]; then
+      git checkout master;
+  fi; 
+#- |
+  #for branch in $(git branch -r|grep -v HEAD) do
+    #git checkout -qf ${branch#origin/}
+  #end
 # finally, go back to where we were at the beginning
 - git checkout $build_head;
 
