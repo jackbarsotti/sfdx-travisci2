@@ -50,11 +50,11 @@ before_script:
       echo $SFDXAUTHURL>authtravisci.txt;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
-script:
 - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
 - sfdx plugins --core
+script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 - sfdx force:apex:test:run -u targetEnvironment --wait 10
