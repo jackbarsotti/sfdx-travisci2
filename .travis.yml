@@ -48,7 +48,7 @@ before_script:
       git checkout master;
   fi; 
 # finally, go back to where we were at the beginning
-- git checkout $build_head;
+#- git checkout $build_head;
 
 
 #incremental build configuration
