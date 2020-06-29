@@ -35,18 +35,18 @@ before_script:
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
 # create the tacking branches
-#- if [ "$BRANCH" == "dev" ]; then
-      #git checkout dev;
-  #fi;
-#- if [ "$BRANCH" == "qa" ]; then
-     # git checkout qa;
-  #fi; 
-#- if [ "$BRANCH" == "uat" ]; then
-    #  git checkout uat;
-  #fi; 
-#- if [ "$BRANCH" == "master" ]; then
-   #   git checkout master;
-  #fi; 
+- if [ "$BRANCH" == "dev" ]; then
+      git checkout dev;
+  fi;
+- if [ "$BRANCH" == "qa" ]; then
+      git checkout qa;
+  fi; 
+- if [ "$BRANCH" == "uat" ]; then
+      git checkout uat;
+  fi; 
+- if [ "$BRANCH" == "master" ]; then
+      git checkout master;
+  fi; 
 # finally, go back to where we were at the beginning
 #- git checkout $build_head;
 
