@@ -52,7 +52,7 @@ before_script:
 
 
 #incremental build configuration
-- echo `git diff --name-only qa force-app/`;
+- echo `git diff --name-only @{u} force-app/`;
 ##- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
 #get this working below
 - echo $CHANGED_FILES;
