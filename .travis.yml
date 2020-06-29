@@ -53,7 +53,7 @@ before_script:
 
 
 #incremental build configuration
-- export CHANGED_FILES=`git diff --name-only dev force-app/`;
+- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
 - echo $CHANGED_FILES;
 #- |
   #for CHANGED_FILE in $CHANGED_FILES; do
