@@ -24,12 +24,12 @@ before_script:
 
 # Keep track of where Travis put us.
 # We are on a detached head, and we need to be able to go back to it.
-- export build_head=$(git rev-parse HEAD)
-- echo $build_head;
+  #- export build_head=$(git rev-parse HEAD)
+  #- echo $build_head;
 # Fetch all the remote branches. Travis clones with `--depth`, which
 # implies `--single-branch`, so we need to overwrite remote.origin.fetch to do that.
-- git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-- git fetch
+  #- git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+  #- git fetch
 #branch recognition configuration
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
