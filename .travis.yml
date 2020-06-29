@@ -20,7 +20,7 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 before_script:
-#make git fetch work to pull all the remote branches:
+##make git fetch work to pull all the remote branches:
 - bash ./scripts/function.sh
 
 #incremental build configuration
