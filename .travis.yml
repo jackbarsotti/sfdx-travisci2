@@ -37,7 +37,7 @@ before_script:
 - echo $BRANCH;
 # create the tacking branches
 - if [ "$BRANCH" == "dev" ]; then
-      git checkout -qf ${dev#origin/};
+      git checkout ${dev#origin/};
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       git checkout ${qa#origin/};
