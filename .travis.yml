@@ -1,7 +1,5 @@
 os: trusty
 cache: false
-git:
-  depth: false 
 env:
   jobs:
     - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
@@ -22,23 +20,24 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 before_script:
-#make git fetch work to pull all the remote branches: (revert to previous at build 280)
 
-
+#make git fetch work to pull all the remote branches:
 
 # Keep track of where Travis put us.
 # We are on a detached head, and we need to be able to go back to it.
-  #- export build_head=$(git rev-parse HEAD)
-  #- echo $build_head;
+- export build_head=$(git rev-parse HEAD)
+- echo $build_head;
 # Fetch all the remote branches. Travis clones with `--depth`, which
 # implies `--single-branch`, so we need to overwrite remote.origin.fetch to do that.
-  #- git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-  #- git fetch
+- git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+- git fetch
 #branch recognition configuration
-- export BRANCH=$TRAVIS_BRANCH;  
+- export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
 # create the tracking branches
+- echo `git branch -r|grep -v HEAD`
+- git checkout ${branch#origin/}
 - if [ "$BRANCH" == "dev" ]; then
       git checkout dev;
   fi;
@@ -52,12 +51,11 @@ before_script:
       git checkout master;
   fi; 
 # finally, go back to where we were at the beginning
-  #- git checkout $build_head;
+- git checkout $build_head;
 
 
 #incremental build configuration
 - echo `git diff --name-only dev force-app/`;
-#original below
 - export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
 - echo $CHANGED_FILES;
 #- |
