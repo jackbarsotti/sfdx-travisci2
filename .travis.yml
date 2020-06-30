@@ -39,16 +39,16 @@ before_script:
 # create the tracking branches
   # this needs to be fixed below. We need to it do the same thing as the online example.
 - if [ "$BRANCH" == "dev" ]; then
-      git checkout dev;
+      git checkout ${branch#origin/};
   fi;
 - if [ "$BRANCH" == "qa" ]; then
-      git checkout qa;
+      git checkout ${branch#origin/};
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
-      git checkout uat;
+      git checkout ${branch#origin/};
   fi; 
 - if [ "$BRANCH" == "master" ]; then
-      git checkout master;
+      git checkout ${branch#origin/};
   fi; 
 
 
