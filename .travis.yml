@@ -48,6 +48,9 @@ before_script:
 - if [ "$BRANCH" == "master" ]; then
       git checkout master;
   fi; 
+
+#now do your stuff 
+
 # finally, go back to where we were at the beginning
 - git checkout $build_head;
 
