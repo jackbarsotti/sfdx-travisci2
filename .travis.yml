@@ -36,7 +36,7 @@ before_script:
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
 # create the tracking branches
-- echo `$(git branch -r|grep -v HEAD)`
+- echo `git branch -r|grep -v HEAD`
 - if [ "$BRANCH" == "dev" ]; then
       git checkout dev;
   fi;
