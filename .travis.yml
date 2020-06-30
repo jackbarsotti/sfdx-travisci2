@@ -36,19 +36,30 @@ before_script:
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
+  #new branch variable for if statments below
+- export branch=$TRAVIS_BRANCH;
+- echo $branch;
 # create the tracking branches
   # this needs to be fixed below. We need it to execute like the online example.
 - if [ "$BRANCH" == "dev" ]; then
-      git checkout ${branch#origin/};
+    for branch in $(git branch -r|grep -v HEAD) ; do
+        git checkout -qf ${branch#origin/}
+    done
   fi;
 - if [ "$BRANCH" == "qa" ]; then
-      git checkout ${branch#origin/};
+    for branch in $(git branch -r|grep -v HEAD) ; do
+        git checkout -qf ${branch#origin/}
+    done
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
-      git checkout ${branch#origin/};
+    for branch in $(git branch -r|grep -v HEAD) ; do
+        git checkout -qf ${branch#origin/}
+    done
   fi; 
 - if [ "$BRANCH" == "master" ]; then
-      git checkout ${branch#origin/};
+    for branch in $(git branch -r|grep -v HEAD) ; do
+        git checkout -qf ${branch#origin/}
+    done
   fi; 
 
 
