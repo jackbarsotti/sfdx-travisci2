@@ -37,7 +37,7 @@ before_script:
 - echo $BRANCH;
 # create the tacking branches
 - if [ "$BRANCH" == "dev" ]; then
-      git checkout origin/dev;
+      git checkout dev;
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       git checkout qa;
@@ -53,7 +53,7 @@ before_script:
 
 
 #incremental build configuration
-- echo `git diff --name-only qa`;
+- echo `git diff --name-only @{u} force-app/`;
   #- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
 ##get this working below
 #- echo $CHANGED_FILES;
