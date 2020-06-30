@@ -37,7 +37,7 @@ before_script:
 - echo $BRANCH;
 # create the tracking branches
 - echo `git branch -r|grep -v HEAD`
-- git checkout -qf ${branch#origin/}
+- git checkout ${branch#origin/}
 - if [ "$BRANCH" == "dev" ]; then
       git checkout dev;
   fi;
