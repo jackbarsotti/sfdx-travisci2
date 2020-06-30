@@ -35,10 +35,10 @@ before_script:
   #- git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
   #- git fetch
 #branch recognition configuration
-  #- export BRANCH=$TRAVIS_BRANCH;  
-  #- echo $TRAVIS_BRANCH;
-  #- echo $BRANCH;
-# create the tacking branches
+- export BRANCH=$TRAVIS_BRANCH;  
+- echo $TRAVIS_BRANCH;
+- echo $BRANCH;
+# create the tracking branches
 #- if [ "$BRANCH" == "dev" ]; then
       #git checkout dev;
   #fi;
