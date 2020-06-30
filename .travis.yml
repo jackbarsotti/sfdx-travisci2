@@ -50,6 +50,7 @@ before_script:
   fi; 
 # finally, go back to where we were at the beginning
 - git checkout $build_head;
+- git checkout dev
 
 
 #incremental build configuration
