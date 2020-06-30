@@ -44,25 +44,24 @@ before_script:
 - >
   if [ "$BRANCH" == "dev" ]; then
     for branch in $(git branch -r|grep -v HEAD) do;
-        echo $branch
         git checkout -qf ${branch#origin/};
     end;
   fi;
 - if [ "$BRANCH" == "qa" ]; then
     for branch in $(git branch -r|grep -v HEAD) do
-        echo $branch;
+        echo $branch
         git checkout -qf ${branch#origin/}
     end
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
     for branch in $(git branch -r|grep -v HEAD) do
-        echo $branch;
+        echo $branch
         git checkout -qf ${branch#origin/}
     end
   fi; 
 - if [ "$BRANCH" == "master" ]; then
     for branch in $(git branch -r|grep -v HEAD) do
-        echo $branch;
+        echo $branch
         git checkout -qf ${branch#origin/}
     end
   fi; 
