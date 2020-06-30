@@ -49,14 +49,14 @@ before_script:
       git checkout master;
   fi; 
 # finally, go back to where we were at the beginning
-#- git checkout $build_head;
+- git checkout $build_head;
 
 
 #incremental build configuration
-- echo `git diff --name-only uat force-app/`;
-##- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
-#get this working below
-- echo $CHANGED_FILES;
+  #- echo `git diff --name-only uat force-app/`;
+  #- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
+##get this working below
+#- echo $CHANGED_FILES;
 #- |
   #for CHANGED_FILE in $CHANGED_FILES do
     #echo ../$CHANGED_FILE;
