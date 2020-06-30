@@ -44,7 +44,7 @@ before_script:
 - >
   if [ "$BRANCH" == "dev" ]; then
     for branch in $(git branch -r|grep -v HEAD) do;
-        git checkout -qf ${branch#origin/};
+      git checkout -qf ${branch#origin/};
     end;
   fi;
 - if [ "$BRANCH" == "qa" ]; then
