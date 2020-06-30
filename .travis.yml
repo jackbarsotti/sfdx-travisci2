@@ -21,7 +21,7 @@ before_install:
 - sfdx plugins --core
 before_script:
 
-#make git fetch work to pull all the remote branches:
+#make git fetch work to pull all the remote branches/override git clone:
   # (we could try another method than what's below. See 6/30 notes with ex's)
 
 # Keep track of where Travis put us.
@@ -37,7 +37,7 @@ before_script:
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
 # create the tracking branches
-  # this needs to be fixed below. We need to it do the same thing as the online example.
+  # this needs to be fixed below. We need it to execute like the online example.
 - if [ "$BRANCH" == "dev" ]; then
       git checkout ${branch#origin/};
   fi;
@@ -60,7 +60,7 @@ before_script:
 - git checkout $build_head;
 
 
-#incremental build configuration
+#NEXT SECTION: incremental build configuration
   #test for git diff function: (once it works, move on line by line)
 - echo `git diff --name-only @{u} force-app/`;
 
