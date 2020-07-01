@@ -29,12 +29,17 @@ before_script:
 
 - >
   if [ "$BRANCH" == "dev" ]; then
+    echo 'Your current branches: ';
+    echo ' ';
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout ${branch#origin/};
     done;
 
   export CHANGED_FILES=`git diff --name-only master force-app/`;
+  echo ' ';
+  echo 'Your changed file(s): ';
+  echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
   done;
@@ -43,12 +48,17 @@ before_script:
   fi;
 - >
   if [ "$BRANCH" == "qa" ]; then
+    echo 'Your current branches: ';
+    echo ' ';
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
 
   export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  echo ' ';
+  echo 'Your changed file(s): ';
+  echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
   done;
@@ -57,12 +67,17 @@ before_script:
   fi; 
 - >
   if [ "$BRANCH" == "uat" ]; then
+    echo 'Your current branches: ';
+    echo ' ';
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
 
   export CHANGED_FILES=`git diff --name-only qa force-app/`;
+  echo ' ';
+  echo 'Your changed file(s): ';
+  echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
   done;
@@ -71,12 +86,17 @@ before_script:
   fi; 
 - >
   if [ "$BRANCH" == "master" ]; then
+    echo 'Your current branches: ';
+    echo ' ';
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
 
   export CHANGED_FILES=`git diff --name-only uat force-app/`;
+  echo ' ';
+  echo 'Your changed file(s): ';
+  echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
   done;
