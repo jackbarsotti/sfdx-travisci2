@@ -28,7 +28,9 @@ before_script:
 - echo $branch;
 #new
 - mkdir force-app/main/default/diff;
-- export DEPLOYDIR=force-app/main/default/diff;
+- export DEPLOYDIR=git diff --name-only HEAD...$DIFF
+- echo $DEPLOYDIR;
+#force-app/main/default/diff;
 
 - >
   if [ "$BRANCH" == "dev" ]; then
@@ -96,7 +98,7 @@ before_script:
         git checkout -qf ${branch#origin/}
     done;
 
-  export CHANGED_FILES=`git diff --name-only uat force-app/`;
+  export CHANGED_FILES=`git diff --name-only dev force-app/`;
   echo ' ';
   echo 'Your changed file(s): ';
   echo ' ';
@@ -104,8 +106,6 @@ before_script:
     echo ../$CHANGED_FILE;
   done;
   export DIFF=$CHANGED_FILE;
-  echo $DIFF;
-  git diff --name-only --diff-filter=AM HEAD...$CHANGED_FILE
   cp $DIFF force-app/main/default/diff;
 
   fi; 
