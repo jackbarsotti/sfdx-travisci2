@@ -119,7 +119,7 @@ before_script:
       echo $SFDXAUTHURL>authtravisci.txt;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
-- export DEPLOYDIR=force-app/main/default
+# for full builds: - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
 - sfdx plugins --core
