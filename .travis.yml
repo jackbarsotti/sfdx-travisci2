@@ -62,6 +62,15 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+
+  export CHANGED_FILES=`git diff --name-only master force-app/`;
+  echo $CHANGED_FILES;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+  echo $DIFF;
+
   fi; 
 - >
   if [ "$BRANCH" == "uat" ]; then
@@ -69,6 +78,15 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+
+  export CHANGED_FILES=`git diff --name-only master force-app/`;
+  echo $CHANGED_FILES;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+  echo $DIFF;
+
   fi; 
 - >
   if [ "$BRANCH" == "master" ]; then
@@ -76,6 +94,15 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+
+  export CHANGED_FILES=`git diff --name-only master force-app/`;
+  echo $CHANGED_FILES;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+  echo $DIFF;
+
   fi; 
 
 
