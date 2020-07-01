@@ -61,8 +61,6 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
-# inc build with git diff
-
   fi; 
 - >
   if [ "$BRANCH" == "uat" ]; then
@@ -70,9 +68,6 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
-# inc build with git diff
-
-
   fi; 
 - >
   if [ "$BRANCH" == "master" ]; then
@@ -80,9 +75,6 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
-# inc build with git diff
-
-
   fi; 
 
 #USED ABOVE:
