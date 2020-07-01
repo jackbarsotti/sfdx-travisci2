@@ -36,7 +36,7 @@ before_script:
         git checkout ${branch#origin/};
     done;
 
-  export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
+  export CHANGED_FILES=`git diff --name-only qa force-app/`;
   echo ' ';
   echo 'Your changed file(s): ';
   echo ' ';
