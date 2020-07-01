@@ -30,6 +30,7 @@ before_script:
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo 'Your current branches: ';
+    echo ' ';
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout ${branch#origin/};
@@ -44,6 +45,8 @@ before_script:
   fi;
 - >
   if [ "$BRANCH" == "qa" ]; then
+    echo 'Your current branches: ';
+    echo ' ';
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
@@ -58,6 +61,8 @@ before_script:
   fi; 
 - >
   if [ "$BRANCH" == "uat" ]; then
+    echo 'Your current branches: ';
+    echo ' ';
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
@@ -72,6 +77,8 @@ before_script:
   fi; 
 - >
   if [ "$BRANCH" == "master" ]; then
+    echo 'Your current branches: ';
+    echo ' ';
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
@@ -79,6 +86,8 @@ before_script:
 
   export CHANGED_FILES=`git diff --name-only uat force-app/`;
   for CHANGED_FILE in $CHANGED_FILES; do
+    echo 'Your changed file(s): '
+    echo ' ';
     echo ../$CHANGED_FILE;
   done;
   export DIFF=$CHANGED_FILE;
