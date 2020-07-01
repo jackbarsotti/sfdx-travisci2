@@ -74,7 +74,7 @@ before_script:
 # build belongs 
 # https://stackoverflow.com/questions/32580821/how-can-i-customize-override-the-git-clone-step-in-travis-ci
 - echo `git diff --name-only @{u} force-app/`;
-- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
+- export CHANGED_FILES=`git diff --name-only master force-app/`;
 - echo $CHANGED_FILES;
 - |
   for CHANGED_FILE in $CHANGED_FILES; do
