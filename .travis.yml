@@ -1,8 +1,7 @@
 os: trusty
 cache: false
 env:
-  jobs:
-    - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+  - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 before_install:
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
