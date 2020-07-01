@@ -62,12 +62,6 @@ before_script:
         git checkout -qf ${branch#origin/}
     done;
 # inc build with git diff
-  #export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  #for CHANGED_FILE in $CHANGED_FILES; do
-    #echo ../$CHANGED_FILE;
-  #done;
-  #export DIFF=$CHANGED_FILE;
-  #echo $DIFF;
 
   fi; 
 - >
@@ -77,12 +71,7 @@ before_script:
         git checkout -qf ${branch#origin/}
     done;
 # inc build with git diff
-  #export CHANGED_FILES=`git diff --name-only qa force-app/`;
-  #for CHANGED_FILE in $CHANGED_FILES; do
-    #echo ../$CHANGED_FILE;
-  #done;
-  #export DIFF=$CHANGED_FILE;
-  #echo $DIFF;
+
 
   fi; 
 - >
@@ -92,12 +81,7 @@ before_script:
         git checkout -qf ${branch#origin/}
     done;
 # inc build with git diff
-  #export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  #for CHANGED_FILE in $CHANGED_FILES; do
-    #echo ../$CHANGED_FILE;
-  #done;
-  #export DIFF=$CHANGED_FILE;
-  #echo $DIFF;
+
 
   fi; 
 
