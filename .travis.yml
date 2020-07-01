@@ -27,6 +27,9 @@ before_script:
 - export branch=$TRAVIS_BRANCH;
 - echo $branch;
 
+- mkdir force-app/main/default/diff;
+- export DEPLOYDIR=force-app/main/default/diff;
+
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo 'Your current branches: ';
@@ -101,6 +104,7 @@ before_script:
     echo ../$CHANGED_FILE;
   done;
   export DIFF=$CHANGED_FILE;
+  cp $DIFF force-app/main/default/diff;
 
   fi; 
 
