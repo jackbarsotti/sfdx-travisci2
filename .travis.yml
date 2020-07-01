@@ -57,7 +57,7 @@ before_script:
 
   export CHANGED_FILES=`git diff --name-only dev force-app/`;
   echo ' ';
-  echo 'Your changed file(s): '
+  echo 'Your changed file(s): ';
   echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
