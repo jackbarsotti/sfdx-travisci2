@@ -121,8 +121,6 @@ before_script:
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
-- sfdx --version
-- sfdx plugins --core
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
