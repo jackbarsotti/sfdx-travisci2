@@ -22,7 +22,7 @@ before_install:
 before_script:
 
 #make git fetch work to pull all the remote branches/override git clone:
-  #(we could try another method than what's below. See 6/30 notes with ex's)
+  # (we could try another method than what's below. See 6/30 notes with ex's)
 
 # Keep track of where Travis put us.
 # We are on a detached head, and we need to be able to go back to it.
@@ -46,6 +46,13 @@ before_script:
         echo $branch;
         git checkout ${branch#origin/};
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only master force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
   fi;
 - >
   if [ "$BRANCH" == "qa" ]; then
@@ -53,6 +60,13 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
   fi; 
 - >
   if [ "$BRANCH" == "uat" ]; then
@@ -60,6 +74,13 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
   fi; 
 - >
   if [ "$BRANCH" == "master" ]; then
@@ -67,13 +88,24 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only master force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
   fi; 
 
-
-# "now do your stuff" according to online website. This is probably where the git diff/ inc
-# build belongs 
-# https://stackoverflow.com/questions/32580821/how-can-i-customize-override-the-git-clone-step-in-travis-ci
-
+#USED ABOVE:
+#- export CHANGED_FILES=`git diff --name-only master force-app/`;
+#- echo $CHANGED_FILES;
+#- |
+  #for CHANGED_FILE in $CHANGED_FILES; do
+    #echo ../$CHANGED_FILE;
+  #done;
+#- export DIFF=$CHANGED_FILE;
+#- echo $DIFF;
 
 # finally, go back to where we were at the beginning
 - git checkout $build_head;
@@ -81,7 +113,7 @@ before_script:
 
 #NEXT SECTION: incremental build configuration
   #test for git diff function: (once it works, move on line by line)
-- echo `git diff --name-only @{u} force-app/`;
+#- echo `git diff --name-only @{u} force-app/`;
 
 #what we need to eventually implement once git diff works:
 
