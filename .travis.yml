@@ -30,7 +30,7 @@ before_script:
 - >
   if [ "$BRANCH" == "dev" ]; then
     for branch in $(git branch -r|grep -v HEAD); do
-        echo 'Your branches: ' \\n$branch;
+        echo 'Your branches: ' \\n{$branch};
         git checkout ${branch#origin/};
     done;
 
