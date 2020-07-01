@@ -49,7 +49,6 @@ before_script:
 
   export CHANGED_FILES=`git diff --name-only master force-app/`;
   echo $CHANGED_FILES;
-- |
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
   done;
