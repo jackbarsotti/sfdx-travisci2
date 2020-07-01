@@ -3,9 +3,6 @@ cache: false
 env:
   jobs:
     - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-#lines 7-8 can be activated in place of 11-12 and return same output  
-  #global:
-    #- CHANGED_FILES=`git diff --name-only master force-app/`
 before_install:
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
@@ -20,26 +17,17 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 before_script:
-
-#make git fetch work to pull all the remote branches/override git clone:
-  # (we could try another method than what's below. See 6/30 notes with ex's)
-
-# Keep track of where Travis put us.
-# We are on a detached head, and we need to be able to go back to it.
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
-# Fetch all the remote branches. Travis clones with `--depth`, which
-# implies `--single-branch`, so we need to overwrite remote.origin.fetch to do that.
 - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 - git fetch
-#branch recognition configuration
+
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 - echo $BRANCH;
-  #new branch variable for if statments below
 - export branch=$TRAVIS_BRANCH;
 - echo $branch;
-# create the tracking branches
+
 - >
   if [ "$BRANCH" == "dev" ]; then
     for branch in $(git branch -r|grep -v HEAD); do
@@ -52,6 +40,8 @@ before_script:
     echo ../$CHANGED_FILE;
   done;
   export DIFF=$CHANGED_FILE;
+
+  echo $SFDXAUTHURLDEV>authtravisci.txt;
 
   fi;
 - >
@@ -67,6 +57,8 @@ before_script:
   done;
   export DIFF=$CHANGED_FILE;
 
+  echo $SFDXAUTHURLQA>authtravisci.txt;
+
   fi; 
 - >
   if [ "$BRANCH" == "uat" ]; then
@@ -80,6 +72,8 @@ before_script:
     echo ../$CHANGED_FILE;
   done;
   export DIFF=$CHANGED_FILE;
+
+  echo $SFDXAUTHURLUAT>authtravisci.txt;
 
   fi; 
 - >
@@ -95,49 +89,12 @@ before_script:
   done;
   export DIFF=$CHANGED_FILE;
 
+  echo $SFDXAUTHURL>authtravisci.txt;
+
   fi; 
 
-#USED ABOVE:
-#- export CHANGED_FILES=`git diff --name-only master force-app/`;
-#- echo $CHANGED_FILES;
-#- |
-  #for CHANGED_FILE in $CHANGED_FILES; do
-    #echo ../$CHANGED_FILE;
-  #done;
-#- export DIFF=$CHANGED_FILE;
-#- echo $DIFF;
-
-# finally, go back to where we were at the beginning
 - git checkout $build_head;
 
-
-#NEXT SECTION: incremental build configuration
-  #test for git diff function: (once it works, move on line by line)
-#- echo `git diff --name-only @{u} force-app/`;
-
-#what we need to eventually implement once git diff works:
-
-#- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
-#- echo $CHANGED_FILES;
-#- |
-  #for CHANGED_FILE in $CHANGED_FILES do
-    #echo ../$CHANGED_FILE;
-  #end
-#- export DIFF=$CHANGED_FILE;
-#- echo $DIFF;
-  #add to if statements for inc. builds (above or below)
-- if [ "$BRANCH" == "dev" ]; then
-      echo $SFDXAUTHURLDEV>authtravisci.txt;
-  fi;
-- if [ "$BRANCH" == "qa" ]; then
-      echo $SFDXAUTHURLQA>authtravisci.txt;
-  fi; 
-- if [ "$BRANCH" == "uat" ]; then
-      echo $SFDXAUTHURLUAT>authtravisci.txt;
-  fi; 
-- if [ "$BRANCH" == "master" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt;
-  fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
