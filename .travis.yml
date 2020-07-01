@@ -105,6 +105,7 @@ before_script:
   done;
   export DIFF=$CHANGED_FILE;
   echo $DIFF;
+  git diff --name-only --diff-filter=AM HEAD...$CHANGED_FILE
   cp $DIFF force-app/main/default/diff;
 
   fi; 
