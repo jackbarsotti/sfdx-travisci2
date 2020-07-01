@@ -1,58 +1,8 @@
 os: trusty
 cache: false
 env:
-  jobs:
-    - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-#lines 7-8 can be activated in place of 11-12 and return same output  
-  #global:
-    #- CHANGED_FILES=`git diff --name-only master force-app/`
+  - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 before_install:
-#make git fetch work to pull all the remote branches:
-
-# Keep track of where Travis put us.
-# We are on a detached head, and we need to be able to go back to it.
-- local build_head=$(git rev-parse HEAD)
-
-# Fetch all the remote branches. Travis clones with `--depth`, which
-# implies `--single-branch`, so we need to overwrite remote.origin.fetch to do that.
-- git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-- git fetch
-# create the tacking branches
-- |
-  for branch in $(git branch -r|grep -v HEAD) ; do
-    git checkout -qf ${branch#origin/}
-  done
-
-# finally, go back to where we were at the beginning
-- git checkout ${build_head}
-
-#incremental build configuration
-- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
-- echo $CHANGED_FILES;
-- |
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done
-- export DIFF=$CHANGED_FILE;
-- echo $DIFF;
-#branch recognition configuration
-- export BRANCH=$TRAVIS_BRANCH;
-- echo $TRAVIS_BRANCH;
-- echo $BRANCH;
-  #add to if statements for inc. builds
-- if [ "$BRANCH" == "dev" ]; then
-      echo $SFDXAUTHURLDEV>authtravisci.txt;
-  fi;
-- if [ "$BRANCH" == "qa" ]; then
-      echo $SFDXAUTHURLQA>authtravisci.txt;
-  fi; 
-- if [ "$BRANCH" == "uat" ]; then
-      echo $SFDXAUTHURLUAT>authtravisci.txt;
-  fi; 
-- if [ "$BRANCH" == "master" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt;
-  fi; 
-  #general + authentication 
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -65,8 +15,90 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-- sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 before_script:
+- export build_head=$(git rev-parse HEAD)
+- echo $build_head;
+- git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+- git fetch
+
+- export BRANCH=$TRAVIS_BRANCH;
+- echo $TRAVIS_BRANCH;
+- echo $BRANCH;
+- export branch=$TRAVIS_BRANCH;
+- echo $branch;
+
+- >
+  if [ "$BRANCH" == "dev" ]; then
+    for branch in $(git branch -r|grep -v HEAD); do
+        echo $branch;
+        git checkout ${branch#origin/};
+    done;
+
+  export CHANGED_FILES=`git diff --name-only master force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
+  fi;
+- >
+  if [ "$BRANCH" == "qa" ]; then
+    for branch in $(git branch -r|grep -v HEAD); do
+        echo $branch;
+        git checkout -qf ${branch#origin/}
+    done;
+
+  export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
+  fi; 
+- >
+  if [ "$BRANCH" == "uat" ]; then
+    for branch in $(git branch -r|grep -v HEAD); do
+        echo $branch;
+        git checkout -qf ${branch#origin/}
+    done;
+
+  export CHANGED_FILES=`git diff --name-only qa force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
+  fi; 
+- >
+  if [ "$BRANCH" == "master" ]; then
+    for branch in $(git branch -r|grep -v HEAD); do
+        echo $branch;
+        git checkout -qf ${branch#origin/}
+    done;
+
+  export CHANGED_FILES=`git diff --name-only uat force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
+  fi; 
+
+- git checkout $build_head;
+
+- if [ "$BRANCH" == "dev" ]; then
+      echo $SFDXAUTHURLDEV>authtravisci.txt;
+  fi;
+- if [ "$BRANCH" == "qa" ]; then
+      echo $SFDXAUTHURLQA>authtravisci.txt;
+  fi; 
+- if [ "$BRANCH" == "uat" ]; then
+      echo $SFDXAUTHURLUAT>authtravisci.txt;
+  fi; 
+- if [ "$BRANCH" == "master" ]; then
+      echo $SFDXAUTHURL>authtravisci.txt;
+  fi; 
+- sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 - export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
