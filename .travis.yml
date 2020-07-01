@@ -22,7 +22,7 @@ before_install:
 before_script:
 
 #make git fetch work to pull all the remote branches/override git clone:
-  # (we could try another method than what's below. See 6/30 notes with ex's)
+  #(we could try another method than what's below. See 6/30 notes with ex's)
 
 # Keep track of where Travis put us.
 # We are on a detached head, and we need to be able to go back to it.
