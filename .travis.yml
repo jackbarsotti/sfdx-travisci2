@@ -28,7 +28,7 @@ before_script:
 - echo $branch;
 #new
 - mkdir force-app/main/default/diff;
-- export DEPLOYDIR=git diff --name-only HEAD...$DIFF
+- export DEPLOYDIR=`git diff --name-only HEAD...$DIFF`
 - echo $DEPLOYDIR;
 #force-app/main/default/diff;
 
