@@ -38,7 +38,7 @@ before_script:
 
   export CHANGED_FILES=`git diff --name-only master force-app/`;
   echo ' ';
-  echo 'Your changed file(s): '
+  echo 'Your changed file(s): ';
   echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
@@ -76,7 +76,7 @@ before_script:
 
   export CHANGED_FILES=`git diff --name-only qa force-app/`;
   echo ' ';
-  echo 'Your changed file(s): '
+  echo 'Your changed file(s): ';
   echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
@@ -95,7 +95,7 @@ before_script:
 
   export CHANGED_FILES=`git diff --name-only uat force-app/`;
   echo ' ';
-  echo 'Your changed file(s): '
+  echo 'Your changed file(s): ';
   echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
