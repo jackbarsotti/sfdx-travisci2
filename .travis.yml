@@ -60,6 +60,13 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
   fi; 
 - >
   if [ "$BRANCH" == "uat" ]; then
@@ -67,6 +74,13 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
   fi; 
 - >
   if [ "$BRANCH" == "master" ]; then
@@ -74,6 +88,13 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only master force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+
   fi; 
 
 #USED ABOVE:
