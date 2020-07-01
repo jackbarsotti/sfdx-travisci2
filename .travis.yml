@@ -7,7 +7,6 @@ env:
   #global:
     #- CHANGED_FILES=`git diff --name-only master force-app/`
 before_install:
-<<<<<<< HEAD
 - openssl version
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -33,43 +32,6 @@ before_script:
 # implies `--single-branch`, so we need to overwrite remote.origin.fetch to do that.
 - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 - git fetch
-||||||| 3128b42
-#incremental build configuration
-- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
-- echo $CHANGED_FILES;
-- |
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done
-- export DIFF=$CHANGED_FILE;
-- echo $DIFF;
-=======
-- openssl version
-- export SFDX_AUTOUPDATE_DISABLE=false
-- export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
-- export SFDX_DOMAIN_RETRY=300
-- export SFDX_DISABLE_APP_HUB=true
-- export SFDX_LOG_LEVEL=DEBUG
-- mkdir sfdx
-- wget -qO- $URL | tar xJ -C sfdx --strip-components 1
-- "./sfdx/install"
-- export PATH=./sfdx/$(pwd):$PATH
-- sfdx --version
-- sfdx plugins --core
-before_script:
-##make git fetch work to pull all the remote branches:
-- bash ./scripts/function.sh
-
-#incremental build configuration
-- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
-- echo $CHANGED_FILES;
-- |
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done
-- export DIFF=$CHANGED_FILE;
-- echo $DIFF;
->>>>>>> qa
 #branch recognition configuration
 - export BRANCH=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
