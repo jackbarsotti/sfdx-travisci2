@@ -46,9 +46,8 @@ before_script:
         echo $branch;
         git checkout ${branch#origin/};
     done;
-
+# inc build with git diff
   export CHANGED_FILES=`git diff --name-only master force-app/`;
-  echo $CHANGED_FILES;
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
   done;
@@ -62,6 +61,14 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+  echo $DIFF;
+
   fi; 
 - >
   if [ "$BRANCH" == "uat" ]; then
@@ -69,6 +76,14 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only qa force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+  echo $DIFF;
+
   fi; 
 - >
   if [ "$BRANCH" == "master" ]; then
@@ -76,12 +91,17 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+# inc build with git diff
+  export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+  echo $DIFF;
+
   fi; 
 
-
-# "now do your stuff" according to online website. This is probably where the git diff/ inc
-# build belongs 
-# https://stackoverflow.com/questions/32580821/how-can-i-customize-override-the-git-clone-step-in-travis-ci
+#USED ABOVE:
 #- export CHANGED_FILES=`git diff --name-only master force-app/`;
 #- echo $CHANGED_FILES;
 #- |
