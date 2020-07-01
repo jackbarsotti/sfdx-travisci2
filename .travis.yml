@@ -62,12 +62,12 @@ before_script:
         git checkout -qf ${branch#origin/}
     done;
 # inc build with git diff
-  export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done;
-  export DIFF=$CHANGED_FILE;
-  echo $DIFF;
+  #export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  #for CHANGED_FILE in $CHANGED_FILES; do
+    #echo ../$CHANGED_FILE;
+  #done;
+  #export DIFF=$CHANGED_FILE;
+  #echo $DIFF;
 
   fi; 
 - >
@@ -77,12 +77,12 @@ before_script:
         git checkout -qf ${branch#origin/}
     done;
 # inc build with git diff
-  export CHANGED_FILES=`git diff --name-only qa force-app/`;
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done;
-  export DIFF=$CHANGED_FILE;
-  echo $DIFF;
+  #export CHANGED_FILES=`git diff --name-only qa force-app/`;
+  #for CHANGED_FILE in $CHANGED_FILES; do
+    #echo ../$CHANGED_FILE;
+  #done;
+  #export DIFF=$CHANGED_FILE;
+  #echo $DIFF;
 
   fi; 
 - >
@@ -92,20 +92,44 @@ before_script:
         git checkout -qf ${branch#origin/}
     done;
 # inc build with git diff
-  export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done;
-  export DIFF=$CHANGED_FILE;
-  echo $DIFF;
+  #export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  #for CHANGED_FILE in $CHANGED_FILES; do
+    #echo ../$CHANGED_FILE;
+  #done;
+  #export DIFF=$CHANGED_FILE;
+  #echo $DIFF;
 
   fi; 
 
+#USED ABOVE:
+#- export CHANGED_FILES=`git diff --name-only master force-app/`;
+#- echo $CHANGED_FILES;
+#- |
+  #for CHANGED_FILE in $CHANGED_FILES; do
+    #echo ../$CHANGED_FILE;
+  #done;
+#- export DIFF=$CHANGED_FILE;
+#- echo $DIFF;
 
+# finally, go back to where we were at the beginning
 - git checkout $build_head;
 
 
+#NEXT SECTION: incremental build configuration
+  #test for git diff function: (once it works, move on line by line)
+#- echo `git diff --name-only @{u} force-app/`;
 
+#what we need to eventually implement once git diff works:
+
+#- export CHANGED_FILES=`git diff --name-only @{u} force-app/`;
+#- echo $CHANGED_FILES;
+#- |
+  #for CHANGED_FILE in $CHANGED_FILES do
+    #echo ../$CHANGED_FILE;
+  #end
+#- export DIFF=$CHANGED_FILE;
+#- echo $DIFF;
+  #add to if statements for inc. builds (above or below)
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
   fi;
