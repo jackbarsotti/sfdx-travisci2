@@ -26,7 +26,7 @@ before_script:
 - echo $BRANCH;
 - export branch=$TRAVIS_BRANCH;
 - echo $branch;
-
+#new
 - mkdir force-app/main/default/diff;
 - export DEPLOYDIR=force-app/main/default/diff;
 
@@ -104,10 +104,11 @@ before_script:
     echo ../$CHANGED_FILE;
   done;
   export DIFF=$CHANGED_FILE;
-  echo $DIFF>force-app/main/default/diff;
+  echo SDIFF;
+  cp $DIFF force-app/main/default/diff;
 
   fi; 
-
+#be aware of this:
 - git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
@@ -131,3 +132,9 @@ script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 #- sfdx force:apex:test:run -u targetEnvironment --wait 10
+
+# Store the deploy result:
+#rc4 = command "${toolbelt}/sfdx force:source:deploy --wait 10 --sourcepath ${DEPLOYDIR} --testlevel ${TEST_LEVEL} -u targetEnvironment"
+#    if (rc4 != 0) {
+#        error 'There was an issue deploying. Check ORG deployment status page for details'
+#    }
