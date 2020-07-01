@@ -40,7 +40,6 @@ before_script:
 - export branch=$TRAVIS_BRANCH;
 - echo $branch;
 # create the tracking branches
-  # this needs to be fixed below. We need it to execute like the online example.
 - >
   if [ "$BRANCH" == "dev" ]; then
     for branch in $(git branch -r|grep -v HEAD); do
@@ -58,7 +57,7 @@ before_script:
 - >
   if [ "$BRANCH" == "uat" ]; then
     for branch in $(git branch -r|grep -v HEAD); do
-        echo $branch
+        echo $branch;
         git checkout -qf ${branch#origin/}
     done;
   fi; 
@@ -73,6 +72,7 @@ before_script:
 
 # "now do your stuff" according to online website. This is probably where the git diff/ inc
 # build belongs 
+# https://stackoverflow.com/questions/32580821/how-can-i-customize-override-the-git-clone-step-in-travis-ci
 
 
 # finally, go back to where we were at the beginning
