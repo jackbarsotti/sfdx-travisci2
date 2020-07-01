@@ -21,10 +21,8 @@ before_script:
 - git fetch
 
 - export BRANCH=$TRAVIS_BRANCH;
-- echo $TRAVIS_BRANCH;
 - export branch=$TRAVIS_BRANCH;
-- echo 'Current branch is ';
-- echo $branch;
+- echo $TRAVIS_BRANCH;
 
 - >
   if [ "$BRANCH" == "dev" ]; then
