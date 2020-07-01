@@ -29,8 +29,9 @@ before_script:
 
 - >
   if [ "$BRANCH" == "dev" ]; then
+    echo 'Your current branches: ';
     for branch in $(git branch -r|grep -v HEAD); do
-        echo 'Your branches: ' \\n{$branch};
+        echo $branch;
         git checkout ${branch#origin/};
     done;
 
