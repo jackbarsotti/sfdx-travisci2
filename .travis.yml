@@ -46,6 +46,16 @@ before_script:
         echo $branch;
         git checkout ${branch#origin/};
     done;
+
+  export CHANGED_FILES=`git diff --name-only master force-app/`;
+  echo $CHANGED_FILES;
+- |
+  for CHANGED_FILE in $CHANGED_FILES; do
+    echo ../$CHANGED_FILE;
+  done;
+  export DIFF=$CHANGED_FILE;
+  echo $DIFF;
+
   fi;
 - >
   if [ "$BRANCH" == "qa" ]; then
@@ -73,15 +83,14 @@ before_script:
 # "now do your stuff" according to online website. This is probably where the git diff/ inc
 # build belongs 
 # https://stackoverflow.com/questions/32580821/how-can-i-customize-override-the-git-clone-step-in-travis-ci
-- echo `git diff --name-only master force-app/`;
-- export CHANGED_FILES=`git diff --name-only master force-app/`;
-- echo $CHANGED_FILES;
-- |
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done;
-- export DIFF=$CHANGED_FILE;
-- echo $DIFF;
+#- export CHANGED_FILES=`git diff --name-only master force-app/`;
+#- echo $CHANGED_FILES;
+#- |
+  #for CHANGED_FILE in $CHANGED_FILES; do
+    #echo ../$CHANGED_FILE;
+  #done;
+#- export DIFF=$CHANGED_FILE;
+#- echo $DIFF;
 
 # finally, go back to where we were at the beginning
 - git checkout $build_head;
