@@ -14,11 +14,10 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 #testing mkdir -p
-- pwd
+#- pwd
 - sudo mkdir -p /force-app/main/default/diff;
-- cd /force-app/main/default/diff;
-- pwd
-- cd sfdx-travisci2; 
+#- cd /force-app/main/default/diff;
+#- pwd
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
