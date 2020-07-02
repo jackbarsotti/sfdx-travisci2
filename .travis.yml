@@ -13,9 +13,15 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-- pwd
 #testing mkdir -p
+- pwd
 - sudo mkdir -p /force-app/main/default/diff;
+- pwd
+- cd /force-app/main/default;
+- pwd
+- sudo mkdir -p /diff;
+- cd /diff;
+- pwd
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
