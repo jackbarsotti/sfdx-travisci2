@@ -112,7 +112,7 @@ before_script:
 #originally used after export DIFF: cp $DIFF force-app/main/default/diff;
 
 #be aware of this:
-- git checkout $build_head;
+#- git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
