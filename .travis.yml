@@ -113,7 +113,7 @@ before_script:
 # line 109 could try: sudo cp "echo $CHANGED_FILE"
 
 #be aware of this:
-#- git checkout $build_head;
+- git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
