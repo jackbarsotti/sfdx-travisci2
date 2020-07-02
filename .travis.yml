@@ -104,9 +104,10 @@ before_script:
   echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
+    cp $CHANGED_FILES force-app/main/default/diff;
   done;
   export DIFF=$CHANGED_FILE;
-  cp $DIFF force-app/main/default/diff;
+#cp $DIFF force-app/main/default/diff;
 
   fi; 
 #be aware of this:
