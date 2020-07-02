@@ -18,7 +18,7 @@ before_install:
 - sudo mkdir -p /force-app/main/default/diff;
 - cd /force-app/main/default/diff;
 - pwd
-- cd; 
+- cd sfdx-travisci2; 
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
