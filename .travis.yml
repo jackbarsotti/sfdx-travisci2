@@ -103,7 +103,7 @@ before_script:
     echo ../$CHANGED_FILE;
   
   done;
-  sudo cp $(git diff --name-only dev force-app/) /force-app/main/default/diff;
+  sudo cp --parents $(git diff --name-only dev force-app/) /force-app/main/default/diff;
 
   fi; 
 
