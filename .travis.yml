@@ -13,11 +13,8 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-#testing mkdir -p
-#- pwd
+#test mkdir locally, then migrate any changes
 - sudo mkdir -p /force-app/main/default/diff;
-#- cd /force-app/main/default/diff;
-#- pwd
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
@@ -29,11 +26,8 @@ before_script:
 - echo $BRANCH;
 - export branch=$TRAVIS_BRANCH;
 - echo $branch;
-#new
-- sudo mkdir -p /force-app/main/default/diff;
-#- export deploydir=`git diff --name-only HEAD...$DIFF`;
-#- echo $deploydir;
-  # ^force-app/main/default/diff;
+#test to see if mkdir location matters
+#- sudo mkdir -p /force-app/main/default/diff;
 
 - >
   if [ "$BRANCH" == "dev" ]; then
@@ -109,12 +103,10 @@ before_script:
     echo ../$CHANGED_FILE;
   
   done;
-  cp $(git diff --name-only dev force-app/) /force-app/main/default/diff;
+  sudo cp $(git diff --name-only dev force-app/) /force-app/main/default/diff;
 
   fi; 
-# line 109 could try: sudo cp "echo $CHANGED_FILE"
 
-#be aware of this:
 - git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
@@ -131,15 +123,15 @@ before_script:
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
-# export below returns error bc /diff, doesn't match travis env variable DEPLOYDIR path
+# To fix error below, update env variable DEPLOYDIR path on travis 
 - export DEPLOYDIR=force-app/main/default/diff
 - export TESTLEVEL=RunLocalTests
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
-#- sfdx force:apex:test:run -u targetEnvironment --wait 10
+#Don't need: - sfdx force:apex:test:run -u targetEnvironment --wait 10
 
-# Store the deploy result (rewrite in Ruby, keep in same spot):
+# Store the deploy result (rewrite in Ruby, keep in same spot) could add to auth:
 #- rc4 = command "${toolbelt}/sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TEST_LEVEL -u targetEnvironment"
 #    if (rc4 != 0) {
 #        error 'There was an issue deploying. Check ORG deployment status page for details'
