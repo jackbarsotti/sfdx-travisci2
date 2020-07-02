@@ -128,7 +128,7 @@ before_script:
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
-- export DEPLOYDIR=force-app/main/default/diff
+- export DEPLOYDIR=force-app/main/default
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
 - sfdx plugins --core
