@@ -15,6 +15,8 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
+#testing mkdir -p
+- sudo mkdir -p /force-app/main/default/diff;
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
@@ -129,7 +131,7 @@ before_script:
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
 # export below returns error bc /diff, doesn't match travis env variable DEPLOYDIR path
-- export DEPLOYDIR=force-app/main/default
+- export DEPLOYDIR=force-app/main/default/diff
 - export TESTLEVEL=RunLocalTests
 - sfdx --version
 - sfdx plugins --core
@@ -138,8 +140,8 @@ script:
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 #- sfdx force:apex:test:run -u targetEnvironment --wait 10
 
-# Store the deploy result:
-- rc4 = command "${toolbelt}/sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TEST_LEVEL -u targetEnvironment"
-    if (rc4 != 0) {
-        error 'There was an issue deploying. Check ORG deployment status page for details'
-    }
+# Store the deploy result (rewrite in Ruby, keep in same spot):
+#- rc4 = command "${toolbelt}/sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TEST_LEVEL -u targetEnvironment"
+#    if (rc4 != 0) {
+#        error 'There was an issue deploying. Check ORG deployment status page for details'
+#    }
