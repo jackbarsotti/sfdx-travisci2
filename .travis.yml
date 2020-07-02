@@ -98,7 +98,7 @@ before_script:
         git checkout -qf ${branch#origin/}
     done;
 
-  export CHANGED_FILES=`git diff --name-only dev force-app/`;
+  export CHANGED_FILES=`git diff --name-only --name-status dev force-app/`;
   echo ' ';
   echo 'Your changed file(s): ';
   echo ' ';
