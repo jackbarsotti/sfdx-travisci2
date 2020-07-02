@@ -110,7 +110,7 @@ before_script:
   cp $DIFF force-app/main/default/diff;
 
   fi; 
-#Be aware of this:
+#be aware of this:
 - git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
