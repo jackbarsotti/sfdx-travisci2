@@ -109,7 +109,7 @@ before_script:
     echo ../$CHANGED_FILE;
   
   done;
-  sudo cp $(git diff --name-only dev force-app/) /force-app/main/default/diff;
+  cp $(git diff --name-only dev force-app/) /force-app/main/default/diff;
 
   fi; 
 # line 109 could try: sudo cp "echo $CHANGED_FILE"
