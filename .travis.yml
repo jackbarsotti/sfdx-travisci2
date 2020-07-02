@@ -139,7 +139,7 @@ script:
 #- sfdx force:apex:test:run -u targetEnvironment --wait 10
 
 # Store the deploy result:
-rc4 = command "${toolbelt}/sfdx force:source:deploy --wait 10 --sourcepath ${DEPLOYDIR} --testlevel ${TEST_LEVEL} -u targetEnvironment"
+- rc4 = command "${toolbelt}/sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TEST_LEVEL -u targetEnvironment"
     if (rc4 != 0) {
         error 'There was an issue deploying. Check ORG deployment status page for details'
     }
