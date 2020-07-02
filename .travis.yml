@@ -27,7 +27,7 @@ before_script:
 - export branch=$TRAVIS_BRANCH;
 - echo $branch;
 #new
-- mkdir force-app/main/default/diff;
+- mkdir -p force-app/main/default/diff;
 - export deploydir=`git diff --name-only HEAD...$DIFF`;
 - echo $deploydir;
 #force-app/main/default/diff;
@@ -104,13 +104,13 @@ before_script:
   echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
-    cp $CHANGED_FILES force-app/main/default/diff;
+    cp $(git diff --name-only dev force-app/) /force-app/main/default/diff;
   done;
   export DIFF=$CHANGED_FILE;
   cp $DIFF force-app/main/default/diff;
 
   fi; 
-#be aware of this:
+#Be aware of this:
 - git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
