@@ -27,7 +27,7 @@ before_script:
 - export branch=$TRAVIS_BRANCH;
 - echo $branch;
 #new
-- mkdir -p /force-app/main/default/diff;
+- sudo mkdir -p /force-app/main/default/diff;
 - export deploydir=`git diff --name-only HEAD...$DIFF`;
 - echo $deploydir;
 #force-app/main/default/diff;
