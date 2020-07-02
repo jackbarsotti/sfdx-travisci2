@@ -5,4 +5,3 @@ public with sharing class NewNewClass {
     }
 }
 // making change for pull request into QA
-//edit 
