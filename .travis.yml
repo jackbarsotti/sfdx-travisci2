@@ -28,8 +28,8 @@ before_script:
 - echo $branch;
 #new
 - mkdir force-app/main/default/diff;
-- export DEPLOYDIR=`git diff --name-only HEAD...$DIFF`;
-- echo $DEPLOYDIR;
+- export deploydir=`git diff --name-only HEAD...$DIFF`;
+- echo $deploydir;
 #force-app/main/default/diff;
 
 - >
@@ -131,7 +131,7 @@ before_script:
 - sfdx plugins --core
 script:
 - sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
+- sfdx force:source:deploy --wait 10 --sourcepath $deploydir --testlevel $TESTLEVEL -u targetEnvironment
 #- sfdx force:apex:test:run -u targetEnvironment --wait 10
 
 # Store the deploy result:
