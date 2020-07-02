@@ -104,12 +104,13 @@ before_script:
   echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
-    cp $(git diff --name-only dev force-app/) /force-app/main/default/diff;
+    sudo cp $(git diff --name-only dev force-app/) /force-app/main/default/diff;
   done;
   export DIFF=$CHANGED_FILE;
-  cp $DIFF force-app/main/default/diff;
 
   fi; 
+#originally used after export DIFF: cp $DIFF force-app/main/default/diff;
+
 #be aware of this:
 - git checkout $build_head;
 
@@ -132,7 +133,7 @@ before_script:
 - sfdx plugins --core
 script:
 - sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy --wait 10 --sourcepath $deploydir --testlevel $TESTLEVEL -u targetEnvironment
+- sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 #- sfdx force:apex:test:run -u targetEnvironment --wait 10
 
 # Store the deploy result:
