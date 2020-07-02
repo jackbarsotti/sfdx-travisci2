@@ -19,7 +19,7 @@ before_install:
 - pwd
 - cd /force-app/main/default;
 - pwd
-- cd /diff;
+- cd diff;
 - pwd
 before_script:
 - export build_head=$(git rev-parse HEAD)
