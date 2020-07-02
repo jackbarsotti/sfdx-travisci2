@@ -16,7 +16,7 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 #testing mkdir -p
-- sudo mkdir -p /force-app/main/default/diff;
+- sudo mkdir -p ../force-app/main/default/diff;
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
@@ -29,7 +29,7 @@ before_script:
 - export branch=$TRAVIS_BRANCH;
 - echo $branch;
 #new
-- sudo mkdir -p ../force-app/main/default/diff;
+- sudo mkdir -p /force-app/main/default/diff;
 #- export deploydir=`git diff --name-only HEAD...$DIFF`;
 #- echo $deploydir;
   # ^force-app/main/default/diff;
