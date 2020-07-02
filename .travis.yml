@@ -16,7 +16,7 @@ before_install:
 #testing mkdir -p
 - pwd
 - sudo mkdir -p /force-app/main/default/diff;
-- cd diff;
+- cd /force-app/main/default/diff;
 - pwd
 - cd; 
 before_script:
