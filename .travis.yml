@@ -14,7 +14,7 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 #test mkdir locally, then migrate any changes
-- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+- sudo mkdir -p /force-app/main/default/diff;
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
@@ -104,7 +104,7 @@ before_script:
   
   done;
   echo ' ';
-  sudo cp --parents $(git diff --name-only dev force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+  sudo cp --parents $(git diff --name-only dev force-app/) /force-app/main/default/diff;
 
   fi; 
 
