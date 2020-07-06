@@ -4,4 +4,4 @@ public with sharing class NewNewClass {
         return cs.setScale(2);
     }
 }
-// test after updating file path #1
+// test after updating file path #2

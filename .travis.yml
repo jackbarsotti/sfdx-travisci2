@@ -124,7 +124,7 @@ before_script:
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
 # To fix error below, update env variable DEPLOYDIR path on travis 
-- export DEPLOYDIR=force-app/main/default/diff
+- export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 - export TESTLEVEL=RunLocalTests
 script:
 - sfdx force:org:display -u targetEnvironment
