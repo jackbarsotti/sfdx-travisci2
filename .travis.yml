@@ -101,7 +101,6 @@ before_script:
   echo ' ';
   for CHANGED_FILE in $CHANGED_FILES; do
     echo ../$CHANGED_FILE;
-  
   done;
   echo ' ';
   sudo cp --parents $(git diff --name-only dev force-app/) /force-app/main/default/diff;

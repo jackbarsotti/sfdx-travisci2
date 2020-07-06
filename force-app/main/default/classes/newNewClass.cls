@@ -4,5 +4,4 @@ public with sharing class NewNewClass {
         return cs.setScale(2);
     }
 }
-// making change for pull request into QA
-//3vfsdfd
+// test without updating file path #1
