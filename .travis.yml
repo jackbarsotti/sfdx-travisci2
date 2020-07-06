@@ -127,6 +127,7 @@ before_script:
 - export TESTLEVEL=RunLocalTests
 script:
 - sfdx force:org:display -u targetEnvironment
+- export deployResult = "sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment"
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 #Don't need: - sfdx force:apex:test:run -u targetEnvironment --wait 10
 
@@ -136,7 +137,7 @@ script:
       #error 'There was an issue deploying. Check ORG deployment status page for details';
   #fi;
 
-- deployResult = force:source:deploy
+#- export deployResult = "sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment"
 - if [ deployResult != 0 ]; then
       error 'There was an issue deploying. Check ORG deployment status page for details';
   fi;
