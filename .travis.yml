@@ -125,9 +125,9 @@ before_script:
 # To fix error below, update env variable DEPLOYDIR path on travis 
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 - export TESTLEVEL=RunLocalTests
+- export deployResult=`sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment`;
 script:
 - sfdx force:org:display -u targetEnvironment
-- export deployResult=`sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment`;
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 #Don't need: - sfdx force:apex:test:run -u targetEnvironment --wait 10
 
@@ -137,7 +137,6 @@ script:
       #error 'There was an issue deploying. Check ORG deployment status page for details';
   #fi;
 
-#- export deployResult = "sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment"
 - if [ deployResult != 0 ]; then
-      error 'There was an issue deploying. Check ORG deployment status page for details';
+      echo 'There was an issue deploying. Check ORG deployment status page for details';
   fi;
