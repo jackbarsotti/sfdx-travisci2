@@ -125,19 +125,17 @@ before_script:
 # To fix error below, update env variable DEPLOYDIR path on travis 
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 - export TESTLEVEL=RunLocalTests
-- export deployResult=`sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment`;
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 #Don't need: - sfdx force:apex:test:run -u targetEnvironment --wait 10
-
 after_failure:
 # Store the deploy result (rewrite in Ruby, keep in same spot) could add to auth:
 #- rc4 = command "${toolbelt}/sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment"
 #- if [ rc4 != 0 ]; then
       #error 'There was an issue deploying. Check ORG deployment status page for details';
   #fi;
-- echo $TRAVIS_TEST_RESULT;
-- if [ deployResult != 0 ]; then
+#- export deployResult=`sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment`;
+- if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo 'There was an issue deploying. Check ORG deployment status page for details';
   fi;
