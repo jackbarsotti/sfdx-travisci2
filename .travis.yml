@@ -106,7 +106,7 @@ before_script:
 
   fi; 
 
-- git checkout $build_head;
+# git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
