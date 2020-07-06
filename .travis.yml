@@ -13,7 +13,7 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-#test mkdir locally, then migrate any changes
+#tested mkdir locally, extended sourcepath
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 before_script:
 - export build_head=$(git rev-parse HEAD)
@@ -25,8 +25,8 @@ before_script:
 - export branch=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 
-#test to see if mkdir location matters
-#- sudo mkdir -p /force-app/main/default/diff;
+#changing mkdir location doesn't seem to impact build
+#- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
 - >
   if [ "$BRANCH" == "dev" ]; then
