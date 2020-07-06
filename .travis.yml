@@ -14,7 +14,7 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 #test mkdir locally, then migrate any changes
-- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+#- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head;
@@ -26,7 +26,7 @@ before_script:
 - echo $TRAVIS_BRANCH;
 
 #test to see if mkdir location matters
-#- sudo mkdir -p /force-app/main/default/diff;
+- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
 - >
   if [ "$BRANCH" == "dev" ]; then
@@ -122,19 +122,17 @@ before_script:
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
-# To fix error below, update env variable DEPLOYDIR path on travis 
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 - export TESTLEVEL=RunLocalTests
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details';
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
-#Don't need: - sfdx force:apex:test:run -u targetEnvironment --wait 10
 after_failure:
-# Store the deploy result (rewrite in Ruby, keep in same spot) could add to auth:
-#- if [ rc4 != 0 ]; then
-      #error 'There was an issue deploying. Check ORG deployment status page for details';
-  #fi;
+# Store the deploy result:
+#- if [ TRAVIS_TEST_RESULT != 0 ]; then
+#      error 'There was an issue deploying. Check ORG deployment status page for details';
+#  fi;
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg;
   fi;
