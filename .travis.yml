@@ -22,10 +22,9 @@ before_script:
 - git fetch
 
 - export BRANCH=$TRAVIS_BRANCH;
-- echo $TRAVIS_BRANCH;
-- echo $BRANCH;
 - export branch=$TRAVIS_BRANCH;
-- echo $branch;
+- echo $TRAVIS_BRANCH;
+
 #test to see if mkdir location matters
 #- sudo mkdir -p /force-app/main/default/diff;
 
