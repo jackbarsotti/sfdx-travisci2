@@ -36,6 +36,7 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+    git checkout dev
 
   export CHANGED_FILES=`git diff --name-status master force-app/`;
   echo ' ';
@@ -56,6 +57,7 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+    git checkout qa
 
   export CHANGED_FILES=`git diff --name-only dev force-app/`;
   echo ' ';
@@ -75,6 +77,7 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+    git checkout uat
 
   export CHANGED_FILES=`git diff --name-only qa force-app/`;
   echo ' ';
@@ -94,6 +97,7 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
+    git checkout master
 
   export CHANGED_FILES=`git diff --name-only dev force-app/`;
   echo ' ';
