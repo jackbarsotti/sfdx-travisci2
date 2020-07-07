@@ -42,12 +42,13 @@ before_script:
     export CHANGED_FILES=`git diff --name-only master force-app/`;
     sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
+    #for loop and especially case probably aren't necessary:
     for CHANGED_FILE in $CHANGED_FILES; do
       case $CHANGED_FILE in
-      /diff/classes/)
+      /diff/classes/) -->pattern may need to be specified better
         if [[ $CHANGED_FILE == *.cls-meta.xml && $CHANGED_FILE != *.cls ]]; then
         sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-
+          #correct variable? correct procedure? is find going to work? if so, fix it
         elif [[ $CHANGED_FILE == *.cls && $CHANGED_FILE != *.cls-meta.xml ]]; then
         sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
