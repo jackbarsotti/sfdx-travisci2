@@ -52,7 +52,7 @@ before_script:
         sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
         elif [[ $CHANGED_FILE == *.cls && $CHANGED_FILE == *.cls-meta.xml ]]; then
-        
+        echo 'done?';
 
         fi;
       esac
@@ -66,7 +66,7 @@ before_script:
         sudo cp --parents $(find . -name "*$(CHANGED_FILE).trigger-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
         elif [[ $CHANGED_FILE == *.trigger && $CHANGED_FILE == *.trigger-meta.xml ]]; then
-        
+        echo 'done?';
 
         fi;
       esac
