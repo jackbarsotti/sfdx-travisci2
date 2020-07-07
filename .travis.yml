@@ -30,8 +30,8 @@ before_script:
 
 - >
   if [ "$BRANCH" == "dev" ]; then
-    echo 'Your current branches: ';
-    echo ' ';
+    echo 'Your current branches:\n ';
+    
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
@@ -42,44 +42,11 @@ before_script:
     export CHANGED_FILES=`git diff --name-only master force-app/`;
     sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-    #for loop and especially case probably aren't necessary:
-    for CHANGED_FILE in $CHANGED_FILES; do
-      case $CHANGED_FILE in
-      /diff/classes/) -->pattern may need to be specified better
-        if [[ $CHANGED_FILE == *.cls-meta.xml && $CHANGED_FILE != *.cls ]]; then
-        sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-          #correct variable? correct procedure? is find going to work? if so, fix it
-        elif [[ $CHANGED_FILE == *.cls && $CHANGED_FILE != *.cls-meta.xml ]]; then
-        sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-
-        elif [[ $CHANGED_FILE == *.cls && $CHANGED_FILE == *.cls-meta.xml ]]; then
-        echo 'something to cancel?';
-
-        fi;
-        ;;
-      esac
-
-      case $CHANGED_FILE in
-      /diff/triggers/)        
-        if [[ $CHANGED_FILE == *.trigger-meta.xml && $CHANGED_FILE != *.trigger ]]; then
-        sudo cp --parents $(find . -name "*$(CHANGED_FILE).trigger") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-
-        elif [[ $CHANGED_FILE == *.trigger && $CHANGED_FILE != *.trigger-meta.xml ]]; then
-        sudo cp --parents $(find . -name "*$(CHANGED_FILE).trigger-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-
-        elif [[ $CHANGED_FILE == *.trigger && $CHANGED_FILE == *.trigger-meta.xml ]]; then
-        echo 'something to cancel?';
-
-        fi;
-        ;;
-      esac
-    done;
-
     echo ' ';
     echo 'Your changed file(s): ';
     echo ' ';
-    for CHANGED_FILE in $CHANGED_FILES; do
-      echo ../$CHANGED_FILE;
+    for FILE in $CHANGED_FILES; do
+      echo ../$FILE;
     done;
     echo ' ';
 
@@ -100,10 +67,9 @@ before_script:
   echo ' ';
   echo 'Your changed file(s): ';
   echo ' ';
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
+  for FILE in $CHANGED_FILES; do
+    echo ../$FILE;
   done;
-  export DIFF=$CHANGED_FILE;
 
   fi; 
 - >
@@ -121,10 +87,9 @@ before_script:
   echo ' ';
   echo 'Your changed file(s): ';
   echo ' ';
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
+  for FILE in $CHANGED_FILES; do
+    echo ../$FILE;
   done;
-  export DIFF=$CHANGED_FILE;
 
   fi; 
 - >
@@ -142,12 +107,43 @@ before_script:
   echo ' ';
   echo 'Your changed file(s): ';
   echo ' ';
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
+  for FILE in $CHANGED_FILES; do
+    echo ../$FILE;
   done;
-  export DIFF=$CHANGED_FILE;
 
   fi; 
+
+#currently working on 
+- for FILE in $CHANGED_FILES; do
+    echo $FILE;
+    case $FILE in
+    /diff/classes/)
+      if [[ $FILE == *.cls-meta.xml ]]; then
+      sudo cp --parents $(find . -name "$(FILE).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying meta file to diff folder';
+
+      elif [[ $FILE == *.cls ]]; then
+      sudo cp --parents $(find . -name "$(FILE)-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying class file to diff folder';
+
+      fi;
+      ;;
+    esac
+
+    case $FILE in
+    /diff/triggers/)        
+      if [[ $FILE == *.trigger-meta.xml ]]; then
+      sudo cp --parents $(find . -name "*$(FILE).trigger") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying meta file to diff folder';
+
+      elif [[ $FILE == *.trigger && $FILE != *.trigger-meta.xml ]]; then
+      sudo cp --parents $(find . -name "*$(FILE)-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying class file to diff folder';
+
+      fi;
+      ;;
+    esac
+  done;
 
 - git checkout $build_head;
 
