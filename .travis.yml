@@ -39,17 +39,25 @@ before_script:
     echo ' ';
     git checkout dev
 
-  export CHANGED_FILES=`git diff --name-status master force-app/`;
-  echo ' ';
-  echo 'Your changed file(s): ';
-  echo ' ';
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done;
-  echo ' ';
-  sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+    export CHANGED_FILES=`git diff --name-status master force-app/`;
+    sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+
+    echo ' ';
+    echo 'Your changed file(s): ';
+    echo ' ';
+    for CHANGED_FILE in $CHANGED_FILES; do
+      echo ../$CHANGED_FILE;
+      #if [[ "$FILE == *"#contains*" ]]; then
+      #if [ "${CHANGED_FILE##*filepath*}" ]; then
+
+    done;
+    echo ' ';
+
+    
 
   fi; 
+#if [[ "$FILE == *"#contains*" ]]; then
+#if [ "${CHANGED_FILE##*filepath*}" ]; then
 - >
   if [ "$BRANCH" == "qa" ]; then
     echo 'Your current branches: ';
