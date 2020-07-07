@@ -31,7 +31,6 @@ before_script:
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo "Your current branches:\n ";
-    
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
@@ -42,9 +41,7 @@ before_script:
     export CHANGED_FILES=`git diff --name-only master force-app/`;
     sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-    echo ' ';
-    echo 'Your changed file(s): ';
-    echo ' ';
+    echo "\n Your changed files:\n ";
     for FILE in $CHANGED_FILES; do
       echo ../$FILE;
     done;
