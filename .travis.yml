@@ -44,7 +44,7 @@ before_script:
 
     for CHANGED_FILE in $CHANGED_FILES; do
       case $CHANGED_FILE in
-      *"/diff/classes/*")
+      /diff/classes/)
         if [[ $CHANGED_FILE == *.cls-meta.xml && $CHANGED_FILE != *.cls ]]; then
         sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
@@ -52,9 +52,10 @@ before_script:
         sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
         elif [[ $CHANGED_FILE == *.cls && $CHANGED_FILE == *.cls-meta.xml ]]; then
-        echo 'done?';
+        echo 'something to cancel?';
 
         fi;
+        ;;
       esac
 
       case $CHANGED_FILE in
@@ -66,9 +67,10 @@ before_script:
         sudo cp --parents $(find . -name "*$(CHANGED_FILE).trigger-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
         elif [[ $CHANGED_FILE == *.trigger && $CHANGED_FILE == *.trigger-meta.xml ]]; then
-        echo 'done?';
+        echo 'something to cancel?';
 
         fi;
+        ;;
       esac
     done;
 
