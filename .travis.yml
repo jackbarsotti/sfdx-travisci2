@@ -42,27 +42,35 @@ before_script:
     export CHANGED_FILES=`git diff --name-only master force-app/`;
     sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-    if [[ $CHANGED_FILES == *.cls-meta.xml && $CHANGED_FILES != *.cls ]]; then
-      sudo cp --parents $(find . -name "*$(CHANGED_FILES).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+    for CHANGED_FILE in $CHANGED_FILES; do
+      case $CHANGED_FILE in
+      /diff/classes/)
+        if [[ $CHANGED_FILE == *.cls-meta.xml && $CHANGED_FILE != *.cls ]]; then
+        sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-    elif [[ $CHANGED_FILES == *.cls && $CHANGED_FILES != *.cls-meta.xml ]]; then
-      sudo cp --parents $(find . -name "*$(CHANGED_FILES).cls-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+        elif [[ $(CHANGED_FILE) == *.cls && $(CHANGED_FILE) != *.cls-meta.xml ]]; then
+        sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-    elif [[ $CHANGED_FILES == *.cls && $CHANGED_FILES == *.cls-meta.xml ]]; then
-      echo 'done?';
+        elif [[ $CHANGED_FILE == *.cls && $CHANGED_FILE == *.cls-meta.xml ]]; then
+        echo 'done?';
 
-    elif [[ $CHANGED_FILES == *.trigger-meta.xml && $CHANGED_FILES != *.trigger ]]; then
-      sudo cp --parents $(find . -name "*$(CHANGED_FILES).trigger") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+        fi;
+      esac
 
-    elif [[ $CHANGED_FILES == *.trigger && $CHANGED_FILES != *.trigger-meta.xml ]]; then
-      sudo cp --parents $(find . -name "*$(CHANGED_FILES).trigger-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      case $CHANGED_FILE in
+      /diff/triggers/)        
+        if [[ $CHANGED_FILE == *.trigger-meta.xml && $CHANGED_FILE != *.trigger ]]; then
+        sudo cp --parents $(find . -name "*$(CHANGED_FILE).trigger") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-    elif [[ $CHANGED_FILES == *.trigger && $CHANGED_FILES == *.trigger-meta.xml ]]; then
-      echo 'done?';
+        elif [[ $CHANGED_FILE == *.trigger && $CHANGED_FILE != *.trigger-meta.xml ]]; then
+        sudo cp --parents $(find . -name "*$(CHANGED_FILE).trigger-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-    fi;
+        elif [[ $CHANGED_FILE == *.trigger && $CHANGED_FILE == *.trigger-meta.xml ]]; then
+        echo 'done?';
 
-
+        fi;
+      esac
+    done;
 
     echo ' ';
     echo 'Your changed file(s): ';
