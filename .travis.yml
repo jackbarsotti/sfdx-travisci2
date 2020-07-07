@@ -48,8 +48,8 @@ before_script:
         if [[ $CHANGED_FILE == *.cls-meta.xml && $CHANGED_FILE != *.cls ]]; then
         sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-        elif [[ $(CHANGED_FILE) == *.cls && $(CHANGED_FILE) != *.cls-meta.xml ]]; then
-        sudo cp --parents $(find . -name "*$(CHANGED_FILE).cls-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+        elif [[ $CHANGED_FILE == *.cls && $CHANGED_FILE != *.cls-meta.xml ]]; then
+        sudo cp --parents $(find . -name "*${CHANGED_FILE}.cls-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
         elif [[ $CHANGED_FILE == *.cls && $CHANGED_FILE == *.cls-meta.xml ]]; then
         echo 'done?';
