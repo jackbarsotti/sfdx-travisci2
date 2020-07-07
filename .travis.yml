@@ -39,25 +39,47 @@ before_script:
     echo ' ';
     git checkout dev
 
-    export CHANGED_FILES=`git diff --name-status master force-app/`;
+    export CHANGED_FILES=`git diff --name-only master force-app/`;
     sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+    for CHANGED_FILE in $CHANGED_FILES; do
+        case $CHANGED_FILE in
+        /diff/classes/)
+          if [[ $CHANGED_FILE == *.cls && $CHANGED_FILE != *.cls-meta.xml ]]; then
+          cp
+
+          elif [[ $CHANGED_FILE == *.cls-meta.xml && $CHANGED_FILE != *.cls ]]; then
+          cp
+
+          elif [[ $CHANGED_FILE == *.cls && $CHANGED_FILE == *.cls-meta.xml ]]; then
+          cancel
+
+          fi;
+        esac
+
+        case $CHANGED_FILE in
+        /diff/triggers/)        
+          if [[ $CHANGED_FILE == *.trigger && $CHANGED_FILE != *.trigger-meta.xml ]]; then
+          cp
+
+          elif [[ $CHANGED_FILE == *.trigger-meta.xml && $CHANGED_FILE != *.trigger ]]; then
+          cp
+
+          elif [[ $CHANGED_FILE == *.trigger && $CHANGED_FILE == *.trigger-meta.xml ]]; then
+          cancel
+
+          fi;
+        esac
 
     echo ' ';
     echo 'Your changed file(s): ';
     echo ' ';
     for CHANGED_FILE in $CHANGED_FILES; do
       echo ../$CHANGED_FILE;
-      #if [[ "$FILE == *"#contains*" ]]; then
-      #if [ "${CHANGED_FILE##*filepath*}" ]; then
-
     done;
     echo ' ';
 
-    
-
   fi; 
-#if [[ "$FILE == *"#contains*" ]]; then
-#if [ "${CHANGED_FILE##*filepath*}" ]; then
+
 - >
   if [ "$BRANCH" == "qa" ]; then
     echo 'Your current branches: ';
