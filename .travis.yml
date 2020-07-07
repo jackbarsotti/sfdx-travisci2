@@ -24,7 +24,6 @@ before_script:
 - export BRANCH=$TRAVIS_BRANCH;
 - export branch=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
-- pwd
 
 #changing mkdir location doesn't seem to impact build
 #- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
