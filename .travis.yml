@@ -13,7 +13,6 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-#tested mkdir locally, extended sourcepath
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 before_script:
 - export build_head=$(git rev-parse HEAD)
@@ -25,9 +24,6 @@ before_script:
 - export branch=$TRAVIS_BRANCH;
 - echo $TRAVIS_BRANCH;
 
-#changing mkdir location doesn't seem to impact build
-#- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo "Your current branches: ";
@@ -36,77 +32,79 @@ before_script:
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
-    echo ' ';
+    echo
     git checkout dev
 
     export CHANGED_FILES=`git diff --name-only master force-app/`;
     sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-    echo "\n Your changed files:\n ";
+    echo
     echo 'Your changed files: ';
     echo
     for FILE in $CHANGED_FILES; do
       echo ../$FILE;
     done;
-    echo ' ';
+    echo
 
   fi; 
 
 - >
   if [ "$BRANCH" == "qa" ]; then
     echo 'Your current branches: ';
-    echo ' ';
+    echo
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
-    echo ' ';
+    echo
     git checkout qa
 
   export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  echo ' ';
-  echo 'Your changed file(s): ';
-  echo ' ';
+  echo
+  echo 'Your changed files: ';
+  echo
   for FILE in $CHANGED_FILES; do
     echo ../$FILE;
   done;
 
   fi; 
+
 - >
   if [ "$BRANCH" == "uat" ]; then
     echo 'Your current branches: ';
-    echo ' ';
+    echo
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
-    echo ' ';
+    echo
     git checkout uat
 
   export CHANGED_FILES=`git diff --name-only qa force-app/`;
-  echo ' ';
-  echo 'Your changed file(s): ';
-  echo ' ';
+  echo
+  echo 'Your changed files: ';
+  echo
   for FILE in $CHANGED_FILES; do
     echo ../$FILE;
   done;
 
   fi; 
+
 - >
   if [ "$BRANCH" == "master" ]; then
     echo 'Your current branches: ';
-    echo ' ';
+    echo
     for branch in $(git branch -r|grep -v HEAD); do
         echo $branch;
         git checkout -qf ${branch#origin/}
     done;
-    echo ' ';
+    echo
     git checkout master
 
   export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  echo ' ';
-  echo 'Your changed file(s): ';
-  echo ' ';
+  echo
+  echo 'Your changed files: ';
+  echo
   for FILE in $CHANGED_FILES; do
     echo ../$FILE;
   done;
@@ -119,7 +117,9 @@ before_script:
     case $FILE in
     /diff/classes/)
       if [[ $FILE == *.cls-meta.xml ]]; then
-      sudo cp --parents $(find . -name "$(FILE).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      export PARSED_FILE=${FILE::-13)};
+      echo $PARSED_FILE;
+      sudo cp --parents $(find . -name "$(PARSED_FILE).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying meta file to diff folder';
 
       elif [[ $FILE == *.cls ]]; then
