@@ -151,7 +151,6 @@ before_script:
     fi;
   done;
 
-- echo ' ';
 - git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
