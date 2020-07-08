@@ -120,8 +120,6 @@ before_script:
 #currently working on 
 - for FILE in $CHANGED_FILES; do
     echo $FILE;
-#- case $FILE in
-#-  /diff/classes/)
     if [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE::${FILE}-13)};
       echo $FILE2;
@@ -134,6 +132,8 @@ before_script:
 
     fi;
   done;
+#- case $FILE in
+#-  /diff/classes/)
 #-    ;;
 #-  esac
 
