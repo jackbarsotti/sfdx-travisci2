@@ -126,7 +126,7 @@ before_script:
       sudo cp --parents $(find . -name "$(FILE2).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying meta file to diff folder';
 
-      elif [[ $FILE == *.cls ]]; then
+      elif [[ "$FILE" == *.cls ]]; then
       sudo cp --parents "$(find . -name "$(FILE)-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class file to diff folder';
 
