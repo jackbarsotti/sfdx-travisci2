@@ -121,7 +121,7 @@ before_script:
 - for FILE in $CHANGED_FILES; do
     echo $FILE;
     if [[ $FILE == *.cls-meta.xml ]]; then
-      export FILE2=${FILE::${FILE}-13)};
+      export FILE2=${FILE%.class-meta.xml};
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class meta file to diff folder';
       ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
