@@ -137,7 +137,7 @@ before_script:
       echo ' ';
 
     elif [[ $FILE == *.trigger-meta.xml ]]; then
-      export FILE3=${FILE::${FILE}-17)};
+      export FILE3=${FILE%.trigger-meta.xml};
       sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE3.trigger")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying trigger meta file to diff folder';
       ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
