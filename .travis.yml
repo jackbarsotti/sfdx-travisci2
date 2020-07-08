@@ -117,9 +117,9 @@ before_script:
     case $FILE in
     /diff/classes/)
       if [[ $FILE == *.cls-meta.xml ]]; then
-      export PARSED_FILE=${FILE::-13)};
-      echo $PARSED_FILE;
-      sudo cp --parents $(find . -name "$(PARSED_FILE).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      export FILE2=${FILE::${FILE}-13)};
+      echo $FILE2;
+      sudo cp --parents $(find . -name "$(FILE2).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying meta file to diff folder';
 
       elif [[ $FILE == *.cls ]]; then
@@ -133,10 +133,12 @@ before_script:
     case $FILE in
     /diff/triggers/)        
       if [[ $FILE == *.trigger-meta.xml ]]; then
+      export FILE3=${FILE::${FILE}-17)};
+      echo $FILE3;
       sudo cp --parents $(find . -name "*$(FILE).trigger") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying meta file to diff folder';
 
-      elif [[ $FILE == *.trigger && $FILE != *.trigger-meta.xml ]]; then
+      elif [[ $FILE == *.trigger ]]; then
       sudo cp --parents $(find . -name "*$(FILE)-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class file to diff folder';
 
