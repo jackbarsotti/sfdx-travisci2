@@ -130,6 +130,16 @@ before_script:
       sudo cp --parents $(find . -name "$(FILE)-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class file to diff folder';
 
+      elif [[ $FILE == *.trigger-meta.xml ]]; then
+      export FILE3=${FILE::${FILE}-17)};
+      echo $FILE3;
+      sudo cp --parents $(find . -name "*$(FILE).trigger") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying meta file to diff folder';
+
+      elif [[ $FILE == *.trigger ]]; then
+      sudo cp --parents $(find . -name "*$(FILE)-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying class file to diff folder';
+
     fi;
   done;
 #- case $FILE in
