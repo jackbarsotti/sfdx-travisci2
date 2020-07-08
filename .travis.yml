@@ -148,6 +148,7 @@ before_script:
       echo 'Copying trigger file to diff folder for deployment...';
       echo 'Trigger files that will be deployed:';
       ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
+      echo ' ';
     fi;
   done;
 
