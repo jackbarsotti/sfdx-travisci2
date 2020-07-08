@@ -59,13 +59,15 @@ before_script:
     echo
     git checkout qa
 
-  export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  echo
-  echo 'Your changed files: ';
-  echo
-  for FILE in $CHANGED_FILES; do
-    echo ../$FILE;
-  done;
+    export CHANGED_FILES=`git diff --name-only dev force-app/`;
+    sudo cp --parents $(git diff --name-only dev force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+
+    echo ;
+    echo 'Your changed files: ';
+    echo ;
+    for FILE in $CHANGED_FILES; do
+      echo ../$FILE;
+    done;
 
   fi; 
 
