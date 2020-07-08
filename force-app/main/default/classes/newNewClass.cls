@@ -4,4 +4,4 @@ public with sharing class newNewClass {
         return cs.setScale(2);
     }
 }
-// making change for pull request into QA
+// test
