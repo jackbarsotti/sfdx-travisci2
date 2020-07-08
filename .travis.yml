@@ -119,7 +119,7 @@ before_script:
 
 #currently working on 
 - for FILE in $CHANGED_FILES; do
-    echo $FILE
+    echo $FILE;
   done;
 - case $FILE in
   /diff/classes/)
