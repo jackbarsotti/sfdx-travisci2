@@ -120,9 +120,10 @@ before_script:
 #currently working on 
 - for FILE in $CHANGED_FILES; do
     echo $FILE
-    case $FILE in
-    /diff/classes/)
-      if [[ $FILE == *.cls-meta.xml ]]; then
+  done;
+- case $FILE in
+  /diff/classes/)
+    if [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE::${FILE}-13)}
       echo $FILE2
       sudo cp --parents $(find . -name "$(FILE2).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
@@ -132,13 +133,13 @@ before_script:
       sudo cp --parents $(find . -name "$(FILE)-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class file to diff folder'
 
-      fi;
-      ;;
-    esac
+    fi;
+    ;;
+  esac
 
-    case $FILE in
-    /diff/triggers/)        
-      if [[ $FILE == *.trigger-meta.xml ]]; then
+- case $FILE in
+  /diff/triggers/)        
+    if [[ $FILE == *.trigger-meta.xml ]]; then
       export FILE3=${FILE::${FILE}-17)}
       echo $FILE3
       sudo cp --parents $(find . -name "*$(FILE).trigger") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
@@ -148,10 +149,10 @@ before_script:
       sudo cp --parents $(find . -name "*$(FILE)-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class file to diff folder'
 
-      fi;
-      ;;
-    esac
-  done;
+    fi;
+    ;;
+  esac
+
 
 - git checkout $build_head;
 
