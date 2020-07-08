@@ -134,7 +134,7 @@ before_script:
       echo 'Copying class file to diff folder';
 
     fi;
-    ;;
+  ;;
   esac
 
 - case $FILE in
