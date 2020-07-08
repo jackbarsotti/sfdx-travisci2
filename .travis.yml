@@ -128,6 +128,7 @@ before_script:
 
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo `$(find force-app/main/default/classes -samefile "$FILE-meta.xml")`;
       echo 'Copying class file to diff folder';
 
     elif [[ $FILE == *.trigger-meta.xml ]]; then
