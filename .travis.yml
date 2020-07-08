@@ -16,33 +16,33 @@ before_install:
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 before_script:
 - export build_head=$(git rev-parse HEAD)
-- echo $build_head;
+- echo $build_head
 - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 - git fetch
 
-- export BRANCH=$TRAVIS_BRANCH;
-- export branch=$TRAVIS_BRANCH;
-- echo $TRAVIS_BRANCH;
+- export BRANCH=$TRAVIS_BRANCH
+- export branch=$TRAVIS_BRANCH
+- echo $TRAVIS_BRANCH
 
 - >
   if [ "$BRANCH" == "dev" ]; then
-    echo "Your current branches: ";
+    echo "Your current branches: "
     echo
     for branch in $(git branch -r|grep -v HEAD); do
-        echo $branch;
+        echo $branch
         git checkout -qf ${branch#origin/}
     done;
     echo
     git checkout dev
 
-    export CHANGED_FILES=`git diff --name-only master force-app/`;
+    export CHANGED_FILES=`git diff --name-only master force-app/`
     sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
     echo
-    echo 'Your changed files: ';
+    echo 'Your changed files: '
     echo
     for FILE in $CHANGED_FILES; do
-      echo ../$FILE;
+      echo ../$FILE
     done;
     echo
 
@@ -59,74 +59,78 @@ before_script:
     echo
     git checkout qa
 
-    export CHANGED_FILES=`git diff --name-only dev force-app/`;
+    export CHANGED_FILES=`git diff --name-only dev force-app/`
     sudo cp --parents $(git diff --name-only dev force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-    echo ;
-    echo 'Your changed files: ';
-    echo ;
+    echo
+    echo 'Your changed files: '
+    echo
     for FILE in $CHANGED_FILES; do
-      echo ../$FILE;
+      echo ../$FILE
     done;
 
   fi; 
 
 - >
   if [ "$BRANCH" == "uat" ]; then
-    echo 'Your current branches: ';
+    echo 'Your current branches: '
     echo
     for branch in $(git branch -r|grep -v HEAD); do
-        echo $branch;
+        echo $branch
         git checkout -qf ${branch#origin/}
     done;
     echo
     git checkout uat
 
-  export CHANGED_FILES=`git diff --name-only qa force-app/`;
-  echo
-  echo 'Your changed files: ';
-  echo
-  for FILE in $CHANGED_FILES; do
-    echo ../$FILE;
-  done;
+    export CHANGED_FILES=`git diff --name-only qa force-app/`
+    sudo cp --parents $(git diff --name-only qa force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+
+    echo
+    echo 'Your changed files: '
+    echo
+    for FILE in $CHANGED_FILES; do
+      echo ../$FILE
+    done;
 
   fi; 
 
 - >
   if [ "$BRANCH" == "master" ]; then
-    echo 'Your current branches: ';
+    echo 'Your current branches: '
     echo
     for branch in $(git branch -r|grep -v HEAD); do
-        echo $branch;
+        echo $branch
         git checkout -qf ${branch#origin/}
     done;
     echo
     git checkout master
 
-  export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  echo
-  echo 'Your changed files: ';
-  echo
-  for FILE in $CHANGED_FILES; do
-    echo ../$FILE;
-  done;
+    export CHANGED_FILES=`git diff --name-only dev force-app/`
+    sudo cp --parents $(git diff --name-only dev force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+
+    echo
+    echo 'Your changed files: '
+    echo
+    for FILE in $CHANGED_FILES; do
+      echo ../$FILE
+    done;
 
   fi; 
 
 #currently working on 
 - for FILE in $CHANGED_FILES; do
-    echo $FILE;
+    echo $FILE
     case $FILE in
     /diff/classes/)
       if [[ $FILE == *.cls-meta.xml ]]; then
-      export FILE2=${FILE::${FILE}-13)};
-      echo $FILE2;
+      export FILE2=${FILE::${FILE}-13)}
+      echo $FILE2
       sudo cp --parents $(find . -name "$(FILE2).cls") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying meta file to diff folder';
+      echo 'Copying meta file to diff folder'
 
       elif [[ $FILE == *.cls ]]; then
       sudo cp --parents $(find . -name "$(FILE)-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying class file to diff folder';
+      echo 'Copying class file to diff folder'
 
       fi;
       ;;
@@ -135,14 +139,14 @@ before_script:
     case $FILE in
     /diff/triggers/)        
       if [[ $FILE == *.trigger-meta.xml ]]; then
-      export FILE3=${FILE::${FILE}-17)};
-      echo $FILE3;
+      export FILE3=${FILE::${FILE}-17)}
+      echo $FILE3
       sudo cp --parents $(find . -name "*$(FILE).trigger") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying meta file to diff folder';
+      echo 'Copying meta file to diff folder'
 
       elif [[ $FILE == *.trigger ]]; then
       sudo cp --parents $(find . -name "*$(FILE)-meta.xml") /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying class file to diff folder';
+      echo 'Copying class file to diff folder'
 
       fi;
       ;;
@@ -152,30 +156,26 @@ before_script:
 - git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
-      echo $SFDXAUTHURLDEV>authtravisci.txt;
+      echo $SFDXAUTHURLDEV>authtravisci.txt
   fi;
 - if [ "$BRANCH" == "qa" ]; then
-      echo $SFDXAUTHURLQA>authtravisci.txt;
+      echo $SFDXAUTHURLQA>authtravisci.txt
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
-      echo $SFDXAUTHURLUAT>authtravisci.txt;
+      echo $SFDXAUTHURLUAT>authtravisci.txt
   fi; 
 - if [ "$BRANCH" == "master" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt;
+      echo $SFDXAUTHURL>authtravisci.txt
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 - export TESTLEVEL=RunLocalTests
-- export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details';
+- export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 after_failure:
-# Store the deploy result:
-#- if [ TRAVIS_TEST_RESULT != 0 ]; then
-#      error 'There was an issue deploying. Check ORG deployment status page for details';
-#  fi;
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
-      echo $deployErrorMsg;
+      echo $deployErrorMsg
   fi;
