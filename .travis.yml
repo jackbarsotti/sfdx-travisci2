@@ -157,16 +157,16 @@ before_script:
 - git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
-      echo $SFDXAUTHURLDEV>authtravisci.txt
+      echo $SFDXAUTHURLDEV>authtravisci.txt;
   fi;
 - if [ "$BRANCH" == "qa" ]; then
-      echo $SFDXAUTHURLQA>authtravisci.txt
+      echo $SFDXAUTHURLQA>authtravisci.txt;
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
-      echo $SFDXAUTHURLUAT>authtravisci.txt
+      echo $SFDXAUTHURLUAT>authtravisci.txt;
   fi; 
 - if [ "$BRANCH" == "master" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt
+      echo $SFDXAUTHURL>authtravisci.txt;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
