@@ -13,98 +13,143 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-#tested mkdir locally, extended sourcepath
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 before_script:
 - export build_head=$(git rev-parse HEAD)
-- echo $build_head;
+- echo $build_head
 - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 - git fetch
 
-- export BRANCH=$TRAVIS_BRANCH;
-- export branch=$TRAVIS_BRANCH;
-- echo $TRAVIS_BRANCH;
-
-#changing mkdir location doesn't seem to impact build
-#- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+- export BRANCH=$TRAVIS_BRANCH
+- export branch=$TRAVIS_BRANCH
+- echo $TRAVIS_BRANCH
 
 - >
   if [ "$BRANCH" == "dev" ]; then
-    echo 'Your current branches: ';
-    echo ' ';
+    echo 'Your current branches: '
+    echo
     for branch in $(git branch -r|grep -v HEAD); do
-        echo $branch;
-        git checkout ${branch#origin/};
+        echo $branch
+        git checkout -qf ${branch#origin/}
     done;
+    echo
+    git checkout dev
 
-  export CHANGED_FILES=`git diff --name-only master force-app/`;
-  echo ' ';
-  echo 'Your changed file(s): ';
-  echo ' ';
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done;
-  export DIFF=$CHANGED_FILE;
+    export CHANGED_FILES=`git diff --name-only master force-app/`
+    sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
-  fi;
+    echo
+    echo 'Your changed files: '
+    echo
+    for FILE in $CHANGED_FILES; do
+      echo ../$FILE
+    done;
+    echo
+
+  fi; 
+
 - >
   if [ "$BRANCH" == "qa" ]; then
-    echo 'Your current branches: ';
-    echo ' ';
+    echo 'Your current branches: '
+    echo
     for branch in $(git branch -r|grep -v HEAD); do
-        echo $branch;
+        echo $branch
         git checkout -qf ${branch#origin/}
     done;
+    echo
+    git checkout qa
 
-  export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  echo ' ';
-  echo 'Your changed file(s): ';
-  echo ' ';
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done;
-  export DIFF=$CHANGED_FILE;
+    export CHANGED_FILES=`git diff --name-only dev force-app/`
+    sudo cp --parents $(git diff --name-only dev force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+
+    echo
+    echo 'Your changed files: '
+    echo
+    for FILE in $CHANGED_FILES; do
+      echo ../$FILE
+    done;
+    echo
 
   fi; 
+
 - >
   if [ "$BRANCH" == "uat" ]; then
-    echo 'Your current branches: ';
-    echo ' ';
+    echo 'Your current branches: '
+    echo
     for branch in $(git branch -r|grep -v HEAD); do
-        echo $branch;
+        echo $branch
         git checkout -qf ${branch#origin/}
     done;
+    echo
+    git checkout uat
 
-  export CHANGED_FILES=`git diff --name-only qa force-app/`;
-  echo ' ';
-  echo 'Your changed file(s): ';
-  echo ' ';
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done;
-  export DIFF=$CHANGED_FILE;
+    export CHANGED_FILES=`git diff --name-only qa force-app/`
+    sudo cp --parents $(git diff --name-only qa force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+
+    echo
+    echo 'Your changed files: '
+    echo
+    for FILE in $CHANGED_FILES; do
+      echo ../$FILE
+    done;
+    echo
 
   fi; 
+
 - >
   if [ "$BRANCH" == "master" ]; then
-    echo 'Your current branches: ';
-    echo ' ';
+    echo 'Your current branches: '
+    echo
     for branch in $(git branch -r|grep -v HEAD); do
-        echo $branch;
+        echo $branch
         git checkout -qf ${branch#origin/}
     done;
+    echo
+    git checkout master
 
-  export CHANGED_FILES=`git diff --name-only dev force-app/`;
-  echo ' ';
-  echo 'Your changed file(s): ';
-  echo ' ';
-  for CHANGED_FILE in $CHANGED_FILES; do
-    echo ../$CHANGED_FILE;
-  done;
-  echo ' ';
-  sudo cp --parents $(git diff --name-only dev force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+    export CHANGED_FILES=`git diff --name-only dev force-app/`
+    sudo cp --parents $(git diff --name-only dev force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+
+    echo
+    echo 'Your changed files: '
+    echo
+    for FILE in $CHANGED_FILES; do
+      echo ../$FILE
+    done;
+    echo
 
   fi; 
+
+- for FILE in $CHANGED_FILES; do
+    echo ' ';
+    echo $FILE;
+    if [[ $FILE == *.cls-meta.xml ]]; then
+      export FILE2=${FILE%.class-meta.xml};
+      sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying class meta file to diff folder for deployment...';
+      echo 'Class files that will be deployed:';
+      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
+
+    elif [[ $FILE == *.cls ]]; then
+      sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying class file to diff folder for deployment...';
+      echo 'Class files that will be deployed:';      
+      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
+
+    elif [[ $FILE == *.trigger-meta.xml ]]; then
+      export FILE3=${FILE%.trigger-meta.xml};
+      sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE3.trigger")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying trigger meta file to diff folder for deployment...';
+      echo 'Trigger files that will be deployed:';
+      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
+
+    elif [[ $FILE == *.trigger ]]; then
+      sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      echo 'Copying trigger file to diff folder for deployment...';
+      echo 'Trigger files that will be deployed:';
+      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
+    fi;
+  done;
 
 - git checkout $build_head;
 
@@ -124,15 +169,11 @@ before_script:
 # for full builds: - export DEPLOYDIR=force-app/main/default
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 - export TESTLEVEL=RunLocalTests
-- export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details';
+- export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 after_failure:
-# Store the deploy result:
-#- if [ TRAVIS_TEST_RESULT != 0 ]; then
-#      error 'There was an issue deploying. Check ORG deployment status page for details';
-#  fi;
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
-      echo $deployErrorMsg;
+      echo $deployErrorMsg
   fi;
