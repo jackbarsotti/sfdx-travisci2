@@ -120,8 +120,8 @@ before_script:
 
   fi; 
 
-- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/classes;
-- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/triggers;
+- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
+- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
 - for FILE in $CHANGED_FILES; do
     echo ' ';
     echo $FILE;
