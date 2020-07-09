@@ -120,34 +120,32 @@ before_script:
 
   fi; 
 
+- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/classes;
+- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/triggers;
 - for FILE in $CHANGED_FILES; do
     echo ' ';
     echo $FILE;
     if [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE%.class-meta.xml};
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/classes;
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class meta file to diff folder for deployment...';
       echo 'Class files that will be deployed:';
       ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
 
     elif [[ $FILE == *.cls ]]; then
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/classes;
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';      
       ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
 
     elif [[ $FILE == *.trigger-meta.xml ]]; then
-      export FILE3=${FILE%.trigger-meta.xml};
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/triggers;
+      export FILE3=${FILE%.trigger-meta.xml}
       sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE3.trigger")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying trigger meta file to diff folder for deployment...';
       echo 'Trigger files that will be deployed:';
       ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
 
     elif [[ $FILE == *.trigger ]]; then
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/triggers;
       sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying trigger file to diff folder for deployment...';
       echo 'Trigger files that will be deployed:';
