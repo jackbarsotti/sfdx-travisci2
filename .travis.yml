@@ -143,7 +143,7 @@ before_script:
       sudo cp "$commaListClasses"* $userPath/diff;
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';      
-      echo $userPath$diffPath/classes;
+      ls $userPath$diffPath/classes;
       echo "$commaListClasses"*;
 
     elif [[ $FILE == *.trigger-meta.xml ]]; then
