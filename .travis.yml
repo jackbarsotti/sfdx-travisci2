@@ -196,7 +196,7 @@ before_script:
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests -r `echo $classVariations`,`echo $classes`,`echo $classMetas`,`echo $triggers`,`echo $triggerMetas` -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests -r newNewClass.cls -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
