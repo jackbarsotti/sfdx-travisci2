@@ -23,6 +23,7 @@ before_script:
 - export BRANCH=$TRAVIS_BRANCH
 - export branch=$TRAVIS_BRANCH
 - echo $TRAVIS_BRANCH
+#Remember to add these throughout the build. update ` ` code, update --parents
 - export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default;
 - export diffPath=/diff/force-app/main/default;
 
@@ -191,7 +192,7 @@ before_script:
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests -r $commaListClasses -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunLocalTests -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
