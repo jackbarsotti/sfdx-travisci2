@@ -23,6 +23,8 @@ before_script:
 - export BRANCH=$TRAVIS_BRANCH
 - export branch=$TRAVIS_BRANCH
 - echo $TRAVIS_BRANCH
+- export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default;
+- export diffPath=/diff/force-app/main/default;
 
 - >
   if [ "$BRANCH" == "dev" ]; then
@@ -120,111 +122,39 @@ before_script:
 
   fi; 
 
-#new
-- >
-if [ "$BRANCH" == "qa" || "$BRANCH" == "uat" || "$BRANCH" == "master" ]; then --->figure out proper syntax
-  for FILE in $CHANGED_FILES; do
-    echo ' ';
-    echo $FILE;
-    if [[ $FILE == *.cls-meta.xml ]]; then
-      export FILE2=${FILE%.class-meta.xml};
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/classes;
-      sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying class meta file to diff folder for deployment...';
-      echo 'Class files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
-
-    elif [[ $FILE == *.cls ]]; then
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/classes;
-      sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying class file to diff folder for deployment...';
-      echo 'Class files that will be deployed:';      
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
-
-    elif [[ $FILE == *.trigger-meta.xml ]]; then
-      export FILE3=${FILE%.trigger-meta.xml};
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/triggers;
-      sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE3.trigger")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying trigger meta file to diff folder for deployment...';
-      echo 'Trigger files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
-
-    elif [[ $FILE == *.trigger ]]; then
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/triggers;
-      sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying trigger file to diff folder for deployment...';
-      echo 'Trigger files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
-    fi;
-  done;
-  export TESTLEVEL=RunLocalTests; 
-
-  else
-  for FILE in $CHANGED_FILES; do
-    echo ' ';
-    echo $FILE;
-    if [[ $FILE == *.cls-meta.xml ]]; then
-      export FILE2=${FILE%.class-meta.xml};
-      sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying class meta file to diff folder for deployment...';
-      echo 'Class files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
-
-    elif [[ $FILE == *.cls ]]; then
-      sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-#      export commaListClasses="$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")"; -->check syntax
-#      echo $commaListClasses>deployClasses.csv;      
-      echo 'Copying class file to diff folder for deployment...';
-      echo 'Class files that will be deployed:';      
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
-
-    elif [[ $FILE == *.trigger-meta.xml ]]; then
-      export FILE3=${FILE%.trigger-meta.xml};
-      sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE3.trigger")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying trigger meta file to diff folder for deployment...';
-      echo 'Trigger files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
-
-    elif [[ $FILE == *.trigger ]]; then
-      sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying trigger file to diff folder for deployment...';
-      echo 'Trigger files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
-    fi;
-  done;
-  export TESTLEVEL=RunSpecifiedTests;
-
-fi; 
-
-#previous 
+#in progress
 - for FILE in $CHANGED_FILES; do
     echo ' ';
     echo $FILE;
     if [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE%.class-meta.xml};
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/classes;
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      export commaListClasses="$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
+      echo $commaListClasses>deployClasses.csv;
+      sudo cp deployClasses.csv /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class meta file to diff folder for deployment...';
       echo 'Class files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
+      echo $userPath$diffPath/classes;
+      echo "$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
 
     elif [[ $FILE == *.cls ]]; then
-#      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/classes;
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      export commaListClasses="$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
+      echo $commaListClasses>deployClasses.csv;       
+      sudo cp deployClasses.csv /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';      
       ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
+      echo "$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
 
     elif [[ $FILE == *.trigger-meta.xml ]]; then
       export FILE3=${FILE%.trigger-meta.xml};
-#      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/triggers;
       sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE3.trigger")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying trigger meta file to diff folder for deployment...';
       echo 'Trigger files that will be deployed:';
       ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
 
     elif [[ $FILE == *.trigger ]]; then
-#      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/triggers;
       sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying trigger file to diff folder for deployment...';
       echo 'Trigger files that will be deployed:';
@@ -236,28 +166,30 @@ fi;
 
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
+      export TESTLEVEL=RunSpecifiedTests -r $commaListClasses;
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt;
+      export TESTLEVEL=RunSpecifiedTests -r $commaListClasses;
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
       echo $SFDXAUTHURLUAT>authtravisci.txt;
+      export TESTLEVEL=RunLocalTests;
   fi; 
 - if [ "$BRANCH" == "master" ]; then
       echo $SFDXAUTHURL>authtravisci.txt;
+      export TESTLEVEL=RunLocalTests;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 #changed and moved upward:
-#- export TESTLEVEL=RunSpecifiedTests
+#- export TESTLEVEL=RunLocalTests
 
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
-#NEW: (turn "-r " files into an env variable referencing a temp file containing the files we want to deploy)
-#check syntax of $commaListClasses
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -r $commaListClasses -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
