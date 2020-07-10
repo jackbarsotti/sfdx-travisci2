@@ -128,7 +128,7 @@ before_script:
 - export classVariations=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
 - for FILE in $CHANGED_FILES; do
     echo ' ';
-    echo "Found changed file:`echo ' ' $FILE`";
+    echo "Found changed file:`echo ' '$FILE`";
     echo $FILE;
     if [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE%.cls-meta.xml};
