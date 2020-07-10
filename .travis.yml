@@ -123,6 +123,7 @@ before_script:
   fi; 
 
 #in progress
+#NOTE: new classs naming convention used: "Test", CHANGE to "test" after testing
 - for FILE in $CHANGED_FILES; do
     echo ' ';
     echo $FILE;
@@ -144,7 +145,7 @@ before_script:
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';      
       ls $userPath$diffPath/classes;
-      echo "$commaListClasses"*;
+      ls $userPath$diffPath;
 
     elif [[ $FILE == *.trigger-meta.xml ]]; then
       export FILE3=${FILE%.trigger-meta.xml};
@@ -160,6 +161,7 @@ before_script:
       ls $userPath$diffPath/triggers;
     fi;
   done;
+#echo "$commaListClasses"*;
 #create variable and csv file with *test.cls files:
 #      export commaListClasses="$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
 #      echo $commaListClasses>deployClasses.csv;
