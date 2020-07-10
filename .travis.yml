@@ -125,14 +125,18 @@ before_script:
 
 #in progress
 #NOTE: new classs naming convention used: "Test", CHANGE to "test" after testing
-- export commaListClasses=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
+- export classVariations=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
+- export classes=$(find force-app/main/default/classes -samefile "$FILE2.cls");
+- export classMetas=$(find force-app/main/default/classes -samefile "$FILE-meta.xml");
+- export triggers=$(find force-app/main/default/triggers -samefile "$FILE3.trigger");
+- export triggerMetas=$(find force-app/main/default/triggers -samefile "$FILE-meta.xml");
 - for FILE in $CHANGED_FILES; do
     echo ' ';
     echo $FILE;
     if [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE%.class-meta.xml};
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      sudo cp "$commaListClasses"* $userPath/diff/variants;
+      sudo cp "$classVariations"* $userPath/diff/variants;
       echo 'Copying class meta file to diff folder for deployment...';
       echo 'Class files that will be deployed:';
       ls $userPath$diffPath/classes;
@@ -140,7 +144,7 @@ before_script:
 
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;            
-      sudo cp "$commaListClasses"* $userPath/diff/variants;
+      sudo cp "$classVariations"* $userPath/diff/variants;
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';      
       ls $userPath$diffPath/classes;
@@ -162,8 +166,8 @@ before_script:
   done;
 
 #create variable and csv file with *test.cls files:
-#      export commaListClasses="$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
-#      echo $commaListClasses>deployClasses.csv;
+#      export classVariations="$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
+#      echo $classVariations>deployClasses.csv;
 #      sudo cp deployClasses.csv /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 - git checkout $build_head;
 
@@ -173,7 +177,7 @@ before_script:
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt;
-      export TESTLEVEL='RunSpecifiedTests -r $commaListClasses';
+      export TESTLEVEL='RunSpecifiedTests -r $classVariations';
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
       echo $SFDXAUTHURLUAT>authtravisci.txt;
@@ -192,7 +196,7 @@ before_script:
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunLocalTests -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests -r $classVariations,$classes,$classMetas,$triggers,$triggerMetas -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
