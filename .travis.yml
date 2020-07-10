@@ -129,7 +129,6 @@ before_script:
 - for FILE in $CHANGED_FILES; do
     echo ' ';
     echo "Found changed file:`echo ' '$FILE`";
-    echo $FILE;
     if [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE%.cls-meta.xml};
       export classes=$(find force-app/main/default/classes -samefile "$FILE2.cls");
@@ -197,7 +196,7 @@ before_script:
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests -r newNewClassTest -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests -r newNewClassTest,frankensteinClass -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
