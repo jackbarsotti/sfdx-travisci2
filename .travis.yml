@@ -13,7 +13,7 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/variants;
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head
@@ -145,7 +145,7 @@ before_script:
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';      
       ls $userPath$diffPath/classes;
-      ls $userPath/diff;
+      ls $userPath/diff/variants;
 
     elif [[ $FILE == *.trigger-meta.xml ]]; then
       export FILE3=${FILE%.trigger-meta.xml};
