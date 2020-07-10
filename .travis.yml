@@ -144,7 +144,7 @@ before_script:
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';      
       ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
-      echo "$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
+      echo "$commaListClasses"*;
 
     elif [[ $FILE == *.trigger-meta.xml ]]; then
       export FILE3=${FILE%.trigger-meta.xml};
