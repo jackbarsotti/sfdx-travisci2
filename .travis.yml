@@ -124,7 +124,7 @@ before_script:
 
   fi; 
 
-#in progress
+#ready for review
 #NOTE: naming convention used for ...Test.cls files: "Test"
 - for FILE in $CHANGED_FILES; do
     echo ' ';
@@ -208,12 +208,11 @@ before_script:
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
-# moved upward:- export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
 #how do we call an env variable after -r?
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests -r newNewClassTest -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunlocalTests -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
