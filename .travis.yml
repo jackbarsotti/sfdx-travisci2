@@ -26,7 +26,7 @@ before_script:
 #Remember to add these throughout the build. update ` ` code, switch order of cls and xml ifs
 - export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default;
 - export diffPath=/diff/force-app/main/default;
-- export DEPLOYDIR=$DEPLOYDIR
+- export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 
 - >
   if [ "$BRANCH" == "dev" ]; then
