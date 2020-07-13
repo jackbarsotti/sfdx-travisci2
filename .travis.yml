@@ -23,6 +23,12 @@ before_script:
 - export BRANCH=$TRAVIS_BRANCH
 - export branch=$TRAVIS_BRANCH
 - echo $TRAVIS_BRANCH
+#Remember to update ` ` code
+- export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default;
+- export diffPath=/diff/force-app/main/default;
+- export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+- export classPath=force-app/main/default/classes;
+- export triggerPath=force-app/main/default/triggers;
 
 - >
   if [ "$BRANCH" == "dev" ]; then
@@ -36,7 +42,7 @@ before_script:
     git checkout dev
 
     export CHANGED_FILES=`git diff --name-only master force-app/`
-    sudo cp --parents $(git diff --name-only master force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+    sudo cp --parents $(git diff --name-only master force-app/) $DEPLOYDIR;
 
     echo
     echo 'Your changed files: '
@@ -60,7 +66,7 @@ before_script:
     git checkout qa
 
     export CHANGED_FILES=`git diff --name-only dev force-app/`
-    sudo cp --parents $(git diff --name-only dev force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+    sudo cp --parents $(git diff --name-only dev force-app/) $DEPLOYDIR;
 
     echo
     echo 'Your changed files: '
@@ -84,7 +90,7 @@ before_script:
     git checkout uat
 
     export CHANGED_FILES=`git diff --name-only qa force-app/`
-    sudo cp --parents $(git diff --name-only qa force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+    sudo cp --parents $(git diff --name-only qa force-app/) $DEPLOYDIR;
 
     echo
     echo 'Your changed files: '
@@ -108,7 +114,7 @@ before_script:
     git checkout master
 
     export CHANGED_FILES=`git diff --name-only dev force-app/`
-    sudo cp --parents $(git diff --name-only dev force-app/) /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+    sudo cp --parents $(git diff --name-only dev force-app/) $DEPLOYDIR;
 
     echo
     echo 'Your changed files: '
@@ -120,37 +126,70 @@ before_script:
 
   fi; 
 
+#ready for review
+#NOTE: naming convention used for ...Test.cls files: "Test"
 - for FILE in $CHANGED_FILES; do
     echo ' ';
-    echo $FILE;
-    if [[ $FILE == *.cls-meta.xml ]]; then
-      export FILE2=${FILE%.class-meta.xml};
-      sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+    echo "Found changed file:`echo ' '$FILE`";
+    if [[ $FILE == *Test.cls ]]; then
+      sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
+      echo 'Copying class file to diff folder for deployment...';
+      echo 'Class files that will be deployed:';     
+      ls $userPath$diffPath/classes;
+
+    elif [[ $FILE == *Test.cls-meta.xml ]]; then
+      export FILE2=${FILE%.cls-meta.xml};
+      sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
       echo 'Copying class meta file to diff folder for deployment...';
       echo 'Class files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
+      ls $userPath$diffPath/classes;
 
     elif [[ $FILE == *.cls ]]; then
-      sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
+      export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
+      for file in $classTests; do
+        sudo cp --parents "$file"* $DEPLOYDIR;
+      done;
       echo 'Copying class file to diff folder for deployment...';
-      echo 'Class files that will be deployed:';      
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/classes;
+      echo 'Class files that will be deployed:';     
+      ls $userPath$diffPath/classes;
 
-    elif [[ $FILE == *.trigger-meta.xml ]]; then
-      export FILE3=${FILE%.trigger-meta.xml};
-      sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE3.trigger")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      echo 'Copying trigger meta file to diff folder for deployment...';
-      echo 'Trigger files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
-
+    elif [[ $FILE == *.cls-meta.xml ]]; then
+      export FILE2=${FILE%.cls-meta.xml};
+      sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
+      export classTests=$(find $classPath -samefile "${FILE2%.cls}Test.cls" -o -samefile "${FILE2%.cls}Test.cls-meta.xml");
+      for file in $classTests; do
+        sudo cp --parents "$file"* $DEPLOYDIR;
+      done;
+      echo 'Copying class meta file to diff folder for deployment...';
+      echo 'Class files that will be deployed:';
+      ls $userPath$diffPath/classes;
+   
     elif [[ $FILE == *.trigger ]]; then
-      sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
+      sudo cp --parents "$(find $triggerPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
       echo 'Copying trigger file to diff folder for deployment...';
       echo 'Trigger files that will be deployed:';
-      ls /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/force-app/main/default/triggers;
+      ls $userPath$diffPath/triggers;
+      
+    elif [[ $FILE == *.trigger-meta.xml ]]; then
+      export FILE3=${FILE%.trigger-meta.xml};
+      sudo cp --parents "$(find $triggerPath -samefile "$FILE3.trigger")"* $DEPLOYDIR;
+      echo 'Copying trigger meta file to diff folder for deployment...';
+      echo 'Trigger files that will be deployed:';
+      ls $userPath$diffPath/triggers;
     fi;
   done;
 
+#for trying to create a RunSpecifiedTests variable for deployment:
+#      export classes=$(find $classPath -samefile "$FILE2.cls");
+#      export classMetas=$(find $classPath -samefile "$FILE-meta.xml");
+#      export triggers=$(find $triggerPath -samefile "$FILE3.trigger");
+#      export triggerMetas=$(find $triggerPath -samefile "$FILE-meta.xml");
+
+#create variable and csv file with *test.cls files:
+#      export classTests="$(find $classPath -name "*test.cls" -o -name "*test.class-meta.xml")";
+#      echo $classTests>deployClasses.csv;
+#      sudo cp deployClasses.csv $DEPLOYDIR;
 - git checkout $build_head;
 
 - if [ "$BRANCH" == "dev" ]; then
@@ -167,7 +206,6 @@ before_script:
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
-- export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 - export TESTLEVEL=RunLocalTests
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
