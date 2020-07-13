@@ -212,7 +212,7 @@ before_script:
 script:
 - sfdx force:org:display -u targetEnvironment
 #how do we call an env variable after -r?
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunLocalTests -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests -r newNewClassTest,frankensteinClassTest -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
