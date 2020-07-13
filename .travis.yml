@@ -13,7 +13,7 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
-- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff/variants;
+- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 before_script:
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head
@@ -23,7 +23,7 @@ before_script:
 - export BRANCH=$TRAVIS_BRANCH
 - export branch=$TRAVIS_BRANCH
 - echo $TRAVIS_BRANCH
-#Remember to add these throughout the build. update ` ` code, switch order of cls and xml ifs
+#Remember to update ` ` code
 - export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default;
 - export diffPath=/diff/force-app/main/default;
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
