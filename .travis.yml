@@ -168,7 +168,7 @@ before_script:
       
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';     
-      ls $userPath$diffPath/classes;
+      echo "     ls $userPath$diffPath/classes";
       
     
     elif [[ $FILE == *.trigger-meta.xml ]]; then
