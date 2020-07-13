@@ -134,7 +134,7 @@ before_script:
       
       
       export classTests=$(find force-app/main/default/classes -name "*$FILE2Test.cls" -o -name "*$FILE2Test.class-meta.xml");
-      sudo cp "$classTests"* $userPath/diff/variants;
+      
       
       echo 'Copying class meta file to diff folder for deployment...';
       echo 'Class files that will be deployed:';
