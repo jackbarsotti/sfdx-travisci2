@@ -23,7 +23,7 @@ before_script:
 - export BRANCH=$TRAVIS_BRANCH
 - export branch=$TRAVIS_BRANCH
 - echo $TRAVIS_BRANCH
-#Remember to update ` ` code
+#Remember to update ` ` code, update missing ;
 - export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default;
 - export diffPath=/diff/force-app/main/default;
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
