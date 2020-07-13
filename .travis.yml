@@ -125,26 +125,31 @@ before_script:
 
 #in progress
 #NOTE: new classs naming convention used: "Test"
-#- export classVariations=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
-- export commaListClasses=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
+#- export classTests=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
 - for FILE in $CHANGED_FILES; do
     echo ' ';
     echo $FILE;
     if [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE%.class-meta.xml};
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
-      sudo cp "$commaListClasses"* $userPath/diff/variants;
+      
+      export classTests=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
+      sudo cp "$classTests"* $userPath/diff/variants;
       echo 'Copying class meta file to diff folder for deployment...';
       echo 'Class files that will be deployed:';
       ls $userPath$diffPath/classes;
       ls $userPath/diff/variants;
+   
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;           
-      sudo cp "$commaListClasses"* $userPath/diff/variants;
+      
+      export classTests=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
+      sudo cp "$classTests"* $userPath/diff/variants;
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';     
       ls $userPath$diffPath/classes;
       ls $userPath/diff/variants;
+    
     elif [[ $FILE == *.trigger-meta.xml ]]; then
       export FILE3=${FILE%.trigger-meta.xml};
       sudo cp --parents "$(find force-app/main/default/triggers -samefile "$FILE3.trigger")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
@@ -159,10 +164,15 @@ before_script:
     fi;
   done;
 
+#for trying to create a RunSpecifiedTests variable for deployment:
+#      export classes=$(find force-app/main/default/classes -samefile "$FILE2.cls");
+#      export classMetas=$(find force-app/main/default/classes -samefile "$FILE-meta.xml");
+#      export triggers=$(find force-app/main/default/triggers -samefile "$FILE3.trigger");
+#      export triggerMetas=$(find force-app/main/default/triggers -samefile "$FILE-meta.xml");
 
 #create variable and csv file with *test.cls files:
-#      export classVariations="$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
-#      echo $classVariations>deployClasses.csv;
+#      export classTests="$(find force-app/main/default/classes -name "*test.cls" -o -name "*test.class-meta.xml")";
+#      echo $classTests>deployClasses.csv;
 #      sudo cp deployClasses.csv /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 - git checkout $build_head;
 
@@ -172,7 +182,7 @@ before_script:
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt;
-      export TESTLEVEL='RunSpecifiedTests -r $classVariations';
+      export TESTLEVEL='RunSpecifiedTests -r $classTests';
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
       echo $SFDXAUTHURLUAT>authtravisci.txt;
