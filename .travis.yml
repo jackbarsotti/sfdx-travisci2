@@ -133,7 +133,7 @@ before_script:
       export FILE2=${FILE%.cls-meta.xml};
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       
-      export classTests=$(find force-app/main/default/classes -samefile "$FILE2Test.cls" -o -name "$FILE2Test.class-meta.xml");
+      export classTests=$(find force-app/main/default/classes -name "*$FILE2Test.cls" -o -name "*$FILE2Test.class-meta.xml");
       sudo cp "$classTests"* $userPath/diff/variants;
       
       echo 'Copying class meta file to diff folder for deployment...';
@@ -144,7 +144,7 @@ before_script:
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;           
       
-      export classTests=$(find force-app/main/default/classes -samefile "$FILETest.cls" -o -name "$FILETest.class-meta.xml");
+      export classTests=$(find force-app/main/default/classes -name "*$FILETest.cls" -o -name "*$FILETest.class-meta.xml");
       sudo cp "$classTests"* $userPath/diff/variants;
       
       echo 'Copying class file to diff folder for deployment...';
