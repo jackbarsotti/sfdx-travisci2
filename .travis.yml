@@ -23,7 +23,7 @@ before_script:
 - export BRANCH=$TRAVIS_BRANCH
 - export branch=$TRAVIS_BRANCH
 - echo $TRAVIS_BRANCH
-#Remember to add these throughout the build. update ` ` code,
+#Remember to add these throughout the build. update ` ` code
 - export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default;
 - export diffPath=/diff/force-app/main/default;
 
@@ -125,7 +125,6 @@ before_script:
 
 #in progress
 #NOTE: new classs naming convention used: "Test"
-#- export classTests=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
 - for FILE in $CHANGED_FILES; do
     echo ' ';
     echo "Found changed file:`echo ' '$FILE`";
@@ -147,7 +146,6 @@ before_script:
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       
       export classTests=$(find force-app/main/default/classes -samefile "${FILE2%.cls}Test.cls" -o -samefile "${FILE2%.cls}Test.cls-meta.xml");
-      echo $classTests;
       for FILE in $classTests; do
         sudo cp --parents "$FILE"* $userPath/diff;
       done;
@@ -161,7 +159,6 @@ before_script:
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;           
       
       export classTests=$(find force-app/main/default/classes -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
-      echo $classTests;
       for FILE in $classTests; do
         sudo cp --parents "$FILE"* $userPath/diff;
       done;
@@ -184,8 +181,6 @@ before_script:
       ls $userPath$diffPath/triggers;
     fi;
   done;
-
-#original sudo cp: sudo cp --parents "$classTests"* $userPath/diff;
 
 #for trying to create a RunSpecifiedTests variable for deployment:
 #      export classes=$(find force-app/main/default/classes -samefile "$FILE2.cls");
