@@ -23,7 +23,7 @@ before_script:
 - export BRANCH=$TRAVIS_BRANCH
 - export branch=$TRAVIS_BRANCH
 - echo $TRAVIS_BRANCH
-#Remember to add these throughout the build. update ` ` code, update --parents
+#Remember to add these throughout the build. update ` ` code,
 - export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default;
 - export diffPath=/diff/force-app/main/default;
 
@@ -146,7 +146,9 @@ before_script:
       
       export classTests=$(find force-app/main/default/classes -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
       echo $classTests;
-      sudo cp --parents "$classTests"* $userPath/diff;
+      for FILE in $classTests; do
+        sudo cp --parents "$FILE"* $userPath/diff;
+      done;
       
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';     
@@ -166,6 +168,8 @@ before_script:
       ls $userPath$diffPath/triggers;
     fi;
   done;
+
+#sudo cp: sudo cp --parents "$classTests"* $userPath/diff;
 
 #for trying to create a RunSpecifiedTests variable for deployment:
 #      export classes=$(find force-app/main/default/classes -samefile "$FILE2.cls");
