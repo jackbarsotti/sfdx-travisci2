@@ -128,11 +128,10 @@ before_script:
 #- export classTests=$(find force-app/main/default/classes -name "*Test.cls" -o -name "*Test.class-meta.xml");
 - for FILE in $CHANGED_FILES; do
     echo ' ';
-    echo $FILE;
+    echo "Found changed file:`echo ' '$FILE`";
     if [[ $FILE == *Test.cls ]]; then
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;           
       echo 'Copying class file to diff folder for deployment...';
-      echo ' ';
       echo 'Class files that will be deployed:';     
       ls $userPath$diffPath/classes;
 
@@ -140,7 +139,6 @@ before_script:
       export FILE2=${FILE%.cls-meta.xml};
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE2.cls")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
       echo 'Copying class meta file to diff folder for deployment...';
-      echo ' ';
       echo 'Class files that will be deployed:';
       ls $userPath$diffPath/classes;
 
@@ -155,7 +153,6 @@ before_script:
       done;
       
       echo 'Copying class meta file to diff folder for deployment...';
-      echo ' ';
       echo 'Class files that will be deployed:';
       ls $userPath$diffPath/classes;
       ls $userPath/diff/variants;
@@ -170,7 +167,6 @@ before_script:
       done;
       
       echo 'Copying class file to diff folder for deployment...';
-      echo ' ';
       echo 'Class files that will be deployed:';     
       ls $userPath$diffPath/classes;
       
