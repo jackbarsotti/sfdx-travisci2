@@ -145,7 +145,7 @@ before_script:
       sudo cp --parents "$(find force-app/main/default/classes -samefile "$FILE-meta.xml")"* /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;           
       
       export classTests=$(find force-app/main/default/classes -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
-      sudo cp --parents "$classTests"* $userPath/diff;
+      
       
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';     
