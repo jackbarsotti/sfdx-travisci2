@@ -144,19 +144,12 @@ before_script:
 
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
-      
       export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
-      export tests=$(find $DEPLOYDIR -name "${Test%.cls*}");
       
-      export deployTests=${classTests##*/};
-      sudo mkdir -p /force-app/main/default/classes/renameDir;
-      export renameDir=force-app/main/default/classes/renameDir;
-      sudo cp $deployTests "$renameDir";
-      
-      export deployTests=$(find $renameDir -samefile "${deployTests%.cls*}");
-      sudo mkdir -p /force-app/main/default/classes/deployTests;
-      export deployTestsDir=force-app/main/default/classes/deployTests;
-      sudo cp "$(find $renameDir -samefile "${deployTests%.cls*}")"* "$deployTestsDir";
+      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
+      export unparsedTests=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
+      sudo cp "$(find /Users/jackbarsotti/sfdx-travisci2/$classPath -name "$Test.cls")"* $unparsedTests;
+      export parsedTests=$(find $unparsedTests -name "${Test%.cls}");
 
 
       for file in $classTests; do
