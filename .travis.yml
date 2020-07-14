@@ -192,7 +192,6 @@ before_script:
     echo $parsedList;
     echo $parsed>TestClassNames.csv;
   done;
-- echo $parsed;
 - echo "parsedList = ${parsedList}"
 
 - git checkout $build_head;
