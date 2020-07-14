@@ -191,16 +191,9 @@ before_script:
     export parsedList="${parsedList}${parsed},"
     echo $parsedList;
     
-    echo $parsed>TestClassNames.csv;
-    
   done;
 - echo $parsed;
 - echo "parsedList = ${parsedList}"
-
-#- export parsed=$(find $unparsedTestsDir -name "*Test.cls");
-#- export parsed=${parsed##*/};
-#- export parsed=${parsed%.cls*};
-#- echo $parsed;  
 
 - git checkout $build_head;
 
