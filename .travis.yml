@@ -187,7 +187,7 @@ before_script:
 
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
-      export TESTLEVEL="RunSpecifiedTests -r $deployTests";
+      export TESTLEVEL="RunSpecifiedTests -r $tests";
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt;
