@@ -191,6 +191,9 @@ before_script:
     export parsedList="${parsedList}${parsed},"
     echo $parsedList;
     
+    echo $parsed>TestClassNames.csv;
+    echo "$(<TestClassNames.csv)";
+    export TestClassNames=$(<TestClassNames.csv);
     
   done;
 - echo "$(<TestClassNames.csv)";
