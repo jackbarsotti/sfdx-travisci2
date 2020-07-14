@@ -193,10 +193,10 @@ before_script:
     
     echo $parsed>TestClassNames.csv;
     echo "$(<TestClassNames.csv)";
-    export TestClassNames=$(<TestClassNames.csv);
+ 
     
   done;
-- echo "$(<TestClassNames.csv)";
+
 - echo $parsed;
 - echo "parsedList = ${parsedList}"
 
