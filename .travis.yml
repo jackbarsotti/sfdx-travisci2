@@ -148,11 +148,11 @@ before_script:
       
       export classTests2=$(find $classPath -name "*Test.cls");
       sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
-      export unparsedTests=force-app/main/default/unparsedTests;
+      export unparsedTests=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
       for testfiles in $classTests2; do  
         sudo cp "$testfiles"* $unparsedTests;
       done;
-      export parsedTests=$(find $unparsedTests -name "${Test%.cls}");
+      export parsedTests=$(find $unparsedTests -name "*Test%.cls");
       echo $parsedTests;
 
       for file in $classTests; do
