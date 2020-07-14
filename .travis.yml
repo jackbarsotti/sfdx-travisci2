@@ -188,6 +188,7 @@ before_script:
     export parsedTests=${parsedTests##*/};
     export parsedTests=${parsedTests%.cls*};
     echo $parsedTests;
+    
     echo $parsedTests>TestClassNames.csv;
     echo "$(<TestClassNames.csv)";
     export TestClassNames=$(<TestClassNames.csv);
