@@ -151,12 +151,12 @@ before_script:
       export deployTests=${deployTests##*/};
       sudo mkdir -p /force-app/main/default/classes/renameDir;
       export renameDir=force-app/main/default/classes/renameDir;
-      sudo cp "$deployTests" "$renameDir";
+      sudo cp $deployTests "$renameDir";
       
-      export deployTests=$(find $renameDir -samefile "${classTests.cls*}");
+      export deployTests=$(find $renameDir -samefile "${classTests%.cls*}");
       sudo mkdir -p /force-app/main/default/classes/deployTests;
       export deployTestsDir=force-app/main/default/classes/deployTests;
-      sudo cp "$deployTests" "$deployTestsDir";
+      sudo cp $deployTests "$deployTestsDir";
 
 
       for file in $classTests; do
