@@ -188,7 +188,7 @@ before_script:
     export parsed=$(find $unparsedTestsDir -name "*Test.cls");
     export parsed=${parsed##*/};
     export parsed=${parsed%.cls*};
-    export parsedList="${parsedList},${parsed}"
+    export parsedList="${parsedList}${parsed},"
     echo $parsedList;
     
     echo $parsed>TestClassNames.csv;
@@ -209,7 +209,7 @@ before_script:
 
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
-      export TESTLEVEL="RunSpecifiedTests -r $TestClassNames";
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList";
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt;
