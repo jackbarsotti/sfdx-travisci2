@@ -19,11 +19,9 @@ before_script:
 - echo $build_head
 - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 - git fetch
-
 - export BRANCH=$TRAVIS_BRANCH
 - export branch=$TRAVIS_BRANCH
 - echo $TRAVIS_BRANCH
-#Remember to update ` ` code, update missing ;
 - export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default;
 - export diffPath=/diff/force-app/main/default;
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
@@ -147,6 +145,8 @@ before_script:
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
       export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
+      deployTests=${classTests%.*};
+      deployTests=${deployTests##*/};
       for file in $classTests; do
         sudo cp --parents "$file"* $DEPLOYDIR;
       done;
@@ -184,7 +184,7 @@ before_script:
 
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
-      
+      export TESTLEVEL='RunSpecifiedTests -r $classTests';
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt;
@@ -200,11 +200,11 @@ before_script:
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
+- export TESTLEVEL=RunLocalTests
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
-#how do we call an env variable after -r?
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests -r ${classTests%.cls-meta.xml} -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
