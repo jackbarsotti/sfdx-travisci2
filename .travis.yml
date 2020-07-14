@@ -148,7 +148,7 @@ before_script:
       
       sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
       export unparsedTests=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
-      sudo cp "$(find /Users/jackbarsotti/sfdx-travisci2/$classPath -name "$Test.cls")"* $unparsedTests;
+      sudo cp "$(find /Users/jackbarsotti/sfdx-travisci2/$classPath -name "*Test.cls")"* $unparsedTests;
       export parsedTests=$(find $unparsedTests -name "${Test%.cls}");
 
 
