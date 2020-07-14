@@ -158,6 +158,8 @@ before_script:
       export FILE2=${FILE%.cls-meta.xml};
       sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
       export classTests=$(find $classPath -samefile "${FILE2%.cls}Test.cls" -o -samefile "${FILE2%.cls}Test.cls-meta.xml");
+      export deployTests=${classTests%.cls*};
+      export deployTests=${deployTests##*/};      
       for file in $classTests; do
         sudo cp --parents "$file"* $DEPLOYDIR;
       done;
