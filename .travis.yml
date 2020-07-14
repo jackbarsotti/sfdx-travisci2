@@ -190,6 +190,7 @@ before_script:
 - export parsedTests=${parsedTests##*/};
 - export parsedTests=${parsedTests%.cls*};
 - echo $parsedTests;  
+- ls $classPath;
 
 - git checkout $build_head;
 
