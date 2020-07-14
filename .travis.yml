@@ -158,8 +158,6 @@ before_script:
       export FILE2=${FILE%.cls-meta.xml};
       sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
       export classTests=$(find $classPath -samefile "${FILE2%.cls}Test.cls" -o -samefile "${FILE2%.cls}Test.cls-meta.xml");
-      export deployTests=${classTests%.cls*};
-      export deployTests=${deployTests##*/};      
       for file in $classTests; do
         sudo cp --parents "$file"* $DEPLOYDIR;
       done;
@@ -202,11 +200,11 @@ before_script:
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
-- export TESTLEVEL=RunLocalTests
+#- export TESTLEVEL=RunLocalTests
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunSpecifiedTests "$deployTests" -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
