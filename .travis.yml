@@ -148,15 +148,15 @@ before_script:
       export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
       export tests=$(find $DEPLOYDIR -name "${Test%.cls*}");
       
-      export deployTests=${deployTests##*/};
+      export deployTests=${classTests##*/};
       sudo mkdir -p /force-app/main/default/classes/renameDir;
       export renameDir=force-app/main/default/classes/renameDir;
       sudo cp $deployTests "$renameDir";
       
-      export deployTests=$(find $renameDir -samefile "${classTests%.cls*}");
+      export deployTests=$(find $renameDir -samefile "${deployTests%.cls*}");
       sudo mkdir -p /force-app/main/default/classes/deployTests;
       export deployTestsDir=force-app/main/default/classes/deployTests;
-      sudo cp $deployTests "$deployTestsDir";
+      sudo cp "$(find $renameDir -samefile "${deployTests%.cls*}")"* "$deployTestsDir";
 
 
       for file in $classTests; do
