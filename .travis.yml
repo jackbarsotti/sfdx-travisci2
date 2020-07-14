@@ -150,7 +150,7 @@ before_script:
       sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
       export unparsedTests=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
       for file in classTests2; do  
-        sudo cp "$file"* $unparsedTests;
+        sudo cp "$file" $unparsedTests;
       done;
       export parsedTests=$(find $unparsedTests -name "${Test%.cls}");
 
