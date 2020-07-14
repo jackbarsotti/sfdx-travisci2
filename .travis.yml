@@ -124,7 +124,7 @@ before_script:
 
   fi; 
 
-#ready for review
+#Ready for review
 #NOTE: naming convention used for ...Test.cls files: "Test"
 - for FILE in $CHANGED_FILES; do
     echo ' ';
@@ -145,26 +145,12 @@ before_script:
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
       export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
-      
       for file in $classTests; do
         sudo cp --parents "$file"* $DEPLOYDIR;
       done;
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';     
       ls $userPath$diffPath/classes;
-
-      export classTests2=$(find $classPath -name "*Test.cls");
-      sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
-      export unparsedTests=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
-      for testfiles in $classTests2; do  
-        sudo cp "$testfiles"* $unparsedTests;
-      done;
-      export parsedTests=$(find $unparsedTests -name "*${Test%.cls}");
-      export parsedTests=${parsedTests##*/};
-      export parsedTests=${parsedTests%.cls*};
-      echo $parsedTests;
-
-
 
     elif [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE%.cls-meta.xml};
@@ -191,6 +177,18 @@ before_script:
       ls $userPath$diffPath/triggers;
     fi;
   done;
+
+#Creating deployment variable for RunSpecifiedTests -r <variable>
+- export classTests2=$(find $classPath -name "*Test.cls");
+- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
+- export unparsedTests=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
+- for testfiles in $classTests2; do  
+    sudo cp "$testfiles"* $unparsedTests;
+  done;
+- export parsedTests=$(find $unparsedTests -name "*${Test%.cls}");
+- export parsedTests=${parsedTests##*/};
+- export parsedTests=${parsedTests%.cls*};
+- echo $parsedTests;  
 
 - git checkout $build_head;
 
