@@ -154,6 +154,7 @@ before_script:
       done;
       export parsedTests=$(find $unparsedTests -name "*${Test%.cls}");
       export parsedTests=${parsedTests##*/};
+      export parsedTests=${parsedTests%.cls*};
       echo $parsedTests;
 
       for file in $classTests; do
