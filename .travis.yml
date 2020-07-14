@@ -182,25 +182,28 @@ before_script:
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
 - export unparsedTestsDir=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
 - export classTests2=$(find $classPath -name "*Test.cls");
+- export parsedList = '';
 - for testfiles in $classTests2; do  
     sudo cp "$testfiles"* $unparsedTestsDir;
-    export parsedTests=$(find $unparsedTestsDir -name "*Test.cls");
-    export parsedTests=${parsedTests##*/};
-    export parsedTests=${parsedTests%.cls*};
-    echo $parsedTests;
+    export parsed=$(find $unparsedTestsDir -name "*Test.cls");
+    export parsed=${parsed##*/};
+    export parsed=${parsed%.cls*};
+    export parsedList="${parsedList},${parsed}"
+    echo $parsedList;
     
-    echo $parsedTests>TestClassNames.csv;
+    echo $parsed>TestClassNames.csv;
     echo "$(<TestClassNames.csv)";
     export TestClassNames=$(<TestClassNames.csv);
     echo $TestClassNames;
   done;
 - echo "$(<TestClassNames.csv)";
-- echo $parsedTests;
+- echo $parsed;
+- echo "parsedList = ${parsedList}"
 - ls $classPath;
-#- export parsedTests=$(find $unparsedTestsDir -name "*Test.cls");
-#- export parsedTests=${parsedTests##*/};
-#- export parsedTests=${parsedTests%.cls*};
-#- echo $parsedTests;  
+#- export parsed=$(find $unparsedTestsDir -name "*Test.cls");
+#- export parsed=${parsed##*/};
+#- export parsed=${parsed%.cls*};
+#- echo $parsed;  
 
 - git checkout $build_head;
 
