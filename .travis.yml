@@ -179,17 +179,21 @@ before_script:
   done;
 
 #Creating deployment variable for RunSpecifiedTests -r <variable>
-- export classTests2=$(find $classPath -name "*Test.cls");
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
 - export unparsedTests=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
+- export classTests2=$(find $classPath -name "*Test.cls");
 - for testfiles in $classTests2; do  
     sudo cp "$testfiles"* $unparsedTests;
+    export parsedTests=$(find $unparsedTests -name "*Test.cls");
+    export parsedTests=${parsedTests##*/};
+    export parsedTests=${parsedTests%.cls*};
+    echo $parsedTests;
   done;
-#editing 189
-- export parsedTests=$(find $unparsedTests -name "*Test.cls");
-- export parsedTests=${parsedTests##*/};
-- export parsedTests=${parsedTests%.cls*};
-- echo $parsedTests;  
+#add another for loop?
+#- export parsedTests=$(find $unparsedTests -name "*Test.cls");
+#- export parsedTests=${parsedTests##*/};
+#- export parsedTests=${parsedTests%.cls*};
+#- echo $parsedTests;  
 - ls $classPath;
 
 - git checkout $build_head;
