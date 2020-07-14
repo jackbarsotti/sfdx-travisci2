@@ -189,6 +189,7 @@ before_script:
     export parsedTests=${parsedTests%.cls*};
     echo $parsedTests;
   done;
+- echo $parsedTests;
 #add another for loop?
 #- export parsedTests=$(find $unparsedTests -name "*Test.cls");
 #- export parsedTests=${parsedTests##*/};
