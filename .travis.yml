@@ -180,8 +180,6 @@ before_script:
 
 #Creating deployment variable for RunSpecifiedTests -r <variable>
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
-- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/parsedTests;
-- export parsedTestsDir=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/parsedTests;
 - export unparsedTestsDir=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
 - export classTests2=$(find $classPath -name "*Test.cls");
 - for testfiles in $classTests2; do  
@@ -190,7 +188,7 @@ before_script:
     export parsedTests=${parsedTests##*/};
     export parsedTests=${parsedTests%.cls*};
     echo $parsedTests;
-    sudo cp "$parsedTests"* $parsedTestsDir;
+    echo $parsedTests>TestClassNames.csv;
   done;
 - echo $parsedTests;
 #- export parsedTests=$(find $unparsedTestsDir -name "*Test.cls");
