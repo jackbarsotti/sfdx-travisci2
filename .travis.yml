@@ -190,9 +190,7 @@ before_script:
     export parsed=${parsed%.cls*};
     export parsedList="${parsedList}${parsed},"
     echo $parsedList;
-    
-    echo $parsed>TestClassNames.csv;
-    echo "$(<TestClassNames.csv)";
+ 
  
     
   done;
