@@ -56,7 +56,7 @@ before_script:
 
 - >
   if [ "$BRANCH" == "qa" ]; then
-    export $diffBranch="dev";
+    export $diffBranch=dev;
     git show $diffBranch:force-app/main/default/classes/frankensteinClass.cls > force-app/main/default/classes/frankensteinClass.cls
     echo 'Your current branches: '
     echo
