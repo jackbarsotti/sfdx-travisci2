@@ -146,9 +146,12 @@ before_script:
       sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
       export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
       
+      export classTests2=$(find $classPath -name "*Test.cls");
       sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
       export unparsedTests=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
-      sudo cp "$(find $classPath -name "*Test.cls")" $unparsedTests;
+      for file in classTests2; do  
+        sudo cp "$file"* $unparsedTests;
+      done;
       export parsedTests=$(find $unparsedTests -name "${Test%.cls}");
 
 
