@@ -146,7 +146,7 @@ before_script:
       sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
       
       export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
-      export DEPLOYMENTTESTS=$(find $DEPLOYDIR -name "${Test%.cls*}");
+      export tests=$(find $DEPLOYDIR -name "${Test%.cls*}");
       export deployTests=${classTests%.cls*};
       export deployTests=${deployTests##*/};
       
@@ -187,7 +187,7 @@ before_script:
 
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
-      export TESTLEVEL="RunSpecifiedTests -r $DEPLOYMENTTESTS";
+      export TESTLEVEL="RunSpecifiedTests -r $deployTests";
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt;
