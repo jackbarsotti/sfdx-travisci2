@@ -146,7 +146,7 @@ before_script:
       sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
       
       export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
-      export tests=$(find $DEPLOYDIR -name "${Test%.cls}");
+      export tests=$(find $DEPLOYDIR -name "${*Test%.cls}");
       export deployTests=${classTests%.cls*};
       export deployTests=${deployTests##*/};
       
