@@ -152,7 +152,7 @@ before_script:
       for testfiles in $classTests2; do  
         sudo cp "$testfiles"* $unparsedTests;
       done;
-      export parsedTests=$(find $unparsedTests -name "*Test%.cls");
+      export parsedTests=$(find $unparsedTests -name "Test%.cls");
       echo $parsedTests;
 
       for file in $classTests; do
