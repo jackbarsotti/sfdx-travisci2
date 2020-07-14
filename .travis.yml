@@ -145,7 +145,7 @@ before_script:
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
       export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
-      export deployTests=${classTests%.*};
+      export deployTests=${classTests%.cls*};
       export deployTests=${deployTests##*/};
       for file in $classTests; do
         sudo cp --parents "$file"* $DEPLOYDIR;
