@@ -185,7 +185,8 @@ before_script:
 - for testfiles in $classTests2; do  
     sudo cp "$testfiles"* $unparsedTests;
   done;
-- export parsedTests=$(find $unparsedTests -name "*${Test%.cls}");
+#editing 189
+- export parsedTests=$(find $unparsedTests -name "*Test.cls");
 - export parsedTests=${parsedTests##*/};
 - export parsedTests=${parsedTests%.cls*};
 - echo $parsedTests;  
