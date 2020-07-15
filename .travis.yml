@@ -210,11 +210,11 @@ before_script:
 # Automatically authenticate against current branch's corresponding SalesForce org
 # Create deployment variable for "sfdx:force:source:deploy RunSpecifiedTests -r <variable>" (see script phase below)
 # Only validate, not deploy, when a pull request is being created 
-  # Configure: When a pull request is MERGED, deploy it 
+  # When a pull request is MERGED, deploy it 
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo $SFDXAUTHURLDEV>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
     else
       export TESTLEVEL="RunSpecifiedTests -r $parsedList";
@@ -223,7 +223,7 @@ before_script:
 - >
   if [ "$BRANCH" == "qa" ]; then
     echo $SFDXAUTHURLQA>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
     else
       export TESTLEVEL="RunSpecifiedTests -r $parsedList";
@@ -232,7 +232,7 @@ before_script:
 - >
   if [ "$BRANCH" == "uat" ]; then
     echo $SFDXAUTHURLUAT>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL=RunLocalTests -c;
     else
       export TESTLEVEL=RunLocalTests;
@@ -241,7 +241,7 @@ before_script:
 - >
   if [ "$BRANCH" == "master" ]; then
     echo $SFDXAUTHURL>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL=RunLocalTests -c;
     else
       export TESTLEVEL=RunLocalTests;
