@@ -143,7 +143,6 @@ before_script:
 
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
-
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';     
       ls $userPath$diffPath/classes;
@@ -151,7 +150,6 @@ before_script:
     elif [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE%.cls-meta.xml};
       sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
-
       echo 'Copying class meta file to diff folder for deployment...';
       echo 'Class files that will be deployed:';
       ls $userPath$diffPath/classes;
@@ -174,18 +172,18 @@ before_script:
 #Creating deployment variable for RunSpecifiedTests -r <variable>
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
 - export unparsedTestsDir=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
-- export classTests2=$(find $classPath -name "*Test.cls");
+- export classTests=$(find $classPath -name "*Test.cls");
 - export parsedList='';
-- for testfiles in $classTests2; do  
+- for testfiles in $classTests; do  
     sudo cp "$testfiles"* $unparsedTestsDir;
     export parsed=$(find $unparsedTestsDir -name "*Test.cls");
     export parsed=${parsed##*/};
     export parsed=${parsed%.cls*};
     export parsedList="${parsedList}${parsed},"
-    echo $parsedList;
+    
     echo $parsed>TestClassNames.csv;
   done;
-- echo "parsedList = ${parsedList}"
+- echo "parsedList = ${parsedList}";
 
 - git checkout $build_head;
 
@@ -207,7 +205,6 @@ before_script:
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 # for full builds: - export DEPLOYDIR=force-app/main/default
-#- export TESTLEVEL=RunLocalTests
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
