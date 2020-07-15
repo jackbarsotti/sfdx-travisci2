@@ -211,19 +211,35 @@ before_script:
 # Create deployment variable for "sfdx:force:source:deploy RunSpecifiedTests -r <variable>" (see script phase below)
 - if [ "$BRANCH" == "dev" ]; then
     echo $SFDXAUTHURLDEV>authtravisci.txt;
- 
+    if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
+    else
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList";
+    fi;
   fi;
 - if [ "$BRANCH" == "qa" ]; then
     echo $SFDXAUTHURLQA>authtravisci.txt;
-    
+    if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
+    else
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList";
+    fi;
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
     echo $SFDXAUTHURLUAT>authtravisci.txt;
-
+    if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
+      export TESTLEVEL=RunLocalTests -c;
+    else
+      export TESTLEVEL=RunLocalTests;
+    fi;
   fi; 
 - if [ "$BRANCH" == "master" ]; then
     echo $SFDXAUTHURL>authtravisci.txt;
-
+    if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
+      export TESTLEVEL=RunLocalTests -c;
+    else
+      export TESTLEVEL=RunLocalTests;
+    fi;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 
@@ -236,7 +252,7 @@ script:
 #go to travis and (check native variables, use that in code)(create variable)
 - sfdx force:org:display -u targetEnvironment
 # added -c
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunLocalTests -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
 
 # Failure message if deployment fails
 after_failure:
