@@ -212,6 +212,8 @@ before_script:
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
 script:
 - sfdx force:org:display -u targetEnvironment
+#add -c to validate only on a PULL REQUEST IS BEING CREATED, when a pull request is merged deploy it. 
+#go to travis and (check native variables, use that in code)(create variable)
 - sfdx force:source:deploy --wait 10 --sourcepath $DEPLOYDIR --testlevel $TESTLEVEL -u targetEnvironment
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
