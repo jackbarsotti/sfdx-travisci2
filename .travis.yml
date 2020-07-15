@@ -233,18 +233,18 @@ before_script:
   if [ "$BRANCH" == "uat" ]; then
     echo $SFDXAUTHURLUAT>authtravisci.txt;
     if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
-      export TESTLEVEL=RunLocalTests -c;
+      export TESTLEVEL="RunLocalTests -c";
     else
-      export TESTLEVEL=RunLocalTests;
+      export TESTLEVEL="RunLocalTests";
     fi;
   fi; 
 - >
   if [ "$BRANCH" == "master" ]; then
     echo $SFDXAUTHURL>authtravisci.txt;
     if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
-      export TESTLEVEL=RunLocalTests -c;
+      export TESTLEVEL="RunLocalTests -c";
     else
-      export TESTLEVEL=RunLocalTests;
+      export TESTLEVEL="RunLocalTests";
     fi;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
