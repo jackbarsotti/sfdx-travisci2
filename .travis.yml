@@ -56,9 +56,8 @@ before_script:
 - export diffBranch='origin/dev';
 - >
   if [ "$BRANCH" == "qa" ]; then
-
     git show $diffBranch:force-app/main/default/classes/frankensteinClass.cls
-    
+    git checkout $diffBranch -- force-app/main/default/classes/frankensteinClass.cls
     echo 'Your current branches: '
     echo
     for branch in $(git branch -r|grep -v HEAD); do
