@@ -181,9 +181,9 @@ before_script:
     export parsed=${parsed%.cls*};
     export parsedList="${parsedList}${parsed},";        
   done;
-- echo "parsedList = ${parsedList}";
+- echo "parsedList = ${parsedList}"
 
-- git checkout $build_head;
+- git checkout $build_head
 
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
