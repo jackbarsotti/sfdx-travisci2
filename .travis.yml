@@ -39,7 +39,7 @@ before_script:
     echo
     git checkout dev
 
-    export CHANGED_FILES=`git diff --name-only master force-app/`
+    export CHANGED_FILES=$(git diff --name-only master force-app/)
     sudo cp --parents $(git diff --name-only master force-app/) $DEPLOYDIR;
 
     echo
