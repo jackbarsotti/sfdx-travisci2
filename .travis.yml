@@ -124,7 +124,6 @@ before_script:
 
   fi; 
 
-#Ready for review
 #NOTE: naming convention used for ...Test.cls files: "Test"
 - for FILE in $CHANGED_FILES; do
     echo ' ';
@@ -202,7 +201,7 @@ before_script:
   fi;
 - if [ "$BRANCH" == "qa" ]; then
       echo $SFDXAUTHURLQA>authtravisci.txt;
-      export TESTLEVEL="RunSpecifiedTests -r $parsedTests";
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList";
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
       echo $SFDXAUTHURLUAT>authtravisci.txt;
