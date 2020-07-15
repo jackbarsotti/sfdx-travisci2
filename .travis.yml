@@ -236,7 +236,7 @@ script:
 #go to travis and (check native variables, use that in code)(create variable)
 - sfdx force:org:display -u targetEnvironment
 # added -c
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l RunLocalTests -u targetEnvironment
 
 # Failure message if deployment fails
 after_failure:
