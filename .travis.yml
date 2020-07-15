@@ -53,7 +53,7 @@ before_script:
     echo
 
   fi; 
-- export diffBranch='dev';
+- export diffBranch='origin/dev';
 - >
   if [ "$BRANCH" == "qa" ]; then
 
