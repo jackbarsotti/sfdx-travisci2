@@ -29,7 +29,7 @@ before_script:
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff;
 - export classPath=force-app/main/default/classes;
 - export triggerPath=force-app/main/default/triggers;
-- OVERCOMMIT_DISABLE=1 commit... 
+- OVERCOMMIT_DISABLE=1 commit 
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo 'Your current branches: '
