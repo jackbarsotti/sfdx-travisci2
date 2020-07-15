@@ -4,6 +4,7 @@ env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 before_install:
 - echo $TRAVIS_EVENT_TYPE
+- echo $TRAVIS_PULL_REQUEST
 # Install sfdx plugins and configure build with sfdx settings
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
