@@ -179,7 +179,7 @@ before_script:
     export parsed=$(find $unparsedTestsDir -name "*Test.cls");
     export parsed=${parsed##*/};
     export parsed=${parsed%.cls*};
-    export parsedList="${parsedList}${parsed},"        
+    export parsedList="${parsedList}${parsed},";        
   done;
 - echo "parsedList = ${parsedList}";
 
