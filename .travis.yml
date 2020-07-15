@@ -232,7 +232,7 @@ before_script:
 - >
   if [ "$BRANCH" == "uat" ]; then
     echo $SFDXAUTHURLUAT>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL=RunLocalTests -c;
     else
       export TESTLEVEL=RunLocalTests;
@@ -241,7 +241,7 @@ before_script:
 - >
   if [ "$BRANCH" == "master" ]; then
     echo $SFDXAUTHURL>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL=RunLocalTests -c;
     else
       export TESTLEVEL=RunLocalTests;
