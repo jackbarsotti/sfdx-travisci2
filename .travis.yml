@@ -170,10 +170,10 @@ before_script:
   done;
 
 #Creating deployment variable for RunSpecifiedTests -r <variable>
-- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
-- export unparsedTestsDir=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests;
-- export classTests=$(find $classPath -name "*Test.cls");
-- export parsedList='';
+- sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests
+- export unparsedTestsDir=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests
+- export classTests=$(find $classPath -name "*Test.cls")
+- export parsedList=''
 - for testfiles in $classTests; do  
     sudo cp "$testfiles"* $unparsedTestsDir;
     export parsed=$(find $unparsedTestsDir -name "*Test.cls");
