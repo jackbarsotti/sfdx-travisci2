@@ -1,7 +1,9 @@
 cache: false
+# Call environment variables set on Travis CI:
 env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 before_install:
+# Install sfdx plugins and configure build with sfdx settings
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
 - export SFDX_DOMAIN_RETRY=300
@@ -13,21 +15,32 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
+# Create temporary diff folder to paste files into later for incremental deployment
+  # This is the deploy directory (see below in before_script)
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
+
 before_script:
+# Pull our local branches so they exist locally
+# We are on a detached head, so we keep track of where Travis puts us
 - export build_head=$(git rev-parse HEAD)
 - echo $build_head
+# Overwrite remote.origin.fetch to fetch the remote branches (overrides Travis's --depth clone)
 - git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 - git fetch
+# Create variables for frequently-referenced file paths and branches
 - export BRANCH=$TRAVIS_BRANCH
 - export branch=$TRAVIS_BRANCH
 - echo $TRAVIS_BRANCH
 - export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default
 - export diffPath=/diff/force-app/main/default
+# For a full build, deploy directory should be "- export DEPLOYDIR=force-app/main/default":
 - export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 - export classPath=force-app/main/default/classes
 - export triggerPath=force-app/main/default/triggers
 
+# Run a git diff for the incremental build depending on checked-out branch
+  # Create tracking branches
+  # Copy the git diff outputted files into the deploy directory
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo 'Your current branches: '
@@ -124,7 +137,9 @@ before_script:
 
   fi; 
 
-#NOTE: naming convention used for ...Test.cls files: "Test"
+# List each changed file from the git diff command
+  # For any changed class or trigger file, it's associated meta data file is copied to the deploy directory (and vice versa)
+# NOTE: naming convention used for <className>Test.cls files: "Test"
 - for FILE in $CHANGED_FILES; do
     echo ' ';
     echo "Found changed file:`echo ' '$FILE`";
@@ -169,10 +184,12 @@ before_script:
     fi;
   done;
 
-#Creating deployment variable for RunSpecifiedTests -r <variable>
+# Make temporary folder for our <className>Test.cls files that will be deployed 
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests
 - export unparsedTestsDir=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests
+# Search the local "classes" folder for <className>Test.cls files
 - export classTests=$(find $classPath -name "*Test.cls")
+# Parse the <className>Test.cls filenames to remove each file's path and ".cls" ending, result: <className>Test
 - export parsedList=''
 - for testfiles in $classTests; do  
     sudo cp "$testfiles"* $unparsedTestsDir;
@@ -181,10 +198,14 @@ before_script:
     export parsed=${parsed%.cls*};
     export parsedList="${parsedList}${parsed},";        
   done;
+# Output the string that will be called in the deploy command in script phase
 - echo "parsedList = ${parsedList}"
 
+# Finally, go back to the HEAD from the before_script phase
 - git checkout $build_head
 
+# Automatically authenticate against current branch's corresponding SalesForce org
+# Create deployment variable for "sfdx:force:source:deploy RunSpecifiedTests -r <variable>" (see script phase below)
 - if [ "$BRANCH" == "dev" ]; then
       echo $SFDXAUTHURLDEV>authtravisci.txt;
       export TESTLEVEL="RunSpecifiedTests -r $parsedList";
@@ -202,11 +223,16 @@ before_script:
       export TESTLEVEL=RunLocalTests;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
-# for full builds: - export DEPLOYDIR=force-app/main/default
+
+# Create error message to account for potential deployment failure
 - export deployErrorMsg='There was an issue deploying. Check ORG deployment status page for details'
+
+# Run apex tests and deploy apex classes/triggers
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
+
+# Failure message if deployment fails
 after_failure:
 - if [ TRAVIS_TEST_RESULT != 0 ]; then
       echo $deployErrorMsg
