@@ -3,6 +3,7 @@ cache: false
 env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 before_install:
+- echo $TRAVIS_EVENT_TYPE
 # Install sfdx plugins and configure build with sfdx settings
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -229,8 +230,11 @@ before_script:
 
 # Run apex tests and deploy apex classes/triggers
 script:
+#add -c to validate only on a PULL REQUEST IS BEING CREATED, when a pull request is merged deploy it. 
+#go to travis and (check native variables, use that in code)(create variable)
 - sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
+# added -c
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment -c
 
 # Failure message if deployment fails
 after_failure:
