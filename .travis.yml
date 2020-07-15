@@ -5,6 +5,7 @@ env:
 before_install:
 - echo $TRAVIS_EVENT_TYPE
 - echo $TRAVIS_PULL_REQUEST
+- echo $TRAVIS_PULL_REQUEST_BRANCH
 # Install sfdx plugins and configure build with sfdx settings
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -209,20 +210,36 @@ before_script:
 # Automatically authenticate against current branch's corresponding SalesForce org
 # Create deployment variable for "sfdx:force:source:deploy RunSpecifiedTests -r <variable>" (see script phase below)
 - if [ "$BRANCH" == "dev" ]; then
-      echo $SFDXAUTHURLDEV>authtravisci.txt;
+    echo $SFDXAUTHURLDEV>authtravisci.txt;
+    if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
+    else
       export TESTLEVEL="RunSpecifiedTests -r $parsedList";
+    fi;
   fi;
 - if [ "$BRANCH" == "qa" ]; then
-      echo $SFDXAUTHURLQA>authtravisci.txt;
+    echo $SFDXAUTHURLQA>authtravisci.txt;
+    if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
+    else
       export TESTLEVEL="RunSpecifiedTests -r $parsedList";
+    fi;
   fi; 
 - if [ "$BRANCH" == "uat" ]; then
-      echo $SFDXAUTHURLUAT>authtravisci.txt;
+    echo $SFDXAUTHURLUAT>authtravisci.txt;
+    if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
+      export TESTLEVEL=RunLocalTests -c;
+    else
       export TESTLEVEL=RunLocalTests;
+    fi;
   fi; 
 - if [ "$BRANCH" == "master" ]; then
-      echo $SFDXAUTHURL>authtravisci.txt;
+    echo $SFDXAUTHURL>authtravisci.txt;
+    if [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
+      export TESTLEVEL=RunLocalTests -c;
+    else
       export TESTLEVEL=RunLocalTests;
+    fi;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 
@@ -235,7 +252,7 @@ script:
 #go to travis and (check native variables, use that in code)(create variable)
 - sfdx force:org:display -u targetEnvironment
 # added -c
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment -c
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
 
 # Failure message if deployment fails
 after_failure:
