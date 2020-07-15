@@ -63,7 +63,7 @@ before_script:
     echo
     git checkout qa
 
-    export CHANGED_FILES=`git diff --name-only dev force-app/`
+    export CHANGED_FILES=$(git diff --name-only dev force-app/)
     sudo cp --parents $(git diff --name-only dev force-app/) $DEPLOYDIR;
 
     echo
@@ -87,7 +87,7 @@ before_script:
     echo
     git checkout uat
 
-    export CHANGED_FILES=`git diff --name-only qa force-app/`
+    export CHANGED_FILES=$(git diff --name-only qa force-app/)
     sudo cp --parents $(git diff --name-only qa force-app/) $DEPLOYDIR;
 
     echo
@@ -111,7 +111,7 @@ before_script:
     echo
     git checkout master
 
-    export CHANGED_FILES=`git diff --name-only dev force-app/`
+    export CHANGED_FILES=$(git diff --name-only dev force-app/)
     sudo cp --parents $(git diff --name-only dev force-app/) $DEPLOYDIR;
 
     echo
