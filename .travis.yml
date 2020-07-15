@@ -252,7 +252,7 @@ before_script:
 
 # Run apex tests and deploy apex classes/triggers
 script:
-#add -c to validate only on a PULL REQUEST IS BEING CREATED; when a pull request is MERGED, deploy it. 
+#add -c to validate only on a PULL REQUEST IS BEING CREATED; when a pull request is MERGED, deploy it 
 #go to travis and (check native variables, use that in code)(create variable)
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
