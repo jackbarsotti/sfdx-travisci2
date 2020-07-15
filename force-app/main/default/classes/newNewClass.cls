@@ -1,5 +1,5 @@
-public with sharing class NewNewClass {
-    public static Decimal fahrenheitToCelsius(Decimal fh) {
+public with sharing class newNewClass {
+    public static Decimal FahrenheitToCelsius(Decimal fh) {
         Decimal cs = (fh - 32) * 5/9;
         return cs.setScale(2);
     }
