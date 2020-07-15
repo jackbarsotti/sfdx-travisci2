@@ -143,10 +143,7 @@ before_script:
 
     elif [[ $FILE == *.cls ]]; then
       sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;           
-      export classTests=$(find $classPath -samefile "${FILE%.cls}Test.cls" -o -samefile "${FILE%.cls}Test.cls-meta.xml");
-      for file in $classTests; do
-        sudo cp --parents "$file"* $DEPLOYDIR;
-      done;
+
       echo 'Copying class file to diff folder for deployment...';
       echo 'Class files that will be deployed:';     
       ls $userPath$diffPath/classes;
@@ -154,10 +151,7 @@ before_script:
     elif [[ $FILE == *.cls-meta.xml ]]; then
       export FILE2=${FILE%.cls-meta.xml};
       sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
-      export classTests=$(find $classPath -samefile "${FILE2%.cls}Test.cls" -o -samefile "${FILE2%.cls}Test.cls-meta.xml");
-      for file in $classTests; do
-        sudo cp --parents "$file"* $DEPLOYDIR;
-      done;
+
       echo 'Copying class meta file to diff folder for deployment...';
       echo 'Class files that will be deployed:';
       ls $userPath$diffPath/classes;
