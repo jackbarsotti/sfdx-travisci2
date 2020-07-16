@@ -4,7 +4,7 @@ env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
 jobs:
   allow_failures:
-    - if type = push
+    - if type = pull_request
 before_install:
 - echo $TRAVIS_EVENT_TYPE
 - echo $TRAVIS_PULL_REQUEST
