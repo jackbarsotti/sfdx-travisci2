@@ -5,6 +5,12 @@ env:
 jobs:
   allow_failures:
     - if: type = pull_request
+  steps:
+    - run: false
+    - run: echo runs on success or failure
+      if: succeeded() || failed()
+    - run: echo run always, even if the prior step was cancelled
+      if: always() 
 before_install:
 - echo $TRAVIS_EVENT_TYPE
 - echo $TRAVIS_PULL_REQUEST
