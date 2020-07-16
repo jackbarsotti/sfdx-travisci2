@@ -47,7 +47,7 @@ install:
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 
-- export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default
+- export DEPLOYDIR=force-app/main/default
 
 # Run apex tests and deploy apex classes/triggers
 script:
