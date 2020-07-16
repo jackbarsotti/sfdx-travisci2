@@ -11,7 +11,7 @@ jobs:
       if: succeeded() || failed()
     - run: echo run always, even if the prior step was cancelled
       if: always() 
-before_install:
+install:
 - echo $TRAVIS_EVENT_TYPE
 - echo $TRAVIS_PULL_REQUEST
 - echo $TRAVIS_PULL_REQUEST_BRANCH
