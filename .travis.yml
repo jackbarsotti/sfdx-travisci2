@@ -5,16 +5,14 @@ env:
 jobs:
   allow_failures:
     - if: type = pull_request
-  steps:
-    - run: false
-    - run: echo runs on success or failure
-      if: succeeded() || failed()
-    - run: echo run always, even if the prior step was cancelled
-      if: always() 
+
 before_install:
+# Provide basic information about the current build type
 - echo $TRAVIS_EVENT_TYPE
 - echo $TRAVIS_PULL_REQUEST
 - echo $TRAVIS_PULL_REQUEST_BRANCH
+
+install:
 # Install sfdx plugins and configure build with sfdx settings
 - export SFDX_AUTOUPDATE_DISABLE=false
 - export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
@@ -27,11 +25,11 @@ before_install:
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx --version
 - sfdx plugins --core
+
+before_script:
 # Create temporary diff folder to paste files into later for incremental deployment
   # This is the deploy directory (see below in before_script)
 - sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
-
-before_script:
 # Pull our local branches so they exist locally
 # We are on a detached head, so we keep track of where Travis puts us
 - export build_head=$(git rev-parse HEAD)
