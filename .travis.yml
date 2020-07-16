@@ -2,10 +2,6 @@ cache: false
 # Call environment variables set on Travis CI:
 env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-script:
-- echo $TRAVIS_EVENT_TYPE
-- echo $TRAVIS_PULL_REQUEST
-- echo $TRAVIS_PULL_REQUEST_BRANCH
 
 # run commit, PR, PR Merge
 
@@ -24,7 +20,10 @@ install:
 - sfdx plugins --core
 
 - export BRANCH=$TRAVIS_BRANCH
-
+before_script:
+- echo $TRAVIS_EVENT_TYPE
+- echo $TRAVIS_PULL_REQUEST
+- echo $TRAVIS_PULL_REQUEST_BRANCH
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo $SFDXAUTHURLDEV>authtravisci.txt;
