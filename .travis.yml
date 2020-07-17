@@ -221,7 +221,7 @@ before_script:
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo $SFDXAUTHURLDEV>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
       export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
     else
       export TESTLEVEL="RunSpecifiedTests -r $parsedList";
@@ -230,7 +230,7 @@ before_script:
 - >
   if [ "$BRANCH" == "qa" ]; then
     echo $SFDXAUTHURLQA>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
       export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
     else
       export TESTLEVEL="RunSpecifiedTests -r $parsedList";
@@ -239,7 +239,7 @@ before_script:
 - >
   if [ "$BRANCH" == "uat" ]; then
     echo $SFDXAUTHURLUAT>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
       export TESTLEVEL="RunLocalTests -c";
     else
       export TESTLEVEL="RunLocalTests";
@@ -248,7 +248,7 @@ before_script:
 - >
   if [ "$BRANCH" == "master" ]; then
     echo $SFDXAUTHURL>authtravisci.txt;
-    if [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
+    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
       export TESTLEVEL="RunLocalTests -c";
     else
       export TESTLEVEL="RunLocalTests";
