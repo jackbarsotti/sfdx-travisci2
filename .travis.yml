@@ -9,6 +9,7 @@ notifications:
     on_start: always
     on_cancel: always
     on_error: always
+#test
 
 before_install:
 # Provide basic information about the current build type
