@@ -2,10 +2,14 @@ cache: false
 # Call environment variables set on Travis CI:
 env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-jobs:
-  allow_failures:
-    - if: type = pull_request
-
+notifications:
+    webhooks: https://travis-for-jira-prod.toolsplus.app/travis/notifications?token=b217de27-5ba1-367e-92cc-495d273e45c7
+    on_success: always
+    on_failure: always
+    on_start: always
+    on_cancel: always
+    on_error: always
+    
 before_install:
 # Provide basic information about the current build type
 - echo $TRAVIS_EVENT_TYPE
@@ -218,6 +222,15 @@ before_script:
 # Create deployment variable for "sfdx:force:source:deploy RunSpecifiedTests -r <variable>" (see script phase below)
 # Only validate, not deploy, when a pull request is being created 
   # When a pull request is MERGED, deploy it 
+- >
+  if [ "$BRANCH" == "TES-1" ]; then
+    echo $SFDXAUTHURLDEV>authtravisci.txt;
+    if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList";
+    else
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
+    fi;
+  fi;
 - >
   if [ "$BRANCH" == "dev" ]; then
     echo $SFDXAUTHURLDEV>authtravisci.txt;
