@@ -245,8 +245,10 @@ before_script:
     echo $SFDXAUTHURLUAT>authtravisci.txt;
     if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
       export TESTLEVEL="RunLocalTests -c";
-    else
+    elif [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL="RunLocalTests";
+    elif [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
+      sfdx force:source:retrieve -u targetEnvironment -p $classPath;
     fi;
   fi; 
 - >
@@ -254,8 +256,10 @@ before_script:
     echo $SFDXAUTHURL>authtravisci.txt;
     if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
       export TESTLEVEL="RunLocalTests -c";
-    else
+    elif [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL="RunLocalTests";
+    elif [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
+      sfdx force:source:retrieve -u targetEnvironment -p $classPath;
     fi;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
@@ -267,7 +271,7 @@ before_script:
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
-- sfdx force:source:retrieve -u targetEnvironment -p $classPath
+#- sfdx force:source:retrieve -u targetEnvironment -p $classPath
 
 # Failure message if deployment fails
 after_failure:
