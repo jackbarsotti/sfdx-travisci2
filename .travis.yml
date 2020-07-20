@@ -267,7 +267,7 @@ before_script:
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
-- sfdx force:source:retrieve -u targetEnvironment
+- sfdx force:source:retrieve -u targetEnvironment -p $userPath/classes
 
 # Failure message if deployment fails
 after_failure:
