@@ -2,9 +2,13 @@ cache: false
 # Call environment variables set on Travis CI:
 env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-jobs:
-  allow_failures:
-    - if: type = pull_request
+notifications:
+    webhooks: https://travis-for-jira-prod.toolsplus.app/travis/notifications?token=b217de27-5ba1-367e-92cc-495d273e45c7
+    on_success: always
+    on_failure: always
+    on_start: always
+    on_cancel: always
+    on_error: always
 
 before_install:
 # Provide basic information about the current build type
@@ -263,6 +267,7 @@ before_script:
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
+- sfdx force:source:retrieve -u targetEnvironment
 
 # Failure message if deployment fails
 after_failure:
