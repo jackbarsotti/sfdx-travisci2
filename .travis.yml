@@ -56,6 +56,30 @@ before_script:
   # Create tracking branches
   # Copy the git diff outputted files into the deploy directory
 - >
+  if [ "$BRANCH" == "TES-1" ]; then
+    echo 'Your current branches: '
+    echo
+    for branch in $(git branch -r|grep -v HEAD); do
+        echo $branch
+        git checkout -qf ${branch#origin/}
+    done;
+    echo
+    git checkout TES-1
+
+    export CHANGED_FILES=$(git diff --name-only dev force-app/)
+    sudo cp --parents $(git diff --name-only dev force-app/) $DEPLOYDIR;
+
+    echo
+    echo 'Your changed files: '
+    echo
+    for FILE in $CHANGED_FILES; do
+      echo ../$FILE
+    done;
+    echo
+
+  fi; 
+
+- >
   if [ "$BRANCH" == "dev" ]; then
     echo 'Your current branches: '
     echo
@@ -226,9 +250,9 @@ before_script:
   if [ "$BRANCH" == "TES-1" ]; then
     echo $SFDXAUTHURLDEV>authtravisci.txt;
     if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
-      export TESTLEVEL="RunSpecifiedTests -r $parsedList";
-    else
       export TESTLEVEL="RunSpecifiedTests -r $parsedList -c";
+    else
+      export TESTLEVEL="RunSpecifiedTests -r $parsedList";
     fi;
   fi;
 - >
