@@ -247,8 +247,6 @@ before_script:
       export TESTLEVEL="RunLocalTests -c";
     elif [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL="RunLocalTests";
-    elif [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
-      sfdx force:source:retrieve -u targetEnvironment -p $classPath;
     fi;
   fi; 
 - >
@@ -258,9 +256,6 @@ before_script:
       export TESTLEVEL="RunLocalTests -c";
     elif [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL="RunLocalTests";
-    elif [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
-      sfdx force:source:retrieve -u targetEnvironment -p $classPath;
-    fi;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 
