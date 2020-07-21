@@ -9,11 +9,6 @@ notifications:
     on_start: always
     on_cancel: always
     on_error: always
-stages:
-  - name: script
-    if: type = cron
-  - name: deploy
-    if: type IN (push, pull_request)
 
 before_install:
 # Provide basic information about the current build type
@@ -270,16 +265,14 @@ before_script:
 
 # Run apex tests and deploy apex classes/triggers
 script:
+- sfdx force:org:display -u targetEnvironment
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment 
 - > 
   if [ "$BRANCH" == "master" ] || [ "$BRANCH" == "uat" ]; then
     if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
       sfdx force:source:retrieve -u targetEnvironment -p $classPath;
     fi;
   fi; 
-
-deploy:
-- sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment 
 
 # Failure message if deployment fails
 after_failure:
