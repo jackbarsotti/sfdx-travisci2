@@ -271,6 +271,8 @@ script:
   if [ "$BRANCH" == "master" ] || [ "$BRANCH" == "uat" ]; then
     if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
       sfdx force:source:retrieve -u targetEnvironment -p $classPath;
+    else
+      exit 0;
     fi;
   fi; 
 
