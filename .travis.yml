@@ -10,6 +10,18 @@ notifications:
     on_cancel: always
     on_error: always
 
+stages:
+  - name: deployment
+    if: type != cron
+  - name: retrieve
+    if: type = cron
+
+jobs:
+  include:
+    - stage: deployment
+      script: ./deployment.sh
+    - stage: retrieve
+      script: ./retrieve.sh 
+
 before_script:
   - chmod +rx deployment.sh
-script: ./deployment.sh
