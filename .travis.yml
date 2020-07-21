@@ -245,7 +245,7 @@ before_script:
     echo $SFDXAUTHURLUAT>authtravisci.txt;
     if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
       export TESTLEVEL="RunLocalTests -c";
-    elif [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
+    else
       export TESTLEVEL="RunLocalTests";
     fi;
   fi; 
@@ -254,7 +254,7 @@ before_script:
     echo $SFDXAUTHURL>authtravisci.txt;
     if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
       export TESTLEVEL="RunLocalTests -c";
-    elif [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
+    else
       export TESTLEVEL="RunLocalTests";
     fi;
   fi; 
@@ -267,6 +267,7 @@ before_script:
 script:
 - sfdx force:org:display -u targetEnvironment
 - sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment 
+- sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default
 - > 
   if [ "$BRANCH" == "master" ] || [ "$BRANCH" == "uat" ]; then
     if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
