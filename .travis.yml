@@ -261,6 +261,7 @@ before_script:
       export TESTLEVEL="RunLocalTests -c";
     elif [ "$TRAVIS_EVENT_TYPE" == "push" ]; then
       export TESTLEVEL="RunLocalTests";
+    fi;
   fi; 
 - sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 
