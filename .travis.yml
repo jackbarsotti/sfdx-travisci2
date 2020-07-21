@@ -21,7 +21,8 @@ jobs:
     - stage: deployment
       script: ./deployment.sh
     - stage: retrieve
-      script: ./retrieve.sh 
+      script: ./retrieve.sh
 
 before_script:
-  - chmod +rx deployment.sh
+- chmod +rx deployment.sh
+- chmod +rx retrieve.sh
