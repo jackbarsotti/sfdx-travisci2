@@ -9,5 +9,6 @@ notifications:
     on_start: always
     on_cancel: always
     on_error: always
-
+before_script:
+  - chmod +rx deployment.sh
 script: ./deployment.sh
