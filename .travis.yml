@@ -1,7 +1,6 @@
 cache: false
 
-# Call environment variables set on Travis CI:
-# Set up webhook to integrate Travis with JIRA
+
 env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
   notifications:
@@ -12,15 +11,14 @@ env:
     on_cancel: always
     on_error: always
 
-# Deployment stage will incrementally build and deploy for PR and pushes
-# Retrieve stage will automatically retrieve SalesForce metadata on a scheduled basis
+
 stages:
   - name: deployment
     if: type != cron
   - name: retrieve
     if: type = cron
 
-# Make the stages executable with custom shell scripts 
+
 jobs:
   include:
     - stage: deployment
@@ -28,7 +26,7 @@ jobs:
     - stage: retrieve
       script: ./retrieve.sh
 
-# Make the shell scripts executable 
+
 before_script:
 - chmod +rx deployment.sh
 - chmod +rx retrieve.sh
