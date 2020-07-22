@@ -54,10 +54,8 @@ echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 # New
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis CI"
-git checkout master
-
-# Git add . changes
 git add .
+git checkout master
 
 # Git commit -m "auto-build" changes
 echo
@@ -67,7 +65,7 @@ echo "New commit made: $(git log -1 --oneline)"
 echo
 echo "All metadata files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
 echo 'Run "git pull" on your local machine to update your local branch with the new changes.'
-echo 
+echo
 echo "Build complete!"
 echo
 
