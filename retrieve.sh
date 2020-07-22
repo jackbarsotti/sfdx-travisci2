@@ -54,7 +54,7 @@ echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 # New
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis CI"
-git checkout gh-pages
+git checkout master
 
 # Git add . changes
 echo 'Running: git add . '
