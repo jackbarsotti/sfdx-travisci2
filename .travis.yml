@@ -1,6 +1,4 @@
 cache: false
-
-
 env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
   notifications:
@@ -10,23 +8,17 @@ env:
     on_start: always
     on_cancel: always
     on_error: always
-
-
 stages:
   - name: deployment
     if: type != cron
   - name: retrieve
     if: type = cron
-
-
 jobs:
   include:
     - stage: deployment
       script: ./retrieve.sh
     - stage: retrieve
       script: ./retrieve.sh
-
-
 before_script:
 - chmod +rx deployment.sh
 - chmod +rx retrieve.sh
