@@ -44,7 +44,7 @@ sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$triggerPath
 
 # Run a source:retrieve to rebuild the contents of the force-app folder (branch specific)
 export RETRIEVED_FILES=$(sfdx force:source:retrieve -u targetEnvironment -m ApexClass)
-sfdx force:source:retrieve -u targetEnvironment -m ApexClass, ApexTrigger
+sfdx force:source:retrieve -u targetEnvironment -m ApexClass,ApexTrigger
 
 # Recreate "classes" and "triggers" folders and move retrieved files into them
 #check syntax here and make sure it isn't superfluous for a shell script
