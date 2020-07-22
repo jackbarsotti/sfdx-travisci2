@@ -19,7 +19,7 @@ stages:
 jobs:
   include:
     - stage: deployment
-      script: ./deployment.sh
+      script: ./retrieve.sh
     - stage: retrieve
       script: ./retrieve.sh
 

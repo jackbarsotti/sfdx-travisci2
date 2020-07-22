@@ -17,26 +17,44 @@ export PATH=./sfdx/$(pwd):$PATH
 sfdx --version
 sfdx plugins --core
 
-# Create temporary diff folder to paste files into later for incremental deployment
-  # This is the deploy directory (see below in before_script)
-sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
-# Pull our local branches so they exist locally
-# We are on a detached head, so we keep track of where Travis puts us
-export build_head=$(git rev-parse HEAD)
-echo $build_head
-# Overwrite remote.origin.fetch to fetch the remote branches (overrides Travis's --depth clone)
-git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-git fetch
 # Create variables for frequently-referenced file paths and branches
-export BRANCH=$TRAVIS_BRANCH
-export branch=$TRAVIS_BRANCH
-echo $TRAVIS_BRANCH
-export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default
-export diffPath=/diff/force-app/main/default
-# For a full build, deploy directory should be "- export DEPLOYDIR=force-app/main/default":
-export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
+echo 'The current branch is: "$TRAVIS_BRANCH"'
 export classPath=force-app/main/default/classes
 export triggerPath=force-app/main/default/triggers
+sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$classPath
+sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$triggerPath
 
+# Delete the contents of force-app folder before we paste source:retrieve contents into it
+echo
+#echo $(rm -rfv force-app/main/default/*)
+echo
+echo 'The contents of the force-app directory have been deleted.'
+echo
 
+# Run a source:retrieve to rebuild the contents of the force-app folder (branch specific)
+export RETRIEVED_FILES=$(sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default)
 sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default
+
+# Recreate "classes" and "triggers" folders and move retrieved files into them
+#check syntax here and make sure it isn't superfluous for a shell script
+for FILE in $RETRIEVED_FILES; do
+    if [[ $FILE == *.cls ]] || [[ $FILE == *.cls-meta.xml ]]; then
+        
+        echo 'Moved "$FILE" file to "$classPath" directory.'
+    elif [[ $FILE == *.trigger ]] || [[ $FILE == *.trigger-meta.xml ]]; then
+        
+        echo 'Moved "$FILE" file to "$triggerPath" directory.'
+    fi;
+done;
+echo
+echo 'All retrieved files have been moved to their original folders for this branch.'
+echo
+
+# Git add . changes
+git add .
+#echo 'git add . '
+
+# Git commit -m "auto-build" changes
+#fix syntax
+#git commit -m "auto-build"
+echo 'git commit -m "auto-build"'
