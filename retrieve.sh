@@ -46,8 +46,6 @@ sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$triggerPath
 # Run a source:retrieve to rebuild the contents of the force-app folder (branch specific)
 export RETRIEVED_FILES=$(sfdx force:source:retrieve -u targetEnvironment -m ApexClass)
 sfdx force:source:retrieve -u targetEnvironment -m ApexClass,ApexTrigger
-
-#check syntax here and make sure it isn't superfluous for a shell script
 echo
 echo "All retrieved metadata files have been added to the force-app directory on your $TRAVIS_BRANCH branch."
 echo
@@ -62,6 +60,7 @@ echo 'Running: git commit -m "auto-build"'
 git commit -q -m "auto-build"
 echo
 echo "New commit made: $(git log -1 --oneline)"
+echo $TRAVIS_COMMIT
 echo
 echo "All metadata files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
 echo "Build complete!"
