@@ -59,7 +59,7 @@ git add .
 
 # Git commit -m "auto-build" changes
 echo 'Running: git commit -m "auto-build"'
-git commit -m "auto-build"
+git commit -q -m "auto-build"
 echo
 echo "New commit made: $(git log -1 --oneline)"
 echo
