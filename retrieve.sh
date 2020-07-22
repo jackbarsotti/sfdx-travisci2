@@ -52,8 +52,9 @@ echo
 echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 
 # New
-
-
+git config --global user.email "travis@travis-ci.org"
+git config --global user.name "Travis CI"
+git checkout gh-pages
 
 # Git add . changes
 echo 'Running: git add . '
@@ -68,3 +69,7 @@ echo
 echo "All metadata files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
 echo "Build complete!"
 echo
+
+# New
+git remote add origin-master https://${GH_TOKEN}@github.com/jackbarsotti/sfdx-travisci2.git > /dev/null 2>&1
+git push --quiet --set-upstream origin-master master
