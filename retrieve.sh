@@ -1,7 +1,9 @@
 #! /bin/bash
 # Provide basic information about the current build type
+echo
 echo "Travis event type: $TRAVIS_EVENT_TYPE"
 echo "Current branch: $TRAVIS_BRANCH"
+echo
 
 # Install sfdx plugins and configure build with sfdx settings
 export SFDX_AUTOUPDATE_DISABLE=false
@@ -37,7 +39,7 @@ echo
 #echo $(rm -rfv force-app/main/default/*)
 echo
 echo 'The contents of the force-app directory have been deleted.'
-echo "Ready to retrieve org files to your "$TRAVIS_BRANCH" branch."
+echo "Ready to retrieve org files to your $TRAVIS_BRANCH branch."
 echo
 
 # Run a source:retrieve to rebuild the contents of the force-app folder (branch specific)
@@ -48,7 +50,7 @@ sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default
 #check syntax here and make sure it isn't superfluous for a shell script
 for FILE in $RETRIEVED_FILES; do
     if [[ $FILE == *.cls ]] || [[ $FILE == *.cls-meta.xml ]]; then
-        
+        mv 
         echo "Moved $FILE file to $classPath directory."
     elif [[ $FILE == *.trigger ]] || [[ $FILE == *.trigger-meta.xml ]]; then
         
@@ -56,14 +58,15 @@ for FILE in $RETRIEVED_FILES; do
     fi;
 done;
 echo
-echo 'All retrieved files have been moved to their original folders for this branch.'
+echo "All retrieved class and/or trigger files have been added back to their original directories on your $TRAVIS_BRANCH branch."
 echo
+echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch:"
 
 # Git add . changes
 #git add .
-echo 'git add . '
+echo 'Running: git add . '
 
 # Git commit -m "auto-build" changes
 #fix syntax
 #git commit -m "auto-build"
-echo 'git commit -m "auto-build"'
+echo 'Running: git commit -m "auto-build"'
