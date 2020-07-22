@@ -38,7 +38,7 @@ sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$triggerPath
 echo
 #echo $(rm -rfv force-app/main/default/*)
 echo
-echo 'The contents of the force-app directory have been deleted.'
+echo 'The contents of the force-app directory have been removed.'
 echo "Ready to retrieve org files to your $TRAVIS_BRANCH branch."
 echo
 
@@ -50,7 +50,7 @@ sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default
 #check syntax here and make sure it isn't superfluous for a shell script
 for FILE in $RETRIEVED_FILES; do
     if [[ $FILE == *.cls ]] || [[ $FILE == *.cls-meta.xml ]]; then
-        mv 
+         
         echo "Moved $FILE file to $classPath directory."
     elif [[ $FILE == *.trigger ]] || [[ $FILE == *.trigger-meta.xml ]]; then
         
@@ -60,7 +60,7 @@ done;
 echo
 echo "All retrieved class and/or trigger files have been added back to their original directories on your $TRAVIS_BRANCH branch."
 echo
-echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch:"
+echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 
 # Git add . changes
 #git add .
@@ -70,3 +70,7 @@ echo 'Running: git add . '
 #fix syntax
 #git commit -m "auto-build"
 echo 'Running: git commit -m "auto-build"'
+echo
+echo "All org files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
+echo "Build complete!"
+echo
