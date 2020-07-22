@@ -1,7 +1,7 @@
 #! /bin/bash
 # Provide basic information about the current build type
-echo 'Travis event type: "$TRAVIS_EVENT_TYPE"'
-echo $TRAVIS_PULL_REQUEST_BRANCH
+echo "Travis event type: $TRAVIS_EVENT_TYPE"
+echo "Current branch: $TRAVIS_BRANCH"
 
 # Install sfdx plugins and configure build with sfdx settings
 export SFDX_AUTOUPDATE_DISABLE=false
@@ -16,8 +16,17 @@ export PATH=./sfdx/$(pwd):$PATH
 sfdx --version
 sfdx plugins --core
 
+# Authenticate against correct org
+if [ "$TRAVIS_BRANCH" == "uat" ]; then
+  echo $SFDXAUTHURLUAT>authtravisci.txt;
+elif [ "$TRAVIS_BRANCH" == "master" ]; then
+  echo $SFDXAUTHURL>authtravisci.txt;
+fi;
+
+# Set the target environment for force:source:retrieve command
+sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
+
 # Create variables for frequently-referenced file paths and branches
-echo 'The current branch is: "$TRAVIS_BRANCH"'
 export classPath=force-app/main/default/classes
 export triggerPath=force-app/main/default/triggers
 sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$classPath
@@ -28,6 +37,7 @@ echo
 #echo $(rm -rfv force-app/main/default/*)
 echo
 echo 'The contents of the force-app directory have been deleted.'
+echo "Ready to retrieve org files to your "$TRAVIS_BRANCH" branch."
 echo
 
 # Run a source:retrieve to rebuild the contents of the force-app folder (branch specific)
@@ -39,10 +49,10 @@ sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default
 for FILE in $RETRIEVED_FILES; do
     if [[ $FILE == *.cls ]] || [[ $FILE == *.cls-meta.xml ]]; then
         
-        echo 'Moved "$FILE" file to "$classPath" directory.'
+        echo "Moved $FILE file to $classPath directory."
     elif [[ $FILE == *.trigger ]] || [[ $FILE == *.trigger-meta.xml ]]; then
         
-        echo 'Moved "$FILE" file to "$triggerPath" directory.'
+        echo "Moved $FILE file to $triggerPath directory."
     fi;
 done;
 echo
@@ -50,8 +60,8 @@ echo 'All retrieved files have been moved to their original folders for this bra
 echo
 
 # Git add . changes
-git add .
-#echo 'git add . '
+#git add .
+echo 'git add . '
 
 # Git commit -m "auto-build" changes
 #fix syntax
