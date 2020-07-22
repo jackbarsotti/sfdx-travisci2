@@ -43,8 +43,9 @@ sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$classPath
 sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$triggerPath
 
 # Run a source:retrieve to rebuild the contents of the force-app folder (branch specific)
-export RETRIEVED_FILES=$(sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default)
-sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default
+export RETRIEVED_FILES=$(sfdx force:source:retrieve -u targetEnvironment)
+sfdx force:source:retrieve -u targetEnvironment
+#:-p force-app/main/default
 
 # Recreate "classes" and "triggers" folders and move retrieved files into them
 #check syntax here and make sure it isn't superfluous for a shell script
@@ -66,10 +67,8 @@ echo 'Running: git add . '
 
 # Git commit -m "auto-build" changes
 #fix syntax
-echo $(git log --oneline)
 git commit -m "auto-build"
 echo 'Running: git commit -m "auto-build"'
-echo $(git log --oneline)
 echo
 echo "All org files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
 echo "Build complete!"
