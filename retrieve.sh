@@ -51,6 +51,9 @@ echo "All retrieved metadata files have been added to the force-app directory on
 echo
 echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 
+# New
+
+
 # Git add . changes
 echo 'Running: git add . '
 git add .
@@ -60,7 +63,6 @@ echo 'Running: git commit -m "auto-build"'
 git commit -q -m "auto-build"
 echo
 echo "New commit made: $(git log -1 --oneline)"
-echo $TRAVIS_COMMIT
 echo
 echo "All metadata files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
 echo "Build complete!"
