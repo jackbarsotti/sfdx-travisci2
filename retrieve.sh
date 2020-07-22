@@ -36,7 +36,8 @@ echo 'The contents of the force-app directory have been removed.'
 echo "Ready to retrieve org metadata to your $TRAVIS_BRANCH branch."
 echo
 
-# Create variables for frequently-referenced file paths and branches
+# Create variables for frequently-referenced file paths
+# Recreate "classes" and "triggers" folders for retrieved metadata files
 export classPath=force-app/main/default/classes
 export triggerPath=force-app/main/default/triggers
 sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$classPath
@@ -46,17 +47,9 @@ sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$triggerPath
 export RETRIEVED_FILES=$(sfdx force:source:retrieve -u targetEnvironment -m ApexClass)
 sfdx force:source:retrieve -u targetEnvironment -m ApexClass,ApexTrigger
 
-# Recreate "classes" and "triggers" folders and move retrieved files into them
 #check syntax here and make sure it isn't superfluous for a shell script
-for FILE in $RETRIEVED_FILES; do
-    if [[ $FILE == *.cls ]] || [[ $FILE == *.cls-meta.xml ]]; then
-        mv $FILE $classPath
-    elif [[ $FILE == *.trigger ]] || [[ $FILE == *.trigger-meta.xml ]]; then
-        mv $FILE $classPath
-    fi;
-done;
 echo
-echo "All retrieved metadata files have been added back to their original directories on your $TRAVIS_BRANCH branch."
+echo "All retrieved metadata files have been added to the force-app directory on your $TRAVIS_BRANCH branch."
 echo
 echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 
@@ -66,7 +59,7 @@ echo 'Running: git add . '
 
 # Git commit -m "auto-build" changes
 #fix syntax
-git commit -m "auto-build"
+#git commit -m "auto-build"
 echo 'Running: git commit -m "auto-build"'
 echo
 echo "All metadata files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
