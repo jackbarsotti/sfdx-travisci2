@@ -57,16 +57,17 @@ git config --global user.name "Travis CI"
 git checkout master
 
 # Git add . changes
-echo 'Running: git add . '
 git add .
 
 # Git commit -m "auto-build" changes
+echo
 echo 'Running: git commit -m "auto-build"'
 git commit -q -m "auto-build"
-echo
 echo "New commit made: $(git log -1 --oneline)"
 echo
 echo "All metadata files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
+echo 'Run "git pull" on your local machine to update your local branch with the new changes.'
+echo 
 echo "Build complete!"
 echo
 
