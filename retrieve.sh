@@ -1,7 +1,6 @@
 #! /bin/bash
 # Provide basic information about the current build type
-echo $TRAVIS_EVENT_TYPE
-echo $TRAVIS_PULL_REQUEST
+echo 'Travis event type: "$TRAVIS_EVENT_TYPE"'
 echo $TRAVIS_PULL_REQUEST_BRANCH
 
 # Install sfdx plugins and configure build with sfdx settings
