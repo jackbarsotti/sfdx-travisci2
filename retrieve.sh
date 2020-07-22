@@ -30,7 +30,7 @@ sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 
 # Delete the contents of force-app folder before we paste source:retrieve contents into it
 echo
-echo $(rm -rfv force-app/main/default/*)
+rm -rfv force-app/main/default/*
 echo
 echo 'The contents of the force-app directory have been removed.'
 echo "Ready to retrieve org files to your $TRAVIS_BRANCH branch."
@@ -66,8 +66,10 @@ echo 'Running: git add . '
 
 # Git commit -m "auto-build" changes
 #fix syntax
+echo $(git log --oneline)
 git commit -m "auto-build"
 echo 'Running: git commit -m "auto-build"'
+echo $(git log --oneline)
 echo
 echo "All org files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
 echo "Build complete!"
