@@ -50,11 +50,9 @@ sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default
 #check syntax here and make sure it isn't superfluous for a shell script
 for FILE in $RETRIEVED_FILES; do
     if [[ $FILE == *.cls ]] || [[ $FILE == *.cls-meta.xml ]]; then
-         
-        echo "Moved $FILE file to $classPath directory."
+        mv $FILE $classPath
     elif [[ $FILE == *.trigger ]] || [[ $FILE == *.trigger-meta.xml ]]; then
-        
-        echo "Moved $FILE file to $triggerPath directory."
+        mv $FILE $classPath
     fi;
 done;
 echo
