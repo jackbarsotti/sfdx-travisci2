@@ -54,13 +54,16 @@ echo
 echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 
 # Git add . changes
-git add .
 echo 'Running: git add . '
+git add .
 
 # Git commit -m "auto-build" changes
 #fix syntax
-#git commit -m "auto-build"
+echo
 echo 'Running: git commit -m "auto-build"'
+git commit -m "auto-build"
+echo
+echo "New commit made: $(git show --name-status --oneline  HEAD^)"
 echo
 echo "All metadata files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
 echo "Build complete!"
