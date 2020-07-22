@@ -1,0 +1,192 @@
+{
+  "name": "sfdx-cli",
+  "description": "Salesforce CLI",
+  "version": "7.66.2",
+  "author": "Salesforce",
+  "license": "BSD-3-Clause",
+  "bin": {
+    "sfdx": "bin/run"
+  },
+  "engines": {
+    "node": ">=8.10.0"
+  },
+  "files": [
+    "bin",
+    "oclif.manifest.json",
+    "dist/**/*.js",
+    "!dist/**/*.test.js"
+  ],
+  "oclif": {
+    "bin": "sfdx",
+    "scope": "salesforce",
+    "commands": "./dist/commands",
+    "node": "12.13.0",
+    "dirname": "sfdx",
+    "hooks": {
+      "plugins:preinstall": [
+        "./dist/hooks/pluginsPreinstall.js"
+      ],
+      "plugins:preinstall:verify:version": [
+        "./dist/hooks/verifyPluginVersion.js"
+      ],
+      "preupdate": [
+        "./dist/hooks/preupdate.js"
+      ],
+      "preupdate:reachability": [
+        "./dist/hooks/updateReachability.js"
+      ],
+      "preupdate:migrate:plugins": [
+        "./dist/hooks/migratePlugins.js"
+      ],
+      "update": [
+        "./dist/hooks/lazyRequire.js"
+      ]
+    },
+    "plugins": [
+      "@oclif/plugin-autocomplete",
+      "@oclif/plugin-commands",
+      "@oclif/plugin-help",
+      "@oclif/plugin-not-found",
+      "@oclif/plugin-plugins",
+      "@oclif/plugin-update",
+      "@oclif/plugin-warn-if-update-available",
+      "@oclif/plugin-which",
+      "@salesforce/plugin-generator",
+      "@salesforce/plugin-analytics",
+      "@salesforce/sfdx-trust",
+      "salesforcedx"
+    ],
+    "devPlugins": [
+      "@oclif/plugin-command-snapshot"
+    ],
+    "update": {
+      "s3": {
+        "bucket": "dfc-data-production",
+        "folder": "media/salesforce-cli",
+        "host": "https://developer.salesforce.com/media/salesforce-cli",
+        "templates": {
+          "target": {
+            "baseDir": "sfdx-cli-v<%- version %>-<%- platform === 'win32' ? 'windows' : platform %>-<%- arch %>",
+            "manifest": "sfdx-cli/channels/<%- channel %>/<%- platform === 'win32' ? 'windows' : platform %>-<%- arch %>",
+            "versioned": "sfdx-cli/channels/<%- channel %>/sfdx-cli-v<%- version %>-<%- platform === 'win32' ? 'windows' : platform %>-<%- arch %>.tar.<%- ext %>"
+          }
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@oclif/command": "~1.6.0",
+    "@oclif/config": "~1.15.1",
+    "@oclif/errors": "~1.2.2",
+    "@oclif/plugin-autocomplete": "^0.1.5",
+    "@oclif/plugin-commands": "~1.3.0",
+    "@oclif/plugin-help": "~3.0.0",
+    "@oclif/plugin-not-found": "~1.2.2",
+    "@oclif/plugin-plugins": "~1.7.8",
+    "@oclif/plugin-update": "~1.3.9",
+    "@oclif/plugin-warn-if-update-available": "~1.7.0",
+    "@oclif/plugin-which": "~1.0.3",
+    "@salesforce/kit": "~1.2.0",
+    "@salesforce/lazy-require": "~0.2.0",
+    "@salesforce/plugin-analytics": "~1.12.0",
+    "@salesforce/plugin-generator": "~1.1.0",
+    "@salesforce/require-analytics": "~0.7.0",
+    "@salesforce/sfdx-trust": "~3.0.5",
+    "@salesforce/ts-types": "~1.2.0",
+    "chalk": "~2.4.2",
+    "debug": "~3.2.6",
+    "http-call": "~5.2.4",
+    "salesforcedx": "49.2.3",
+    "tslib": "~1.10.0",
+    "v8-compile-cache": "~2.0.3"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "~1.22.0",
+    "@oclif/plugin-command-snapshot": "^1.0.0",
+    "@salesforce/dev-config": "~1.5.0",
+    "@salesforce/ts-sinon": "~1.1.0",
+    "@types/chai": "~4.1.7",
+    "@types/debug": "~0.0.31",
+    "@types/fs-extra": "~4.0.9",
+    "@types/mocha": "~7.0.2",
+    "@types/node": "~10.14.13",
+    "@types/request": "~2.48.2",
+    "@types/sinon": "~4.3.3",
+    "chai": "~4.2.0",
+    "check-yarn-lock": "~0.2.1",
+    "eslint": "~3.19.0",
+    "eslint-config-airbnb-base": "~5.0.3",
+    "eslint-plugin-import": "~1.16.0",
+    "globby": "~8.0.2",
+    "husky": "~4.2.5",
+    "mocha": "~7.1.2",
+    "npm": "~6.10.2",
+    "nyc": "~13.3.0",
+    "sinon": "~5.1.1",
+    "source-map-support": "~0.5.12",
+    "ts-node": "~6.2.0",
+    "typescript": "~3.8.3",
+    "xunit-file": "~1.0.0"
+  },
+  "scripts": {
+    "build": "yarn build-standalone",
+    "build-mac": "yarn build-mac-from-archive",
+    "build-mac-from-archive": "scripts/build/installers/darwin_from_archive",
+    "build-mac-from-sources": "scripts/build/installers/darwin_from_sources",
+    "build-standalone": "scripts/build/standalone",
+    "build-windows": "scripts/build/installers/windows",
+    "clean": "yarn clean-dist && yarn clean-test",
+    "clean-all": "scripts/clean/all",
+    "clean-build": "scripts/clean/build",
+    "clean-compile": "yarn clean-all && yarn install --pure-lockfile",
+    "clean-dist": "scripts/clean/dist",
+    "clean-test": "scripts/clean/test",
+    "compile": "scripts/build/compile",
+    "coverage-report": "scripts/test/coverage",
+    "lint": "scripts/lint/sources",
+    "lint-all": "scripts/lint/all",
+    "lint-with-style": "scripts/lint/sources_with_style",
+    "oclif-artifacts": "oclif-dev manifest",
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "yarn test:deprecation-policy ",
+    "prepack": "yarn clean && yarn compile && yarn lint && yarn oclif-artifacts",
+    "test:deprecation-policy": "HOME=./ ./bin/run snapshot:compare",
+    "prepare": "yarn compile && yarn lint",
+    "release": "yarn release-all",
+    "release-debug": "yarn release-all-debug",
+    "release-all": "scripts/release/all",
+    "release-all-debug": "env SKIP_AWS=true yarn release-all",
+    "release-mac": "scripts/release/installers/darwin",
+    "release-mac-debug": "env SKIP_AWS=true yarn release-mac",
+    "release-standalone": "scripts/release/standalone",
+    "release-standalone-debug": "env SKIP_AWS=true yarn release-standalone",
+    "release-windows": "scripts/release/installers/windows_docker",
+    "release-windows-debug": "env SKIP_AWS=true yarn release-windows",
+    "test": "scripts/test/all",
+    "trogdor": "yarn clean-all && yarn && yarn compile && yarn uts",
+    "typings": "scripts/test/typings",
+    "unit": "scripts/test/unit",
+    "uts": "nyc mocha --require source-map-support/register --recursive \"dist/**/*.test.js\"",
+    "watch": "tsc -w -p tsconfig.json"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "node_modules/.bin/check-yarn-lock",
+      "pre-push": "yarn compile && yarn lint && yarn uts"
+    }
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 99,
+    "statements": 99,
+    "functions": 97,
+    "branches": 72,
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "exclude": [
+      "dist/**/*.test.js"
+    ]
+  }
+}
