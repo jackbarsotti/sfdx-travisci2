@@ -1,5 +1,12 @@
 #! /bin/bash
 # Provide basic information about the current build type
+"dependencies": {
+  "npm": ">=6.14.6"
+}
+"dependencies": {
+  "eslint": ">=4.18.2"
+}
+
 echo
 echo "Travis event type: $TRAVIS_EVENT_TYPE"
 echo "Current branch: $TRAVIS_BRANCH"
