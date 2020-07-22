@@ -54,6 +54,7 @@ echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 # New
 
 
+
 # Git add . changes
 echo 'Running: git add . '
 git add .
