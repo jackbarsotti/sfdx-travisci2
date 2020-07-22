@@ -28,19 +28,19 @@ fi;
 # Set the target environment for force:source:retrieve command
 sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 
+# Delete the contents of force-app folder before we paste source:retrieve contents into it
+echo
+echo $(rm -rfv force-app/main/default/*)
+echo
+echo 'The contents of the force-app directory have been removed.'
+echo "Ready to retrieve org files to your $TRAVIS_BRANCH branch."
+echo
+
 # Create variables for frequently-referenced file paths and branches
 export classPath=force-app/main/default/classes
 export triggerPath=force-app/main/default/triggers
 sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$classPath
 sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$triggerPath
-
-# Delete the contents of force-app folder before we paste source:retrieve contents into it
-echo
-#echo $(rm -rfv force-app/main/default/*)
-echo
-echo 'The contents of the force-app directory have been removed.'
-echo "Ready to retrieve org files to your $TRAVIS_BRANCH branch."
-echo
 
 # Run a source:retrieve to rebuild the contents of the force-app folder (branch specific)
 export RETRIEVED_FILES=$(sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default)
@@ -61,12 +61,12 @@ echo
 echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 
 # Git add . changes
-#git add .
+git add .
 echo 'Running: git add . '
 
 # Git commit -m "auto-build" changes
 #fix syntax
-#git commit -m "auto-build"
+git commit -m "auto-build"
 echo 'Running: git commit -m "auto-build"'
 echo
 echo "All org files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
