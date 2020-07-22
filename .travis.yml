@@ -1,10 +1,9 @@
 cache: false
 
 # Call environment variables set on Travis CI:
+# Set up webhook to integrate Travis with JIRA
 env:
   - URL=https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-
-# Set up webhook to integrate Travis with JIRA
   notifications:
     webhooks: https://travis-for-jira-prod.toolsplus.app/travis/notifications?token=b217de27-5ba1-367e-92cc-495d273e45c7
     on_success: always
