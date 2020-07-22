@@ -61,7 +61,7 @@ git add .
 echo 'Running: git commit -m "auto-build"'
 git commit -m "auto-build"
 echo
-echo "New commit made: $(git show --name-status --oneline  HEAD^)"
+echo "New commit made: $(git log -1 --oneline)"
 echo
 echo "All metadata files have been retrieved, and the changes have been commited to your $TRAVIS_BRANCH branch."
 echo "Build complete!"
