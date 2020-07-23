@@ -28,13 +28,14 @@ sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 # Pull our local branches so they exist locally
 # We are on a detached head, so we keep track of where Travis puts us
 echo
-echo 'export build_head=$(git rev-parse HEAD)'
+echo 'Running: export build_head=$(git rev-parse HEAD)'
 export build_head=$(git rev-parse HEAD)
 echo "Build head: $build_head"
 echo
 
 # Overwrite remote.origin.fetch to fetch the remote branches (overrides Travis's --depth clone)
 git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+echo 'Running: git fetch'
 git fetch
 
 # Create variables for frequently-referenced file paths and branches
@@ -204,7 +205,7 @@ for testfiles in $classTests; do
 done;
 # Output the string that will be called in the deploy command in script phase
 echo
-echo "parsedList = ${parsedList}"
+echo "Tests that will run: ${parsedList}"
 echo
 
 # Finally, go back to the HEAD from the before_script phase
@@ -265,4 +266,5 @@ echo
 # Failure message if deployment fails
 if [ TEST_RESULT != 0 ]; then
   echo $deployErrorMsg;
+  echo
 fi;
