@@ -245,8 +245,8 @@ export deployErrorMsg='There was an issue deploying. Check ORG deployment status
 # Run apex tests and deploy apex classes/triggers
 sfdx force:org:display -u targetEnvironment
 sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
-export "sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment"=TEST_RESULT
+
 # Failure message if deployment fails
-if [ TEST_RESULT != 0 ]; then
+if [ TEST_RESULT == 0 ]; then
   echo $deployErrorMsg;
 fi;
