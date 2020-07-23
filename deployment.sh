@@ -247,6 +247,6 @@ sfdx force:org:display -u targetEnvironment
 sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
 
 # Failure message if deployment fails
-if [ TEST_RESULT == 0 ]; then
+if [ TEST_RESULT >= 1 ]; then
   echo $deployErrorMsg;
 fi;
