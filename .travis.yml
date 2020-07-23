@@ -23,7 +23,7 @@ install:
 - export SFDX_DOMAIN_RETRY=300
 - export SFDX_DISABLE_APP_HUB=true
 - export SFDX_LOG_LEVEL=DEBUG
-
+- mkdir sfdx
 - wget -qO- $URL | tar xJ -C sfdx --strip-components 1
 - "./sfdx/install"
 - export PATH=./sfdx/$(pwd):$PATH
@@ -266,15 +266,7 @@ before_script:
 # Run apex tests and deploy apex classes/triggers
 script:
 - sfdx force:org:display -u targetEnvironment
-- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment 
-- > 
-  if [ "$BRANCH" == "master" ] || [ "$BRANCH" == "uat" ]; then
-    if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
-      sfdx force:source:retrieve -u targetEnvironment -p force-app/main/default;
-    else
-      exit 0;
-    fi;
-  fi; 
+- sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
 
 # Failure message if deployment fails
 after_failure:
