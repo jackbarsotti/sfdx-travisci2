@@ -1,8 +1,11 @@
 #! /bin/bash
 # Provide basic information about the current build type
-echo $TRAVIS_EVENT_TYPE
-echo $TRAVIS_PULL_REQUEST
-echo $TRAVIS_PULL_REQUEST_BRANCH
+echo 
+echo "Travis event type: $TRAVIS_EVENT_TYPE"
+if [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then
+  echo "Travis pull request branch: $TRAVIS_PULL_REQUEST_BRANCH"
+fi;
+echo
 
 # Install sfdx plugins and configure build with sfdx settings
 export SFDX_AUTOUPDATE_DISABLE=false
@@ -10,6 +13,7 @@ export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true
 export SFDX_DOMAIN_RETRY=300
 export SFDX_DISABLE_APP_HUB=true
 export SFDX_LOG_LEVEL=DEBUG
+echo 'mkdir sfdx...'
 mkdir sfdx
 wget -qO- $URL | tar xJ -C sfdx --strip-components 1
 "./sfdx/install"
@@ -20,17 +24,25 @@ sfdx plugins --core
 # Create temporary diff folder to paste files into later for incremental deployment
   # This is the deploy directory (see below in before_script)
 sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
+
 # Pull our local branches so they exist locally
 # We are on a detached head, so we keep track of where Travis puts us
+echo
+echo 'export build_head=$(git rev-parse HEAD)'
 export build_head=$(git rev-parse HEAD)
-echo $build_head
+echo "Build head: $build_head"
+echo
+
 # Overwrite remote.origin.fetch to fetch the remote branches (overrides Travis's --depth clone)
 git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 git fetch
+
 # Create variables for frequently-referenced file paths and branches
 export BRANCH=$TRAVIS_BRANCH
 export branch=$TRAVIS_BRANCH
-echo $TRAVIS_BRANCH
+echo
+echo "Travis branch: $TRAVIS_BRANCH"
+echo
 export userPath=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default
 export diffPath=/diff/force-app/main/default
 # For a full build, deploy directory should be "- export DEPLOYDIR=force-app/main/default":
@@ -191,9 +203,12 @@ for testfiles in $classTests; do
   export parsedList="${parsedList}${parsed},";
 done;
 # Output the string that will be called in the deploy command in script phase
+echo
 echo "parsedList = ${parsedList}"
+echo
 
 # Finally, go back to the HEAD from the before_script phase
+echo 'Running: git checkout $build_head'
 git checkout $build_head
 
 # Automatically authenticate against current branch's corresponding SalesForce org
@@ -245,8 +260,9 @@ export deployErrorMsg='There was an issue deploying. Check ORG deployment status
 # Run apex tests and deploy apex classes/triggers
 sfdx force:org:display -u targetEnvironment
 sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
+echo
 
 # Failure message if deployment fails
-if [ TEST_RESULT >= 1 ]; then
+if [ TEST_RESULT != 0 ]; then
   echo $deployErrorMsg;
 fi;
