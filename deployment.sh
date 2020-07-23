@@ -258,7 +258,7 @@ export deployErrorMsg='There was an issue deploying. Check ORG deployment status
 sfdx force:org:display -u targetEnvironment
 sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
 echo
-echo $TRAVIS_TEST_RESULT
+
 # Failure message if deployment fails
 if [ TRAVIS_TEST_RESULT != 0 ]; then
   echo $deployErrorMsg;
