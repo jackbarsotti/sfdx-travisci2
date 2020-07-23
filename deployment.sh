@@ -51,10 +51,10 @@ export DEPLOYDIR=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/diff
 export classPath=force-app/main/default/classes
 export triggerPath=force-app/main/default/triggers
 
-# Run a git diff for the incremental build depending on checked-out branch
-  # Create tracking branches
-  # Copy the git diff outputted files into the deploy directory
+# Run a git diff for the incremental build depending on checked-out branch (if-statement per branch)
+#dev branch:
 if [ "$BRANCH" == "dev" ]; then
+  #create tracking branch
   echo 'Your current branches: '
   echo
   for branch in $(git branch -r|grep -v HEAD); do
@@ -63,10 +63,10 @@ if [ "$BRANCH" == "dev" ]; then
   done;
   echo
   git checkout dev
-
+  # Copy the files from a git diff into the deploy directory
   export CHANGED_FILES=$(git diff --name-only master force-app/)
   sudo cp --parents $(git diff --name-only master force-app/) $DEPLOYDIR;
-
+  # Show which files will be deployed in the Travis build job log
   echo
   echo 'Your changed files: '
   echo
@@ -75,7 +75,7 @@ if [ "$BRANCH" == "dev" ]; then
   done;
   echo
 fi;
-
+#qa branch:
 if [ "$BRANCH" == "qa" ]; then
   echo 'Your current branches: '
   echo
@@ -97,7 +97,7 @@ if [ "$BRANCH" == "qa" ]; then
   done;
   echo
 fi;
-
+#uat branch:
 if [ "$BRANCH" == "uat" ]; then
   echo 'Your current branches: '
   echo
@@ -119,7 +119,7 @@ if [ "$BRANCH" == "uat" ]; then
   done;
   echo
 fi;
-
+#master branch
 if [ "$BRANCH" == "master" ]; then
   echo 'Your current branches: '
   echo
@@ -129,7 +129,7 @@ if [ "$BRANCH" == "master" ]; then
   done;
   echo
   git checkout master
-  #fsdafsaf
+
   export CHANGED_FILES=$(git diff --name-only dev force-app/)
   sudo cp --parents $(git diff --name-only dev force-app/) $DEPLOYDIR;
 
@@ -144,10 +144,10 @@ fi;
 
 # List each changed file from the git diff command
   # For any changed class or trigger file, it's associated meta data file is copied to the deploy directory (and vice versa)
-# NOTE: naming convention used for <className>Test.cls files: "Test"
 for FILE in $CHANGED_FILES; do
   echo ' ';
   echo "Found changed file:`echo ' '$FILE`";
+  # NOTE - naming convention used for <className>Test.cls files: "Test":
   if [[ $FILE == *Test.cls ]]; then
     sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
     echo 'Copying class file to diff folder for deployment...';
@@ -189,7 +189,7 @@ for FILE in $CHANGED_FILES; do
   fi;
 done;
 
-# Make temporary folder for our <className>Test.cls files that will be deployed
+# Make temporary folder for our <className>Test.cls files that will be parsed
 sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests
 export unparsedTestsDir=/Users/jackbarsotti/sfdx-travisci2/force-app/main/default/unparsedTests
 # Search the local "classes" folder for <className>Test.cls files
@@ -248,7 +248,7 @@ if [ "$BRANCH" == "master" ]; then
     export TESTLEVEL="RunLocalTests";
   fi;
 fi;
-
+# Store our auth-url for our targetEnvironment alias for deployment
 sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 
 # Create error message to account for potential deployment failure
