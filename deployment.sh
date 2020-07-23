@@ -260,7 +260,7 @@ sfdx force:source:deploy -w 10 -p $DEPLOYDIR -l $TESTLEVEL -u targetEnvironment
 echo
 
 # Failure message if deployment fails
-if [ TEST_RESULT != 0 ]; then
+if [ TRAVIS_TEST_RESULT != 0 ]; then
   echo $deployErrorMsg;
   echo
 fi;
