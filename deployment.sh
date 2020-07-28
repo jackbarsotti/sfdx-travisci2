@@ -131,9 +131,7 @@ if [ "$BRANCH" == "master" ]; then
   git checkout master
 
   export CHANGED_FILES=$(git diff --name-only dev force-app/)
-  for f in $CHANGED_FILES; do
-    sudo cp --parents $f $DEPLOYDIR;
-  done;
+  sudo cp --parents $(git diff --name-only dev force-app/) $DEPLOYDIR;
 
   echo
   echo 'Your changed files: '
@@ -151,40 +149,46 @@ for FILE in $CHANGED_FILES; do
   echo "Found changed file:`echo ' '$FILE`";
   # NOTE - naming convention used for <className>Test.cls files: "Test":
   if [[ $FILE == *Test.cls ]]; then
-    sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
+    find $classpath -samefile "$FILE-meta.xml" -exec sudo cp {} $DEPLOYDIR \;
+    #sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
     echo 'Copying class file to diff folder for deployment...';
     echo 'Class files that will be deployed:';
     ls $userPath$diffPath/classes;
 
   elif [[ $FILE == *Test.cls-meta.xml ]]; then
     export FILE2=${FILE%.cls-meta.xml};
-    sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
+    find $classpath -samefile "$FILE2.cls" -exec sudo cp {} $DEPLOYDIR \;
+    #sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
     echo 'Copying class meta file to diff folder for deployment...';
     echo 'Class files that will be deployed:';
     ls $userPath$diffPath/classes;
 
   elif [[ $FILE == *.cls ]]; then
-    sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
+    find $classpath -samefile "$FILE-meta.xml" -exec sudo cp {} $DEPLOYDIR \;
+    #sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
     echo 'Copying class file to diff folder for deployment...';
     echo 'Class files that will be deployed:';
     ls $userPath$diffPath/classes;
 
   elif [[ $FILE == *.cls-meta.xml ]]; then
     export FILE2=${FILE%.cls-meta.xml};
-    sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
+    find $classpath -samefile "$FILE2.cls" -exec sudo cp {} $DEPLOYDIR \;
+    #sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
     echo 'Copying class meta file to diff folder for deployment...';
     echo 'Class files that will be deployed:';
     ls $userPath$diffPath/classes;
    
   elif [[ $FILE == *.trigger ]]; then
-    sudo cp --parents "$(find $triggerPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
+    find $classpath -samefile "$FILE-meta.xml" -exec sudo cp {} $DEPLOYDIR \;
+    #sudo cp --parents "$(find $triggerPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
     echo 'Copying trigger file to diff folder for deployment...';
     echo 'Trigger files that will be deployed:';
     ls $userPath$diffPath/triggers;
       
   elif [[ $FILE == *.trigger-meta.xml ]]; then
     export FILE3=${FILE%.trigger-meta.xml};
-    sudo cp --parents "$(find $triggerPath -samefile "$FILE3.trigger")"* $DEPLOYDIR;
+    find $classpath -samefile "$FILE3.trigger" -exec sudo cp {} $DEPLOYDIR \;
+    #sudo cp --parents "$(find $triggerPath -samefile "$FILE3.trigger")"* $DEPLOYDIR;
     echo 'Copying trigger meta file to diff folder for deployment...';
     echo 'Trigger files that will be deployed:';
     ls $userPath$diffPath/triggers;
