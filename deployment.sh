@@ -149,46 +149,40 @@ for FILE in $CHANGED_FILES; do
   echo "Found changed file:`echo ' '$FILE`";
   # NOTE - naming convention used for <className>Test.cls files: "Test":
   if [[ $FILE == *Test.cls ]]; then
-    find $classPath -samefile "$FILE-meta.xml" -exec sudo cp --parents -t $DEPLOYDIR {} +
-    #sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
+    sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
     echo 'Copying class file to diff folder for deployment...';
     echo 'Class files that will be deployed:';
     ls $userPath$diffPath/classes;
 
   elif [[ $FILE == *Test.cls-meta.xml ]]; then
     export FILE2=${FILE%.cls-meta.xml};
-    find $classPath -samefile "$FILE2.cls" -exec sudo cp --parents -t $DEPLOYDIR {} +
-    #sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
+    sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
     echo 'Copying class meta file to diff folder for deployment...';
     echo 'Class files that will be deployed:';
     ls $userPath$diffPath/classes;
 
   elif [[ $FILE == *.cls ]]; then
-    find $classPath -samefile "$FILE-meta.xml" -exec sudo cp --parents -t $DEPLOYDIR {} +
-    #sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
+    sudo cp --parents "$(find $classPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
     echo 'Copying class file to diff folder for deployment...';
     echo 'Class files that will be deployed:';
     ls $userPath$diffPath/classes;
 
   elif [[ $FILE == *.cls-meta.xml ]]; then
     export FILE2=${FILE%.cls-meta.xml};
-    find $classPath -samefile "$FILE2.cls" -exec sudo cp --parents -t $DEPLOYDIR {} +
-    #sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
+    sudo cp --parents "$(find $classPath -samefile "$FILE2.cls")"* $DEPLOYDIR;
     echo 'Copying class meta file to diff folder for deployment...';
     echo 'Class files that will be deployed:';
     ls $userPath$diffPath/classes;
    
   elif [[ $FILE == *.trigger ]]; then
-    find $triggerPath -samefile "$FILE-meta.xml" -exec sudo cp --parents -t $DEPLOYDIR {} +
-    #sudo cp --parents "$(find $triggerPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
+    sudo cp --parents "$(find $triggerPath -samefile "$FILE-meta.xml")"* $DEPLOYDIR;
     echo 'Copying trigger file to diff folder for deployment...';
     echo 'Trigger files that will be deployed:';
     ls $userPath$diffPath/triggers;
       
   elif [[ $FILE == *.trigger-meta.xml ]]; then
     export FILE3=${FILE%.trigger-meta.xml};
-    find $triggerPath -samefile "$FILE3.trigger" -exec sudo cp --parents -t $DEPLOYDIR {} +
-    #sudo cp --parents "$(find $triggerPath -samefile "$FILE3.trigger")"* $DEPLOYDIR;
+    sudo cp --parents "$(find $triggerPath -samefile "$FILE3.trigger")"* $DEPLOYDIR;
     echo 'Copying trigger meta file to diff folder for deployment...';
     echo 'Trigger files that will be deployed:';
     ls $userPath$diffPath/triggers;
