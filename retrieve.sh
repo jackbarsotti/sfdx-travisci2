@@ -51,7 +51,7 @@ echo "All retrieved metadata files have been added to the force-app directory on
 echo
 echo "Now adding and committing these changes to your $TRAVIS_BRANCH branch..."
 
-# New
+# Prepare to run a git commit and git push
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis CI"
 git add force-app/.
@@ -69,6 +69,6 @@ echo
 echo "Build complete!"
 echo
 
-# New
+# Add the remote origin a push changes to rebuild master branch
 git remote add origin-master https://${GH_TOKEN}@github.com/jackbarsotti/sfdx-travisci2.git > /dev/null 2>&1
 git push --quiet --set-upstream origin-master master

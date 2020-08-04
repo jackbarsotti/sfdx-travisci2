@@ -131,8 +131,7 @@ if [ "$BRANCH" == "master" ]; then
   git checkout master
 
   export CHANGED_FILES=$(git diff --name-only dev force-app/)
-  echo $CHANGED_FILES>$DEPLOYDIR
-  #sudo cp --parents $(git diff --name-only dev force-app/) $DEPLOYDIR;
+  sudo cp --parents $(git diff --name-only dev force-app/) $DEPLOYDIR;
 
   echo
   echo 'Your changed files: '
