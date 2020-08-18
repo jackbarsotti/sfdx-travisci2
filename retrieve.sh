@@ -30,6 +30,7 @@ sfdx force:auth:sfdxurl:store -f authtravisci.txt -a targetEnvironment
 
 # Delete the contents of force-app folder before we paste source:retrieve contents into it
 echo
+# rm -rfv will display the output of rm
 rm -rfv force-app/main/default/*
 echo
 echo 'The contents of the force-app directory have been removed.'
@@ -44,7 +45,8 @@ sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$classPath
 sudo mkdir -p /Users/jackbarsotti/sfdx-travisci2/$triggerPath
 
 # Run a source:retrieve to rebuild the contents of the force-app folder (branch specific)
-export RETRIEVED_FILES=$(sfdx force:source:retrieve -u targetEnvironment -m ApexClass)
+
+# do i really need this: export RETRIEVED_FILES=$(sfdx force:source:retrieve -u targetEnvironment -m ApexClass)
 sfdx force:source:retrieve -u targetEnvironment -m ApexClass,ApexTrigger
 echo
 echo "All retrieved metadata files have been added to the force-app directory on your $TRAVIS_BRANCH branch."
